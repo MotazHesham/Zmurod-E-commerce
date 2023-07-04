@@ -16,6 +16,14 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ReviewsController extends Controller
 {
+    function update_statuses(Request $request) {
+        $column_name = $request->column_name;
+        $banner = Review::find($request->id);
+        $banner->$column_name= $request->published;
+        $banner->save();
+        return 1 ; 
+    }
+    
     public function index(Request $request)
     {
         abort_if(Gate::denies('review_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -52,7 +60,11 @@ class ReviewsController extends Controller
                 return $row->comment ? $row->comment : '';
             });
             $table->editColumn('published', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->published ? 'checked' : null) . '>';
+            return  ' <label class="c-switch c-switch-pill c-switch-success">
+                        <input onchange="update_statuses(this,\'published\')" value="'. $row->id .'" 
+                            type="checkbox" class="c-switch-input" '. ($row->published ? "checked" : null) .'>
+                        <span class="c-switch-slider"></span>
+                    </label>'; 
             });
             $table->addColumn('user_review_name', function ($row) {
                 return $row->user_review ? $row->user_review->name : '';
@@ -84,7 +96,7 @@ class ReviewsController extends Controller
     public function store(StoreReviewRequest $request)
     {
         $review = Review::create($request->all());
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.reviews.index');
     }
 
@@ -104,7 +116,7 @@ class ReviewsController extends Controller
     public function update(UpdateReviewRequest $request, Review $review)
     {
         $review->update($request->all());
-
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.reviews.index');
     }
 
@@ -122,7 +134,7 @@ class ReviewsController extends Controller
         abort_if(Gate::denies('review_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $review->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

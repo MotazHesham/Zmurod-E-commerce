@@ -43,6 +43,9 @@
                         {{ trans('cruds.course.fields.price') }}
                     </th>
                     <th>
+                        {{ trans('cruds.course.fields.courses_hours') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -97,7 +100,7 @@
     aaSorting: [],
     ajax: "{{ route('admin.courses.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
+{ data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'name', name: 'name' },
 { data: 'description', name: 'description' },
@@ -105,6 +108,7 @@
 { data: 'start_at', name: 'start_at' },
 { data: 'photo', name: 'photo', sortable: false, searchable: false },
 { data: 'price', name: 'price' },
+{ data: 'courses_hours', name: 'courses_hours' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
@@ -116,7 +120,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 });
 
 </script>

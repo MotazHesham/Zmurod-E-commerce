@@ -17,6 +17,14 @@ class UpdateSellerRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => [
+                'string',
+                'required',
+            ],
+            'email' => [
+                'required',
+                'unique:users,email,' . request()->user_id,
+            ],
             'photo' => [
                 'required',
             ],

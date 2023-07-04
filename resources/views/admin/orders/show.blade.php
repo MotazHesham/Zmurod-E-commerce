@@ -3,7 +3,7 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.order.title') }}
+        {{ trans('global.show') }} {{ trans('cruds.order.title') }} 
     </div>
 
     <div class="card-body">
@@ -13,6 +13,7 @@
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
+           <div class="container">
             <table class="table table-bordered table-striped">
                 <tbody>
                     <tr>
@@ -97,10 +98,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.order.fields.area_code') }}
+                            {{ trans('cruds.order.fields.city') }}
                         </th>
                         <td>
-                            {{ $order->area_code }}
+                            {{ $order->city }}
                         </td>
                     </tr>
                     <tr>
@@ -111,8 +112,52 @@
                             {{ $order->user->name ?? '' }}
                         </td>
                     </tr>
+                    {{-- here the products of the order --}}
                 </tbody>
             </table>
+            <br><br>
+            <table class="table table-bordered table-striped">
+                    <tbody>
+                        <tr>
+                            <th>Products</th>
+                            <th>Prices</th>
+                            <th>Quantities</th>
+                            <th>Costs</th>
+                        </tr>
+                    @foreach ($order->orderProduct as $orderProduct)
+                        <tr>
+                            <td>{{ $orderProduct->product->name ?? '' }}</td>
+                            <td>{{ $orderProduct->price }}</td>
+                            <td>{{ $orderProduct->quantity }}</td>
+                            <td>{{ $orderProduct->total_cost }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-8"></div>
+                <div class="alert alert-primary col-4 " role="alert" >
+                    <ul style="list-style: none; margin-left: 12px; font-size: 20px;">
+                        <li > 
+                            <div class="d-flex"><i class="mr-4">ProductsCost :</i> +  {{$order->total_cost}}</div>
+                        </li>
+                        @php
+                            $shipment = \App\Models\AboutUs::find(1);
+                            $normal = $shipment->normal_shipment_cost ;
+                            $fast = $shipment->fast_shipment_cost ;
+                        @endphp
+                        <li> 
+                            <div class="d-flex"><i class="mr-4">ShipmentCost :</i>  + {{$order->shipment_type =='fast' ? $fast :$normal}}</div> 
+                        </li>
+                        <li>
+                            <div class="d-flex"><i class="mr-4">Total Order : </i> = {{$order->shipment_type =='fast' ? $fast + $order->total_cost :$normal+$order->total_cost}} </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+                
+        
+        </div>
             <div class="form-group">
                 <a class="btn btn-default" href="{{ route('admin.orders.index') }}">
                     {{ trans('global.back_to_list') }}

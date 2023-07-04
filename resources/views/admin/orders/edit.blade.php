@@ -76,45 +76,6 @@
                 <span class="help-block">{{ trans('cruds.order.fields.discount_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required">{{ trans('cruds.order.fields.shipment_type') }}</label>
-                @foreach(App\Models\Order::SHIPMENT_TYPE_RADIO as $key => $label)
-                    <div class="form-check {{ $errors->has('shipment_type') ? 'is-invalid' : '' }}">
-                        <input class="form-check-input" type="radio" id="shipment_type_{{ $key }}" name="shipment_type" value="{{ $key }}" {{ old('shipment_type', $order->shipment_type) === (string) $key ? 'checked' : '' }} required>
-                        <label class="form-check-label" for="shipment_type_{{ $key }}">{{ $label }}</label>
-                    </div>
-                @endforeach
-                @if($errors->has('shipment_type'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('shipment_type') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.order.fields.shipment_type_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="area_code">{{ trans('cruds.order.fields.area_code') }}</label>
-                <input class="form-control {{ $errors->has('area_code') ? 'is-invalid' : '' }}" type="text" name="area_code" id="area_code" value="{{ old('area_code', $order->area_code) }}" required>
-                @if($errors->has('area_code'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('area_code') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.order.fields.area_code_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="user_id">{{ trans('cruds.order.fields.user') }}</label>
-                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
-                    @foreach($users as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $order->user->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('user'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('user') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.order.fields.user_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

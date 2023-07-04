@@ -30,9 +30,6 @@ class StoreProductRequest extends FormRequest
             'information' => [
                 'required',
             ],
-            'most_recent' => [
-                'required',
-            ],
             'image' => [
                 'array',
                 'required',
@@ -49,6 +46,12 @@ class StoreProductRequest extends FormRequest
             'product_category_id' => [
                 'required',
                 'integer',
+            ],
+            'product_offers.*' => [
+                'integer',
+            ],
+            'product_offers' => [
+                'array',
             ],
         ];
     }

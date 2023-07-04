@@ -63,6 +63,63 @@
                 <span class="help-block">{{ trans('cruds.blog.fields.video_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="user_id">{{ trans('cruds.blog.fields.user') }}</label>
+                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
+                    @foreach($users as $id => $entry)
+                        <option value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $blog->user->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('user'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('user') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.blog.fields.user_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="media_url">{{ trans('cruds.blog.fields.media_url') }}</label>
+                <input class="form-control {{ $errors->has('media_url') ? 'is-invalid' : '' }}" type="text" name="media_url" id="media_url" value="{{ old('media_url', $blog->media_url) }}">
+                @if($errors->has('media_url'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('media_url') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.blog.fields.media_url_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required">{{ trans('cruds.blog.fields.type') }}</label>
+                <select class="form-control {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type" id="type" required>
+                    <option value disabled {{ old('type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach(App\Models\Blog::TYPE_SELECT as $key => $label)
+                        <option value="{{ $key }}" {{ old('type', $blog->type) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('type'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('type') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.blog.fields.type_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="blog_comments">{{ trans('cruds.blog.fields.blog_comments') }}</label>
+                <div style="padding-bottom: 4px">
+                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                </div>
+                <select class="form-control select2 {{ $errors->has('blog_comments') ? 'is-invalid' : '' }}" name="blog_comments[]" id="blog_comments" multiple>
+                    @foreach($blog_comments as $id => $blog_comment)
+                        <option value="{{ $id }}" {{ (in_array($id, old('blog_comments', [])) || $blog->blog_comments->contains($id)) ? 'selected' : '' }}>{{ $blog_comment }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('blog_comments'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('blog_comments') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.blog.fields.blog_comments_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

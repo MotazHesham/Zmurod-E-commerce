@@ -36,6 +36,7 @@ class Product extends Model implements HasMedia
         'price',
         'product_category_id',
         'user_id',
+        'fav',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -73,9 +74,26 @@ class Product extends Model implements HasMedia
     {
         return $this->belongsTo(Category::class, 'product_category_id');
     }
+    public function carts()
+    {
+        return $this->belongsToMany(Cart::class,'cart_product')
+                ->withPivot('quantity')
+                ->withTimestamps();
+    }
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function product_offers()
+    {
+        return $this->belongsToMany(Offer::class);
+    }
+
+    public function calc_product_price(){
+        // get discount
+        $discount = ($this->price * $this->discount) / 100;
+        return $this->price - $discount;
     }
 }

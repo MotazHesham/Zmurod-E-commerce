@@ -42,7 +42,7 @@ class PostsController extends Controller
     {
         $post = Post::create($request->all());
         $post->post_comments()->sync($request->input('post_comments', []));
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.posts.index');
     }
 
@@ -65,7 +65,7 @@ class PostsController extends Controller
     {
         $post->update($request->all());
         $post->post_comments()->sync($request->input('post_comments', []));
-
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.posts.index');
     }
 
@@ -83,7 +83,7 @@ class PostsController extends Controller
         abort_if(Gate::denies('post_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $post->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

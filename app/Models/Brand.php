@@ -57,4 +57,9 @@ class Brand extends Model implements HasMedia
 
         return $file;
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class , 'product_id');
+    }
 }

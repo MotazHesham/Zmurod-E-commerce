@@ -36,7 +36,7 @@ class CommentsController extends Controller
     {
         $comment = Comment::create($request->all());
         $comment->user_comments()->sync($request->input('user_comments', []));
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.comments.index');
     }
 
@@ -55,7 +55,7 @@ class CommentsController extends Controller
     {
         $comment->update($request->all());
         $comment->user_comments()->sync($request->input('user_comments', []));
-
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.comments.index');
     }
 
@@ -73,7 +73,7 @@ class CommentsController extends Controller
         abort_if(Gate::denies('comment_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $comment->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

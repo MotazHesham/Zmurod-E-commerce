@@ -27,10 +27,19 @@ class Blog extends Model implements HasMedia
         'deleted_at',
     ];
 
+    public const TYPE_SELECT = [
+        'Media' => 'Media',
+        'Photo' => 'Photo',
+        'Video' => 'Video',
+    ];
+
     protected $fillable = [
         'title',
         'content',
         'short_description',
+        'user_id',
+        'media_url',
+        'type',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -62,5 +71,15 @@ class Blog extends Model implements HasMedia
     public function getVideoAttribute()
     {
         return $this->getMedia('video')->last();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function blog_comments()
+    {
+        return $this->belongsToMany(Comment::class);
     }
 }

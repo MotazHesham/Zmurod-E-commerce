@@ -62,12 +62,20 @@
                                 @endif
                             </td>
                             <td>
-                                <span style="display:none">{{ $category->most_recent ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $category->most_recent ? 'checked' : '' }}>
+                                <label class="c-switch c-switch-pill c-switch-success">
+                                    <input onchange="update_statuses(this,'most_recent')" value="{{ $category->id   }}"
+                                        type="checkbox" class="c-switch-input"
+                                        {{ $category->most_recent ? 'checked' : null }}>
+                                        <span class="c-switch-slider"></span>
+                                </label>
                             </td>
                             <td>
-                                <span style="display:none">{{ $category->fav ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $category->fav ? 'checked' : '' }}>
+                                <label class="c-switch c-switch-pill c-switch-success">
+                                    <input onchange="update_statuses(this,'fav')" value="{{ $category->id   }}"
+                                        type="checkbox" class="c-switch-input"
+                                        {{ $category->fav ? 'checked' : null }}>
+                                        <span class="c-switch-slider"></span>
+                                </label>
                             </td>
                             <td>
                                 @can('category_show')
@@ -106,6 +114,28 @@
 @section('scripts')
 @parent
 <script>
+    function update_statuses(el,column_name){
+        if(el.checked){
+            var status = 1;
+        }
+        else{
+            var status = 0;
+        }
+        $.post('{{ route('admin.categories.update_statuses') }}', {_token:'{{ csrf_token() }}', id:el.value, fav:status, column_name:column_name}, function(data){
+            if(data == 1){
+                showAlert('success', 'Success', '');
+            }else{
+                showAlert('danger', 'Something went wrong', '');
+            }
+        });
+        $.post('{{ route('admin.categories.update_statuses') }}', {_token:'{{ csrf_token() }}', id:el.value, most_recent:status, column_name:column_name}, function(data){
+            if(data == 1){
+                showAlert('success', 'Success', '');
+            }else{
+                showAlert('danger', 'Something went wrong', '');
+            }
+        });
+    }
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('category_delete')

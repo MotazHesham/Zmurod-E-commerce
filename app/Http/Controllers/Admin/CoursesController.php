@@ -98,7 +98,7 @@ class CoursesController extends Controller
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $course->id]);
         }
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.courses.index');
     }
 
@@ -123,7 +123,7 @@ class CoursesController extends Controller
         } elseif ($course->photo) {
             $course->photo->delete();
         }
-
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.courses.index');
     }
 
@@ -139,7 +139,7 @@ class CoursesController extends Controller
         abort_if(Gate::denies('course_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $course->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

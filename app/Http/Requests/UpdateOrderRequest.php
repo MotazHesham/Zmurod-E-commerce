@@ -35,17 +35,6 @@ class UpdateOrderRequest extends FormRequest
             'delivery_status' => [
                 'required',
             ],
-            'shipment_type' => [
-                'required',
-            ],
-            'area_code' => [
-                'string',
-                'required',
-            ],
-            'user_id' => [
-                'required',
-                'integer',
-            ],
         ];
     }
 }

@@ -32,7 +32,7 @@ class PermissionsController extends Controller
     public function store(StorePermissionRequest $request)
     {
         $permission = Permission::create($request->all());
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.permissions.index');
     }
 
@@ -46,7 +46,7 @@ class PermissionsController extends Controller
     public function update(UpdatePermissionRequest $request, Permission $permission)
     {
         $permission->update($request->all());
-
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.permissions.index');
     }
 
@@ -62,7 +62,7 @@ class PermissionsController extends Controller
         abort_if(Gate::denies('permission_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $permission->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

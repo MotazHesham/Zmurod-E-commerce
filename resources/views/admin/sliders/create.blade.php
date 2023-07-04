@@ -31,21 +31,6 @@
                 <span class="help-block">{{ trans('cruds.slider.fields.photo_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required">{{ trans('cruds.slider.fields.status') }}</label>
-                @foreach(App\Models\Slider::STATUS_RADIO as $key => $label)
-                    <div class="form-check {{ $errors->has('status') ? 'is-invalid' : '' }}">
-                        <input class="form-check-input" type="radio" id="status_{{ $key }}" name="status" value="{{ $key }}" {{ old('status', '1') === (string) $key ? 'checked' : '' }} required>
-                        <label class="form-check-label" for="status_{{ $key }}">{{ $label }}</label>
-                    </div>
-                @endforeach
-                @if($errors->has('status'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('status') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.slider.fields.status_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label for="description">{{ trans('cruds.slider.fields.description') }}</label>
                 <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description') }}</textarea>
                 @if($errors->has('description'))
@@ -81,8 +66,8 @@
     },
     params: {
       size: 3,
-      width: 966,
-      height: 495
+      width:1920,
+      height: 1200
     },
     success: function (file, response) {
       $('form').find('input[name="photo"]').remove()

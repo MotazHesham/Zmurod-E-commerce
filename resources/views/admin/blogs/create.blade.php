@@ -62,6 +62,45 @@
                 <span class="help-block">{{ trans('cruds.blog.fields.video_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="user_id">{{ trans('cruds.blog.fields.user') }}</label>
+                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
+                    @foreach($users as $id => $entry)
+                        <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('user'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('user') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.blog.fields.user_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="media_url">{{ trans('cruds.blog.fields.media_url') }}</label>
+                <input class="form-control {{ $errors->has('media_url') ? 'is-invalid' : '' }}" type="text" name="media_url" id="media_url" value="{{ old('media_url', '') }}">
+                @if($errors->has('media_url'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('media_url') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.blog.fields.media_url_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required">{{ trans('cruds.blog.fields.type') }}</label>
+                <select class="form-control {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type" id="type" required>
+                    <option value disabled {{ old('type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach(App\Models\Blog::TYPE_SELECT as $key => $label)
+                        <option value="{{ $key }}" {{ old('type', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('type'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('type') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.blog.fields.type_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

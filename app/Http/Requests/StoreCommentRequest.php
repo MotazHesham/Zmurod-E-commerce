@@ -26,6 +26,9 @@ class StoreCommentRequest extends FormRequest
             'user_comments' => [
                 'array',
             ],
+            'comment_for' => [
+                'required',
+            ],
         ];
     }
 }

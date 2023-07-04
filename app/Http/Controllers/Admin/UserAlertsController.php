@@ -79,7 +79,7 @@ class UserAlertsController extends Controller
     {
         $userAlert = UserAlert::create($request->all());
         $userAlert->users()->sync($request->input('users', []));
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.user-alerts.index');
     }
 
@@ -97,7 +97,7 @@ class UserAlertsController extends Controller
         abort_if(Gate::denies('user_alert_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $userAlert->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

@@ -21,7 +21,7 @@
             </a>
         </li>
         @can('user_management_access')
-            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/permissions*") ? "c-show" : "" }} {{ request()->is("admin/roles*") ? "c-show" : "" }} {{ request()->is("admin/users*") ? "c-show" : "" }} {{ request()->is("admin/audit-logs*") ? "c-show" : "" }}">
+            <li class="c-sidebar-nav-dropdown  {{ request()->is("admin/roles*") ? "c-show" : "" }} {{ request()->is("admin/users*") ? "c-show" : "" }} {{ request()->is("admin/audit-logs*") ? "c-show" : "" }} {{ request()->is("admin/customers*") ? "c-show" : "" }} {{ request()->is("admin/sellers*") ? "c-show" : "" }}">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
                     <i class="fa-fw fas fa-users c-sidebar-nav-icon">
 
@@ -29,16 +29,6 @@
                     {{ trans('cruds.userManagement.title') }}
                 </a>
                 <ul class="c-sidebar-nav-dropdown-items">
-                    @can('permission_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.permissions.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/permissions") || request()->is("admin/permissions/*") ? "c-active" : "" }}">
-                                <i class="fa-fw fas fa-unlock-alt c-sidebar-nav-icon">
-
-                                </i>
-                                {{ trans('cruds.permission.title') }}
-                            </a>
-                        </li>
-                    @endcan
                     @can('role_access')
                         <li class="c-sidebar-nav-item">
                             <a href="{{ route("admin.roles.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/roles") || request()->is("admin/roles/*") ? "c-active" : "" }}">
@@ -66,6 +56,26 @@
 
                                 </i>
                                 {{ trans('cruds.auditLog.title') }}
+                            </a>
+                        </li>
+                    @endcan
+                    @can('customer_access')
+                        <li class="c-sidebar-nav-item">
+                            <a href="{{ route("admin.customers.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/customers") || request()->is("admin/customers/*") ? "c-active" : "" }}">
+                                <i class="fa-fw far fa-user c-sidebar-nav-icon">
+
+                                </i>
+                                {{ trans('cruds.customer.title') }}
+                            </a>
+                        </li>
+                    @endcan
+                    @can('seller_access')
+                        <li class="c-sidebar-nav-item">
+                            <a href="{{ route("admin.sellers.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/sellers") || request()->is("admin/sellers/*") ? "c-active" : "" }}">
+                                <i class="fa-fw fas fa-users c-sidebar-nav-icon">
+
+                                </i>
+                                {{ trans('cruds.seller.title') }}
                             </a>
                         </li>
                     @endcan
@@ -221,7 +231,7 @@
             </li>
         @endcan
         @can('product_managment_access')
-            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/products*") ? "c-show" : "" }} {{ request()->is("admin/categories*") ? "c-show" : "" }} {{ request()->is("admin/sellers*") ? "c-show" : "" }} {{ request()->is("admin/tags*") ? "c-show" : "" }} {{ request()->is("admin/reviews*") ? "c-show" : "" }}">
+            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/products*") ? "c-show" : "" }} {{ request()->is("admin/categories*") ? "c-show" : "" }} {{ request()->is("admin/tags*") ? "c-show" : "" }} {{ request()->is("admin/reviews*") ? "c-show" : "" }} {{ request()->is("admin/offers*") ? "c-show" : "" }}">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
                     <i class="fa-fw fab fa-product-hunt c-sidebar-nav-icon">
 
@@ -249,16 +259,7 @@
                             </a>
                         </li>
                     @endcan
-                    @can('seller_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.sellers.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/sellers") || request()->is("admin/sellers/*") ? "c-active" : "" }}">
-                                <i class="fa-fw fas fa-users c-sidebar-nav-icon">
-
-                                </i>
-                                {{ trans('cruds.seller.title') }}
-                            </a>
-                        </li>
-                    @endcan
+                    
                     @can('tag_access')
                         <li class="c-sidebar-nav-item">
                             <a href="{{ route("admin.tags.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/tags") || request()->is("admin/tags/*") ? "c-active" : "" }}">
@@ -279,11 +280,21 @@
                             </a>
                         </li>
                     @endcan
+                    @can('offer_access')
+                        <li class="c-sidebar-nav-item">
+                            <a href="{{ route("admin.offers.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/offers") || request()->is("admin/offers/*") ? "c-active" : "" }}">
+                                <i class="fa-fw far fa-bookmark c-sidebar-nav-icon">
+
+                                </i>
+                                {{ trans('cruds.offer.title') }}
+                            </a>
+                        </li>
+                    @endcan
                 </ul>
             </li>
         @endcan
         @can('order_managment_access')
-            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/orders*") ? "c-show" : "" }} {{ request()->is("admin/carts*") ? "c-show" : "" }} {{ request()->is("admin/order-products*") ? "c-show" : "" }} {{ request()->is("admin/areas*") ? "c-show" : "" }}">
+            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/orders*") ? "c-show" : "" }}   {{ request()->is("admin/areas*") ? "c-show" : "" }}">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
                     <i class="fa-fw fab fa-jedi-order c-sidebar-nav-icon">
 
@@ -298,26 +309,6 @@
 
                                 </i>
                                 {{ trans('cruds.order.title') }}
-                            </a>
-                        </li>
-                    @endcan
-                    @can('cart_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.carts.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/carts") || request()->is("admin/carts/*") ? "c-active" : "" }}">
-                                <i class="fa-fw fas fa-cart-arrow-down c-sidebar-nav-icon">
-
-                                </i>
-                                {{ trans('cruds.cart.title') }}
-                            </a>
-                        </li>
-                    @endcan
-                    @can('order_product_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.order-products.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/order-products") || request()->is("admin/order-products/*") ? "c-active" : "" }}">
-                                <i class="fa-fw fab fa-first-order-alt c-sidebar-nav-icon">
-
-                                </i>
-                                {{ trans('cruds.orderProduct.title') }}
                             </a>
                         </li>
                     @endcan

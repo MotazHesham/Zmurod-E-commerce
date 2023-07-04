@@ -29,6 +29,23 @@ class StoreBlogRequest extends FormRequest
             'short_description' => [
                 'required',
             ],
+            'user_id' => [
+                'required',
+                'integer',
+            ],
+            'media_url' => [
+                'string',
+                'nullable',
+            ],
+            'type' => [
+                'required',
+            ],
+            'blog_comments.*' => [
+                'integer',
+            ],
+            'blog_comments' => [
+                'array',
+            ],
         ];
     }
 }

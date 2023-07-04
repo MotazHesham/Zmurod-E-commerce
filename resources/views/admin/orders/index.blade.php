@@ -52,7 +52,7 @@
                         {{ trans('cruds.order.fields.shipment_type') }}
                     </th>
                     <th>
-                        {{ trans('cruds.order.fields.area_code') }}
+                        {{ trans('cruds.order.fields.city') }}
                     </th>
                     <th>
                         {{ trans('cruds.order.fields.user') }}
@@ -123,7 +123,7 @@
 { data: 'total_cost', name: 'total_cost' },
 { data: 'discount', name: 'discount' },
 { data: 'shipment_type', name: 'shipment_type' },
-{ data: 'area_code', name: 'area_code' },
+{ data: 'city', name: 'city' },
 { data: 'user_name', name: 'user.name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],

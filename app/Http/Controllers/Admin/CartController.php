@@ -10,7 +10,6 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\User;
 use Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CartController extends Controller
@@ -19,7 +18,7 @@ class CartController extends Controller
     {
         abort_if(Gate::denies('cart_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $carts = Cart::with(['user', 'product'])->get();
+        $carts = Cart::with(['user', 'products'])->get();
 
         return view('admin.carts.index', compact('carts'));
     }
@@ -30,7 +29,7 @@ class CartController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $products = Product::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $products = Product::pluck('name', 'id');
 
         return view('admin.carts.create', compact('products', 'users'));
     }
@@ -38,7 +37,8 @@ class CartController extends Controller
     public function store(StoreCartRequest $request)
     {
         $cart = Cart::create($request->all());
-
+        $cart->products()->sync($request->input('products', []));
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.carts.index');
     }
 
@@ -48,9 +48,9 @@ class CartController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $products = Product::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $products = Product::pluck('name', 'id');
 
-        $cart->load('user', 'product');
+        $cart->load('user', 'products');
 
         return view('admin.carts.edit', compact('cart', 'products', 'users'));
     }
@@ -58,7 +58,8 @@ class CartController extends Controller
     public function update(UpdateCartRequest $request, Cart $cart)
     {
         $cart->update($request->all());
-
+        $cart->products()->sync($request->input('products', []));
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.carts.index');
     }
 
@@ -66,7 +67,7 @@ class CartController extends Controller
     {
         abort_if(Gate::denies('cart_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $cart->load('user', 'product');
+        $cart->load('user', 'products');
 
         return view('admin.carts.show', compact('cart'));
     }
@@ -76,7 +77,7 @@ class CartController extends Controller
         abort_if(Gate::denies('cart_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $cart->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

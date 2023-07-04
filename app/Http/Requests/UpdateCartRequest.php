@@ -33,6 +33,13 @@ class UpdateCartRequest extends FormRequest
             'total_cost' => [
                 'required',
             ],
+            'products.*' => [
+                'integer',
+            ],
+            'products' => [
+                'required',
+                'array',
+            ],
         ];
     }
 }

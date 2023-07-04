@@ -17,6 +17,14 @@ class SliderController extends Controller
 {
     use MediaUploadingTrait;
 
+    public function update_statuses(Request $request){
+        $column_name = $request->column_name;
+        $slider = Slider::find($request->id);
+        $slider->$column_name = $request->status;
+        $slider->save();
+        return 1;
+    }
+    
     public function index()
     {
         abort_if(Gate::denies('slider_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -44,7 +52,7 @@ class SliderController extends Controller
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $slider->id]);
         }
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.sliders.index');
     }
 
@@ -69,7 +77,7 @@ class SliderController extends Controller
         } elseif ($slider->photo) {
             $slider->photo->delete();
         }
-
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.sliders.index');
     }
 
@@ -85,7 +93,7 @@ class SliderController extends Controller
         abort_if(Gate::denies('slider_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $slider->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

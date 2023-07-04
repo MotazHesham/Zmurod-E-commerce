@@ -89,7 +89,7 @@ class BrandsController extends Controller
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $brand->id]);
         }
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.brands.index');
     }
 
@@ -114,7 +114,7 @@ class BrandsController extends Controller
         } elseif ($brand->brand_image) {
             $brand->brand_image->delete();
         }
-
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.brands.index');
     }
 
@@ -130,7 +130,7 @@ class BrandsController extends Controller
         abort_if(Gate::denies('brand_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $brand->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

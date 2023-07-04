@@ -7,6 +7,8 @@ use App\Http\Requests\MassDestroyOrderRequest;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Product;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
@@ -20,7 +22,7 @@ class OrdersController extends Controller
         abort_if(Gate::denies('order_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Order::with(['user'])->select(sprintf('%s.*', (new Order)->table));
+            $query = Order::with(['user', 'product'])->select(sprintf('%s.*', (new Order)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -78,7 +80,11 @@ class OrdersController extends Controller
                 return $row->user ? $row->user->name : '';
             });
 
-            $table->rawColumns(['actions', 'placeholder', 'user']);
+            $table->addColumn('product_name', function ($row) {
+                return $row->product ? $row->product->name : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'user', 'product']);
 
             return $table->make(true);
         }
@@ -92,15 +98,12 @@ class OrdersController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.orders.create', compact('users'));
+        $products = Product::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.orders.create', compact('products', 'users'));
     }
 
-    public function store(StoreOrderRequest $request)
-    {
-        $order = Order::create($request->all());
 
-        return redirect()->route('admin.orders.index');
-    }
 
     public function edit(Order $order)
     {
@@ -108,14 +111,17 @@ class OrdersController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $order->load('user');
+        $products = Product::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.orders.edit', compact('order', 'users'));
+        $order->load('user', 'product');
+
+        return view('admin.orders.edit', compact('order', 'products', 'users'));
     }
 
     public function update(UpdateOrderRequest $request, Order $order)
     {
         $order->update($request->all());
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
 
         return redirect()->route('admin.orders.index');
     }
@@ -124,7 +130,7 @@ class OrdersController extends Controller
     {
         abort_if(Gate::denies('order_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $order->load('user');
+        $order->load('user', 'product','orderProduct.product.user');
 
         return view('admin.orders.show', compact('order'));
     }
@@ -134,6 +140,7 @@ class OrdersController extends Controller
         abort_if(Gate::denies('order_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $order->delete();
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
 
         return back();
     }

@@ -17,6 +17,14 @@ class BannerController extends Controller
 {
     use MediaUploadingTrait;
 
+    function update_statuses(Request $request) {
+        $column_name = $request->column_name;
+        $banner = Banner::find($request->id);
+        $banner->$column_name= $request->active;
+        $banner->save();
+        return 1 ; 
+    }
+
     public function index()
     {
         abort_if(Gate::denies('banner_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -44,7 +52,7 @@ class BannerController extends Controller
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $banner->id]);
         }
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.banners.index');
     }
 
@@ -72,7 +80,7 @@ class BannerController extends Controller
                 $banner->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('banner_photo');
             }
         }
-
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.banners.index');
     }
 
@@ -88,7 +96,7 @@ class BannerController extends Controller
         abort_if(Gate::denies('banner_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $banner->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

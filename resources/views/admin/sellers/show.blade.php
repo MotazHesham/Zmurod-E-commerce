@@ -67,6 +67,14 @@
                             <input type="checkbox" disabled="disabled" {{ $seller->featured_store ? 'checked' : '' }}>
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.seller.fields.brand_name') }}
+                        </th>
+                        <td>
+                            {{ $seller->brand_name->name ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

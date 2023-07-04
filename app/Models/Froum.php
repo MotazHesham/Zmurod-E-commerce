@@ -23,8 +23,8 @@ class Froum extends Model implements HasMedia
     ];
 
     public const CATEGORY_SELECT = [
-        'General forums' => 'موضوع عام',
-        'Other forums'   => 'موضوع اخر',
+        'الموضوعات العامة'  => 'الموضوعات العامة',
+        'موضوعات اخرى'   => 'موضوعات اخرى'
     ];
 
     protected $fillable = [

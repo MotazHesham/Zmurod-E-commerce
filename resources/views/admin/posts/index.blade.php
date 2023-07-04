@@ -41,9 +41,6 @@
                             {{ trans('cruds.post.fields.author') }}
                         </th>
                         <th>
-                            {{ trans('cruds.post.fields.post_comments') }}
-                        </th>
-                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -72,11 +69,7 @@
                             <td>
                                 {{ $post->author->name ?? '' }}
                             </td>
-                            <td>
-                                @foreach($post->post_comments as $key => $item)
-                                    <span class="badge badge-info">{{ $item->comment }}</span>
-                                @endforeach
-                            </td>
+                        
                             <td>
                                 @can('post_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.posts.show', $post->id) }}">

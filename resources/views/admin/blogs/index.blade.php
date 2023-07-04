@@ -38,6 +38,16 @@
                             {{ trans('cruds.blog.fields.video') }}
                         </th>
                         <th>
+                            {{ trans('cruds.blog.fields.user') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.blog.fields.media_url') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.blog.fields.type') }}
+                        </th>
+                   
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -70,6 +80,15 @@
                                         {{ trans('global.view_file') }}
                                     </a>
                                 @endif
+                            </td>
+                            <td>
+                                {{ $blog->user->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $blog->media_url ?? '' }}
+                            </td>
+                            <td>
+                                {{ App\Models\Blog::TYPE_SELECT[$blog->type] ?? '' }}
                             </td>
                             <td>
                                 @can('blog_show')
@@ -150,7 +169,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

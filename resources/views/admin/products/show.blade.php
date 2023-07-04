@@ -109,6 +109,32 @@
                             {{ $product->user->name ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.product.fields.fav') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $product->fav ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.product.fields.product_offers') }}
+                        </th>
+                        <td>
+                            @foreach($product->product_offers as $key => $product_offers)
+                                <span class="label label-info">{{ $product_offers->name }}</span>
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.product.fields.brand') }}
+                        </th>
+                        <td>
+                            {{ $product->brand->name ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

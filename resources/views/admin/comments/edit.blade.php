@@ -39,6 +39,21 @@
                 <span class="help-block">{{ trans('cruds.comment.fields.user_comment_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required">{{ trans('cruds.comment.fields.comment_for') }}</label>
+                <select class="form-control {{ $errors->has('comment_for') ? 'is-invalid' : '' }}" name="comment_for" id="comment_for" required>
+                    <option value disabled {{ old('comment_for', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach(App\Models\Comment::COMMENT_FOR_SELECT as $key => $label)
+                        <option value="{{ $key }}" {{ old('comment_for', $comment->comment_for) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('comment_for'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('comment_for') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.comment.fields.comment_for_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

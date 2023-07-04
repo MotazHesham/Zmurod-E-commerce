@@ -32,6 +32,7 @@ class Seller extends Model implements HasMedia
         'description',
         'user_id',
         'featured_store',
+        'brand_name_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -63,5 +64,10 @@ class Seller extends Model implements HasMedia
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function brand_name()
+    {
+        return $this->belongsTo(Brand::class, 'brand_name_id');
     }
 }

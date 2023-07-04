@@ -24,9 +24,7 @@ class UpdateSliderRequest extends FormRequest
             'photo' => [
                 'required',
             ],
-            'status' => [
-                'required',
-            ],
+   
         ];
     }
 }

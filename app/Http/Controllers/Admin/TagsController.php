@@ -32,7 +32,7 @@ class TagsController extends Controller
     public function store(StoreTagRequest $request)
     {
         $tag = Tag::create($request->all());
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.tags.index');
     }
 
@@ -46,7 +46,7 @@ class TagsController extends Controller
     public function update(UpdateTagRequest $request, Tag $tag)
     {
         $tag->update($request->all());
-
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.tags.index');
     }
 
@@ -62,7 +62,7 @@ class TagsController extends Controller
         abort_if(Gate::denies('tag_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $tag->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

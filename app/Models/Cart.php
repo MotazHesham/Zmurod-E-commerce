@@ -5,29 +5,29 @@ namespace App\Models;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use PhpParser\Node\Stmt\Return_;
+use SebastianBergmann\CodeCoverage\Report\Xml\Totals;
 
 class Cart extends Model
 {
-    use SoftDeletes, HasFactory;
+    use  HasFactory;
 
     public $table = 'carts';
 
     protected $dates = [
         'created_at',
         'updated_at',
-        'deleted_at',
     ];
 
     protected $fillable = [
-        'user_id',
-        'product_id',
         'price',
+        'price_with_discount',
         'quantity',
         'total_cost',
+        'product_id',
+        'user_id',
         'created_at',
         'updated_at',
-        'deleted_at',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
@@ -44,4 +44,6 @@ class Cart extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+
+
 }

@@ -53,6 +53,10 @@ class RolesController extends Controller
 
     public function update(UpdateRoleRequest $request, Role $role)
     {
+        if($role->id == 1){
+            alert()->error('cant edit this role');
+            return redirect()->route('admin.roles.index');
+        }
         $role->update($request->all());
         $role->permissions()->sync($request->input('permissions', []));
 
@@ -71,18 +75,24 @@ class RolesController extends Controller
     public function destroy(Role $role)
     {
         abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        if($role->id == 1){
+            alert()->error('cant edit this role');
+            return redirect()->route('admin.roles.index');
+        }
         $role->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 
     public function massDestroy(MassDestroyRoleRequest $request)
     {
         $roles = Role::find(request('ids'));
-
         foreach ($roles as $role) {
-            $role->delete();
+            if($role->id == 1){
+                // skip
+            }else{
+                $role->delete();
+            }
         }
 
         return response(null, Response::HTTP_NO_CONTENT);

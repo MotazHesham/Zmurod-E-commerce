@@ -31,9 +31,6 @@
                         {{ trans('cruds.product.fields.current_stock') }}
                     </th>
                     <th>
-                        {{ trans('cruds.product.fields.most_recent') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.product.fields.discount') }}
                     </th>
                     <th>
@@ -52,6 +49,17 @@
                         {{ trans('cruds.product.fields.user') }}
                     </th>
                     <th>
+                        {{ trans('cruds.product.fields.product_offers') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.product.fields.fav') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.product.fields.most_recent') }}
+                    </th>
+                    
+               
+                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -66,6 +74,22 @@
 @section('scripts')
 @parent
 <script>
+    
+    function update_statuses(el,column_name){
+        if(el.checked){
+            var status = 1;
+        }
+        else{
+            var status = 0;
+        }
+        $.post('{{ route('admin.products.update_statuses') }}', {_token:'{{ csrf_token() }}', id:el.value, status:status, column_name:column_name}, function(data){
+            if(data == 1){
+                showAlert('success', 'Success', '');
+            }else{
+                showAlert('danger', 'Something went wrong', '');
+            }
+        });
+    }
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('product_delete')
@@ -110,13 +134,16 @@
 { data: 'id', name: 'id' },
 { data: 'name', name: 'name' },
 { data: 'current_stock', name: 'current_stock' },
-{ data: 'most_recent', name: 'most_recent' },
 { data: 'discount', name: 'discount' },
 { data: 'price', name: 'price' },
 { data: 'image', name: 'image', sortable: false, searchable: false },
 { data: 'product_tags', name: 'product_tags.name' },
 { data: 'product_category_name', name: 'product_category.name' },
 { data: 'user_name', name: 'user.name' },
+{ data: 'product_offers', name: 'product_offers.name' },
+{ data: 'fav', name: 'fav' },
+{ data: 'most_recent', name: 'most_recent' },
+
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
@@ -128,7 +155,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 });
 
 </script>

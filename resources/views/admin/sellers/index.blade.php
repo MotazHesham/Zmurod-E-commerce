@@ -37,6 +37,9 @@
                         {{ trans('cruds.seller.fields.featured_store') }}
                     </th>
                     <th>
+                        {{ trans('cruds.seller.fields.brand_name') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -97,6 +100,7 @@
 { data: 'store_name', name: 'store_name' },
 { data: 'user_name', name: 'user.name' },
 { data: 'featured_store', name: 'featured_store' },
+{ data: 'brand_name_name', name: 'brand_name.name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
@@ -108,7 +112,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 });
 
 </script>

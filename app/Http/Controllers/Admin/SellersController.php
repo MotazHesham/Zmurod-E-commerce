@@ -7,6 +7,7 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroySellerRequest;
 use App\Http\Requests\StoreSellerRequest;
 use App\Http\Requests\UpdateSellerRequest;
+use App\Models\Brand;
 use App\Models\Seller;
 use App\Models\User;
 use Gate;
@@ -24,7 +25,7 @@ class SellersController extends Controller
         abort_if(Gate::denies('seller_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Seller::with(['user'])->select(sprintf('%s.*', (new Seller)->table));
+            $query = Seller::with(['user', 'brand_name'])->select(sprintf('%s.*', (new Seller)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -69,8 +70,11 @@ class SellersController extends Controller
             $table->editColumn('featured_store', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->featured_store ? 'checked' : null) . '>';
             });
+            $table->addColumn('brand_name_name', function ($row) {
+                return $row->brand_name ? $row->brand_name->name : '';
+            });
 
-            $table->rawColumns(['actions', 'placeholder', 'photo', 'user', 'featured_store']);
+            $table->rawColumns(['actions', 'placeholder', 'photo', 'user', 'featured_store', 'brand_name']);
 
             return $table->make(true);
         }
@@ -84,12 +88,23 @@ class SellersController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.sellers.create', compact('users'));
+        $brand_names = Brand::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.sellers.create', compact('brand_names', 'users'));
     }
 
     public function store(StoreSellerRequest $request)
     {
-        $seller = Seller::create($request->all());
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'user_type' => 'seller',
+        ]);
+
+        $validated_request = $request->all();
+        $validated_request['user_id'] = $user->id;
+        $seller = Seller::create($validated_request);
 
         if ($request->input('photo', false)) {
             $seller->addMedia(storage_path('tmp/uploads/' . basename($request->input('photo'))))->toMediaCollection('photo');
@@ -98,7 +113,7 @@ class SellersController extends Controller
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $seller->id]);
         }
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.sellers.index');
     }
 
@@ -108,14 +123,23 @@ class SellersController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $seller->load('user');
+        $brand_names = Brand::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.sellers.edit', compact('seller', 'users'));
+        $seller->load('user', 'brand_name');
+
+        return view('admin.sellers.edit', compact('brand_names', 'seller', 'users'));
     }
 
     public function update(UpdateSellerRequest $request, Seller $seller)
     {
         $seller->update($request->all());
+
+        $user = User::find($seller->user_id);
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password != null ? bcrypt($request->password) :$user->password,
+        ]);
 
         if ($request->input('photo', false)) {
             if (! $seller->photo || $request->input('photo') !== $seller->photo->file_name) {
@@ -127,7 +151,7 @@ class SellersController extends Controller
         } elseif ($seller->photo) {
             $seller->photo->delete();
         }
-
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.sellers.index');
     }
 
@@ -135,7 +159,7 @@ class SellersController extends Controller
     {
         abort_if(Gate::denies('seller_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $seller->load('user');
+        $seller->load('user', 'brand_name');
 
         return view('admin.sellers.show', compact('seller'));
     }
@@ -145,7 +169,7 @@ class SellersController extends Controller
         abort_if(Gate::denies('seller_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $seller->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

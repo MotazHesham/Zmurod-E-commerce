@@ -71,6 +71,40 @@
                             @endif
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.blog.fields.user') }}
+                        </th>
+                        <td>
+                            {{ $blog->user->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.blog.fields.media_url') }}
+                        </th>
+                        <td>
+                            {{ $blog->media_url }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.blog.fields.type') }}
+                        </th>
+                        <td>
+                            {{ App\Models\Blog::TYPE_SELECT[$blog->type] ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.blog.fields.blog_comments') }}
+                        </th>
+                        <td>
+                            @foreach($blog->blog_comments as $key => $blog_comments)
+                                <span class="label label-info">{{ $blog_comments->comment }}</span>
+                            @endforeach
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

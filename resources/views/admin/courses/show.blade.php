@@ -75,6 +75,14 @@
                             {{ $course->price }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.course.fields.courses_hours') }}
+                        </th>
+                        <td>
+                            {{ $course->courses_hours }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

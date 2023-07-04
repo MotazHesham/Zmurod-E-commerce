@@ -26,6 +26,9 @@ class Kernel extends HttpKernel
         'signed'           => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle'         => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified'         => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'staff'             => \App\Http\Middleware\Staff::class,
+        'customer'             => \App\Http\Middleware\Customer::class,
+        'seller'             => \App\Http\Middleware\Seller::class,
     ];
 
     protected $middlewareGroups = [

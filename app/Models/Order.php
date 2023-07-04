@@ -27,17 +27,26 @@ class Order extends Model
     ];
 
     public const SHIPMENT_TYPE_RADIO = [
-        'normal shipment cost' => 'normal shipment cost',
-        'fast shipment cost'   => 'fast shipment cost',
+        'normal' => 'Normal shipment ',
+        'fast'   => 'Fast shipment ',
     ];
 
     public const DELIVERY_STATUS_SELECT = [
         'pending'     => 'Pending',
-        'on_review'   => 'on Review',
-        'on_delivery' => 'on Delivery',
+        'on_review'   => 'Review',
+        'on_delivery' => 'On Delivery',
         'delivered'   => 'Delivered',
         'delay'       => 'Delay',
         'cancel'      => 'Cancel',
+    ];
+
+    public const CITY_SELECT = [
+        'Ryad'     => 'الرياض',
+        'Jaddah'   => 'جده',
+        'Elmadina' => 'المدينه',
+        'suadia' => 'السعوديه',
+        'ay7aga' => 'أي حاجه ',
+        "masr"  => ' مصر'
     ];
 
     protected $fillable = [
@@ -50,8 +59,9 @@ class Order extends Model
         'total_cost',
         'discount',
         'shipment_type',
-        'area_code',
+        'city',
         'user_id',
+        'product_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -65,5 +75,14 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+    public function orderProduct()
+    {
+        return $this->hasMany(OrderProduct::class , 'order_id' );    
     }
 }

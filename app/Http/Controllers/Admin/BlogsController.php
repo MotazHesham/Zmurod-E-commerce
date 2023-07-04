@@ -8,6 +8,8 @@ use App\Http\Requests\MassDestroyBlogRequest;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Models\Blog;
+use App\Models\Comment;
+use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -21,7 +23,7 @@ class BlogsController extends Controller
     {
         abort_if(Gate::denies('blog_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $blogs = Blog::with(['media'])->get();
+        $blogs = Blog::with(['user', 'media'])->get();
 
         return view('admin.blogs.index', compact('blogs'));
     }
@@ -30,13 +32,15 @@ class BlogsController extends Controller
     {
         abort_if(Gate::denies('blog_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.blogs.create');
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.blogs.create', compact( 'users'));
     }
 
     public function store(StoreBlogRequest $request)
     {
         $blog = Blog::create($request->all());
-
+    
         if ($request->input('photo', false)) {
             $blog->addMedia(storage_path('tmp/uploads/' . basename($request->input('photo'))))->toMediaCollection('photo');
         }
@@ -48,7 +52,7 @@ class BlogsController extends Controller
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $blog->id]);
         }
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.blogs.index');
     }
 
@@ -56,13 +60,19 @@ class BlogsController extends Controller
     {
         abort_if(Gate::denies('blog_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.blogs.edit', compact('blog'));
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+       
+
+        $blog->load('user');
+
+        return view('admin.blogs.edit', compact('blog', 'users'));
     }
 
     public function update(UpdateBlogRequest $request, Blog $blog)
     {
         $blog->update($request->all());
-
+    
         if ($request->input('photo', false)) {
             if (! $blog->photo || $request->input('photo') !== $blog->photo->file_name) {
                 if ($blog->photo) {
@@ -84,13 +94,14 @@ class BlogsController extends Controller
         } elseif ($blog->video) {
             $blog->video->delete();
         }
-
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.blogs.index');
     }
 
     public function show(Blog $blog)
     {
         abort_if(Gate::denies('blog_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
 
         return view('admin.blogs.show', compact('blog'));
     }
@@ -100,7 +111,7 @@ class BlogsController extends Controller
         abort_if(Gate::denies('blog_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $blog->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

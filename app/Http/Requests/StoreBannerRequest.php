@@ -28,9 +28,6 @@ class StoreBannerRequest extends FormRequest
             'banner_photo.*' => [
                 'required',
             ],
-            'active' => [
-                'required',
-            ],
         ];
     }
 }

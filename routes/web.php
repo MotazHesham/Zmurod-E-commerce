@@ -11,7 +11,7 @@ Route::get('/home', function () {
 
 Auth::routes(['register' => false]);
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth','staff']], function () {
     Route::get('/', 'HomeController@index')->name('home');
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
@@ -27,6 +27,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Products
     Route::delete('products/destroy', 'ProductsController@massDestroy')->name('products.massDestroy');
+    Route::post('products/update_statuses', 'ProductsController@update_statuses')->name('products.update_statuses');
     Route::post('products/media', 'ProductsController@storeMedia')->name('products.storeMedia');
     Route::post('products/ckmedia', 'ProductsController@storeCKEditorImages')->name('products.storeCKEditorImages');
     Route::resource('products', 'ProductsController');
@@ -45,6 +46,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Posts
     Route::delete('posts/destroy', 'PostsController@massDestroy')->name('posts.massDestroy');
+    Route::post('posts/media', 'PostsController@storeMedia')->name('posts.storeMedia');
+    Route::post('posts/ckmedia', 'PostsController@storeCKEditorImages')->name('posts.storeCKEditorImages');
     Route::resource('posts', 'PostsController');
 
     // Comments
@@ -65,6 +68,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Slider
     Route::delete('sliders/destroy', 'SliderController@massDestroy')->name('sliders.massDestroy');
+    Route::post('sliders/update_statuses', 'SliderController@update_statuses')->name('sliders.update_statuses');
     Route::post('sliders/media', 'SliderController@storeMedia')->name('sliders.storeMedia');
     Route::post('sliders/ckmedia', 'SliderController@storeCKEditorImages')->name('sliders.storeCKEditorImages');
     Route::resource('sliders', 'SliderController');
@@ -74,12 +78,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('banners/media', 'BannerController@storeMedia')->name('banners.storeMedia');
     Route::post('banners/ckmedia', 'BannerController@storeCKEditorImages')->name('banners.storeCKEditorImages');
     Route::resource('banners', 'BannerController');
+    Route::post('banners/update_statuses', 'BannerController@update_statuses')->name('banners.update_statuses');
 
     // Categories
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
     Route::post('categories/media', 'CategoriesController@storeMedia')->name('categories.storeMedia');
     Route::post('categories/ckmedia', 'CategoriesController@storeCKEditorImages')->name('categories.storeCKEditorImages');
     Route::resource('categories', 'CategoriesController');
+    Route::post('categories/update_statuses', 'CategoriesController@update_statuses')->name('categories.update_statuses');
 
     // Sellers
     Route::delete('sellers/destroy', 'SellersController@massDestroy')->name('sellers.massDestroy');
@@ -94,6 +100,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Reviews
     Route::delete('reviews/destroy', 'ReviewsController@massDestroy')->name('reviews.massDestroy');
     Route::resource('reviews', 'ReviewsController');
+    Route::post('reviews/update_statuses', 'ReviewsController@update_statuses')->name('reviews.update_statuses');
 
     // About Us
     Route::delete('about-uss/destroy', 'AboutUsController@massDestroy')->name('about-uss.massDestroy');
@@ -132,6 +139,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('brands/parse-csv-import', 'BrandsController@parseCsvImport')->name('brands.parseCsvImport');
     Route::post('brands/process-csv-import', 'BrandsController@processCsvImport')->name('brands.processCsvImport');
     Route::resource('brands', 'BrandsController');
+
+    // Offers
+    Route::delete('offers/destroy', 'OffersController@massDestroy')->name('offers.massDestroy');
+    Route::resource('offers', 'OffersController');
+
+     // Customers
+     Route::delete('customers/destroy', 'CustomersController@massDestroy')->name('customers.massDestroy');
+     Route::post('customers/media', 'CustomersController@storeMedia')->name('customers.storeMedia');
+     Route::post('customers/ckmedia', 'CustomersController@storeCKEditorImages')->name('customers.storeCKEditorImages');
+     Route::resource('customers', 'CustomersController');
 
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
 });

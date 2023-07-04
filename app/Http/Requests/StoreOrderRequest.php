@@ -46,6 +46,10 @@ class StoreOrderRequest extends FormRequest
                 'required',
                 'integer',
             ],
+            'product_id' => [
+                'required',
+                'integer',
+            ],
         ];
     }
 }

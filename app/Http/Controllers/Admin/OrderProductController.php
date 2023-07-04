@@ -38,7 +38,7 @@ class OrderProductController extends Controller
     public function store(StoreOrderProductRequest $request)
     {
         $orderProduct = OrderProduct::create($request->all());
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.order-products.index');
     }
 
@@ -58,7 +58,7 @@ class OrderProductController extends Controller
     public function update(UpdateOrderProductRequest $request, OrderProduct $orderProduct)
     {
         $orderProduct->update($request->all());
-
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.order-products.index');
     }
 
@@ -76,7 +76,7 @@ class OrderProductController extends Controller
         abort_if(Gate::denies('order_product_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $orderProduct->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

@@ -26,6 +26,9 @@ class UpdateCommentRequest extends FormRequest
             'user_comments' => [
                 'array',
             ],
+            'comment_for' => [
+                'required',
+            ],
         ];
     }
 }

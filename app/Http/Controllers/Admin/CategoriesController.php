@@ -17,6 +17,14 @@ class CategoriesController extends Controller
 {
     use MediaUploadingTrait;
 
+    public function update_statuses(Request $request){
+        $column_name = $request->column_name;
+        $category = Category::find($request->id);
+        $category->$column_name = $request->fav;
+        $category->save();
+        return 1;
+    }
+
     public function index()
     {
         abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -44,7 +52,7 @@ class CategoriesController extends Controller
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $category->id]);
         }
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.categories.index');
     }
 
@@ -69,7 +77,7 @@ class CategoriesController extends Controller
         } elseif ($category->icon) {
             $category->icon->delete();
         }
-
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.categories.index');
     }
 
@@ -85,7 +93,7 @@ class CategoriesController extends Controller
         abort_if(Gate::denies('category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $category->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

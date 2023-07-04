@@ -444,19 +444,19 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 109,
-                'title' => 'area_edit',
+                'title' => 'customer_create',
             ],
             [
                 'id'    => 110,
-                'title' => 'area_show',
+                'title' => 'customer_edit',
             ],
             [
                 'id'    => 111,
-                'title' => 'area_delete',
+                'title' => 'customer_show',
             ],
             [
                 'id'    => 112,
-                'title' => 'area_access',
+                'title' => 'customer_delete',
             ],
             [
                 'id'    => 113,
@@ -504,7 +504,31 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 124,
+                'title' => 'offer_create',
+            ],
+            [
+                'id'    => 125,
+                'title' => 'offer_edit',
+            ],
+            [
+                'id'    => 126,
+                'title' => 'offer_show',
+            ],
+            [
+                'id'    => 127,
+                'title' => 'offer_delete',
+            ],
+            [
+                'id'    => 128,
+                'title' => 'offer_access',
+            ],
+            [
+                'id'    => 129,
                 'title' => 'profile_password_edit',
+            ],
+            [
+                'id'    => 130,
+                'title' => 'customer_access',
             ],
         ];
 

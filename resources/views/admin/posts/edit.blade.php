@@ -59,24 +59,6 @@
                 <span class="help-block">{{ trans('cruds.post.fields.author_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="post_comments">{{ trans('cruds.post.fields.post_comments') }}</label>
-                <div style="padding-bottom: 4px">
-                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
-                </div>
-                <select class="form-control select2 {{ $errors->has('post_comments') ? 'is-invalid' : '' }}" name="post_comments[]" id="post_comments" multiple>
-                    @foreach($post_comments as $id => $post_comment)
-                        <option value="{{ $id }}" {{ (in_array($id, old('post_comments', [])) || $post->post_comments->contains($id)) ? 'selected' : '' }}>{{ $post_comment }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('post_comments'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('post_comments') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.post.fields.post_comments_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

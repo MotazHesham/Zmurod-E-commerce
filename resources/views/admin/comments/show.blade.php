@@ -41,6 +41,14 @@
                             @endforeach
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.comment.fields.comment_for') }}
+                        </th>
+                        <td>
+                            {{ App\Models\Comment::COMMENT_FOR_SELECT[$comment->comment_for] ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

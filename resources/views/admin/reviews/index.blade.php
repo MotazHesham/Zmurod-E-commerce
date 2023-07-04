@@ -54,6 +54,21 @@
 @section('scripts')
 @parent
 <script>
+    function update_statuses(el,column_name){
+        if(el.checked){
+            var status = 1;
+        }
+        else{
+            var status = 0;
+        }
+        $.post('{{ route('admin.reviews.update_statuses') }}', {_token:'{{ csrf_token() }}', id:el.value, published:status,  column_name:column_name}, function(data){
+            if(data == 1){
+                showAlert('success', 'Success', '');
+            }else{
+                showAlert('danger', 'Something went wrong', '');
+            }
+        });
+    }
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('review_delete')

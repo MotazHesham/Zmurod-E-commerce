@@ -32,32 +32,6 @@
                 <span class="help-block">{{ trans('cruds.category.fields.icon_helper') }}</span>
             </div>
             <div class="form-group">
-                <div class="form-check {{ $errors->has('most_recent') ? 'is-invalid' : '' }}">
-                    <input type="hidden" name="most_recent" value="0">
-                    <input class="form-check-input" type="checkbox" name="most_recent" id="most_recent" value="1" {{ $category->most_recent || old('most_recent', 0) === 1 ? 'checked' : '' }}>
-                    <label class="form-check-label" for="most_recent">{{ trans('cruds.category.fields.most_recent') }}</label>
-                </div>
-                @if($errors->has('most_recent'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('most_recent') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.category.fields.most_recent_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <div class="form-check {{ $errors->has('fav') ? 'is-invalid' : '' }}">
-                    <input type="hidden" name="fav" value="0">
-                    <input class="form-check-input" type="checkbox" name="fav" id="fav" value="1" {{ $category->fav || old('fav', 0) === 1 ? 'checked' : '' }}>
-                    <label class="form-check-label" for="fav">{{ trans('cruds.category.fields.fav') }}</label>
-                </div>
-                @if($errors->has('fav'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('fav') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.category.fields.fav_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

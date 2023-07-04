@@ -44,7 +44,7 @@ class AboutUsController extends Controller
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $aboutUs->id]);
         }
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.about-uss.index');
     }
 
@@ -69,7 +69,7 @@ class AboutUsController extends Controller
         } elseif ($aboutUs->logo) {
             $aboutUs->logo->delete();
         }
-
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.about-uss.index');
     }
 
@@ -85,7 +85,7 @@ class AboutUsController extends Controller
         abort_if(Gate::denies('about_us_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $aboutUs->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

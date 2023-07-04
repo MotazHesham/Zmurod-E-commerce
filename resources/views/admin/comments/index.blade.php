@@ -32,6 +32,9 @@
                             {{ trans('cruds.comment.fields.user_comment') }}
                         </th>
                         <th>
+                            {{ trans('cruds.comment.fields.comment_for') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -52,6 +55,9 @@
                                 @foreach($comment->user_comments as $key => $item)
                                     <span class="badge badge-info">{{ $item->name }}</span>
                                 @endforeach
+                            </td>
+                            <td>
+                                {{ App\Models\Comment::COMMENT_FOR_SELECT[$comment->comment_for] ?? '' }}
                             </td>
                             <td>
                                 @can('comment_show')

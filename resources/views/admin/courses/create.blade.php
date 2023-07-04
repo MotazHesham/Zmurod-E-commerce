@@ -71,6 +71,16 @@
                 <span class="help-block">{{ trans('cruds.course.fields.price_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="courses_hours">{{ trans('cruds.course.fields.courses_hours') }}</label>
+                <input class="form-control {{ $errors->has('courses_hours') ? 'is-invalid' : '' }}" type="number" name="courses_hours" id="courses_hours" value="{{ old('courses_hours', '') }}" step="0.01">
+                @if($errors->has('courses_hours'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('courses_hours') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.course.fields.courses_hours_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

@@ -35,6 +35,7 @@ class Course extends Model implements HasMedia
         'trainer',
         'start_at',
         'price',
+        'courses_hours',
         'created_at',
         'updated_at',
         'deleted_at',

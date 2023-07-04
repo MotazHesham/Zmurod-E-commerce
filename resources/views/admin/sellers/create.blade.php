@@ -8,7 +8,36 @@
 
     <div class="card-body">
         <form method="POST" action="{{ route("admin.sellers.store") }}" enctype="multipart/form-data">
-            @csrf
+            @csrf<div class="form-group">
+                <label class="required" for="name">{{ trans('cruds.user.fields.name') }}</label>
+                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
+                @if($errors->has('name'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('name') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.name_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="email">{{ trans('cruds.user.fields.email') }}</label>
+                <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email" id="email" value="{{ old('email') }}" required>
+                @if($errors->has('email'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('email') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.email_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="password">{{ trans('cruds.user.fields.password') }}</label>
+                <input class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" type="password" name="password" id="password" required>
+                @if($errors->has('password'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('password') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.password_helper') }}</span>
+            </div>
             <div class="form-group">
                 <label class="required" for="photo">{{ trans('cruds.seller.fields.photo') }}</label>
                 <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }}" id="photo-dropzone">
@@ -41,20 +70,6 @@
                 <span class="help-block">{{ trans('cruds.seller.fields.description_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="user_id">{{ trans('cruds.seller.fields.user') }}</label>
-                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
-                    @foreach($users as $id => $entry)
-                        <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('user'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('user') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.seller.fields.user_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <div class="form-check {{ $errors->has('featured_store') ? 'is-invalid' : '' }}">
                     <input class="form-check-input" type="checkbox" name="featured_store" id="featured_store" value="1" required {{ old('featured_store', 0) == 1 ? 'checked' : '' }}>
                     <label class="required form-check-label" for="featured_store">{{ trans('cruds.seller.fields.featured_store') }}</label>
@@ -65,6 +80,20 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.seller.fields.featured_store_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="brand_name_id">{{ trans('cruds.seller.fields.brand_name') }}</label>
+                <select class="form-control select2 {{ $errors->has('brand_name') ? 'is-invalid' : '' }}" name="brand_name_id" id="brand_name_id">
+                    @foreach($brand_names as $id => $entry)
+                        <option value="{{ $id }}" {{ old('brand_name_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('brand_name'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('brand_name') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.seller.fields.brand_name_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
