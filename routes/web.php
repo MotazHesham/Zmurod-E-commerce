@@ -11,7 +11,7 @@ Route::get('/home', function () {
 
 Auth::routes(['register' => false]);
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth','staff']], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'staff']], function () {
     Route::get('/', 'HomeController@index')->name('home');
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
@@ -88,6 +88,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('categories/update_statuses', 'CategoriesController@update_statuses')->name('categories.update_statuses');
 
     // Sellers
+    Route::post('sellers/update_statuses', 'SellersController@update_statuses')->name('sellers.update_statuses');
     Route::delete('sellers/destroy', 'SellersController@massDestroy')->name('sellers.massDestroy');
     Route::post('sellers/media', 'SellersController@storeMedia')->name('sellers.storeMedia');
     Route::post('sellers/ckmedia', 'SellersController@storeCKEditorImages')->name('sellers.storeCKEditorImages');
@@ -132,23 +133,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('user-alerts/read', 'UserAlertsController@read');
     Route::resource('user-alerts', 'UserAlertsController', ['except' => ['edit', 'update']]);
 
-    // Brands
-    Route::delete('brands/destroy', 'BrandsController@massDestroy')->name('brands.massDestroy');
-    Route::post('brands/media', 'BrandsController@storeMedia')->name('brands.storeMedia');
-    Route::post('brands/ckmedia', 'BrandsController@storeCKEditorImages')->name('brands.storeCKEditorImages');
-    Route::post('brands/parse-csv-import', 'BrandsController@parseCsvImport')->name('brands.parseCsvImport');
-    Route::post('brands/process-csv-import', 'BrandsController@processCsvImport')->name('brands.processCsvImport');
-    Route::resource('brands', 'BrandsController');
 
     // Offers
     Route::delete('offers/destroy', 'OffersController@massDestroy')->name('offers.massDestroy');
     Route::resource('offers', 'OffersController');
 
-     // Customers
-     Route::delete('customers/destroy', 'CustomersController@massDestroy')->name('customers.massDestroy');
-     Route::post('customers/media', 'CustomersController@storeMedia')->name('customers.storeMedia');
-     Route::post('customers/ckmedia', 'CustomersController@storeCKEditorImages')->name('customers.storeCKEditorImages');
-     Route::resource('customers', 'CustomersController');
+    // Customers
+    Route::delete('customers/destroy', 'CustomersController@massDestroy')->name('customers.massDestroy');
+    Route::post('customers/media', 'CustomersController@storeMedia')->name('customers.storeMedia');
+    Route::post('customers/ckmedia', 'CustomersController@storeCKEditorImages')->name('customers.storeCKEditorImages');
+    Route::resource('customers', 'CustomersController');
 
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
 });

@@ -38,7 +38,10 @@ class StoreSellerRequest extends FormRequest
             'description' => [
                 'required',
             ],
-            'featured_store' => [
+            'phone' => [
+                'required',
+            ],
+            'country' => [
                 'required',
             ],
         ];

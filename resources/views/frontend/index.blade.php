@@ -75,55 +75,7 @@
                         <div class="row">
                             @foreach ($category->products()->with('product_offers')->where('most_recent', 1)->get()->take(8) as $product)
                             <div class="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-xs-6 mb-30px">
-                                <div class="product">
-                                    <div class="thumb">
-                                        <a href="{{ route('frontend.product', $product->id) }}" class="image">
-                                            @php
-                                            if (isset($product->image)) {
-                                            $image_first = isset($product->image[0]) ? $product->image[0]->getUrl() :
-                                            asset('assets/images/blank.jpg');
-                                            $image_second = isset($product->image[1]) ? $product->image[1]->getUrl() :
-                                            $image_first;
-                                            } else {
-                                            $image_first = asset('assets/images/blank.jpg');
-                                            $image_second = asset('assets/images/blank.jpg');
-                                            }
-                                            @endphp
-                                            <img src="{{ $image_first }}" alt="Product" />
-                                            <img class="hover-image" src="{{ $image_second }}" alt="Product" />
-                                        </a>
-                                        <span class="badges">
-                                            @foreach ($product->product_offers as $offer )
-                                            <span class="new"> {{$offer->name}}</span>
-                                            @endforeach
-                                        </span>
-                                        <div class="actions">
-                                            <a href="{{ route('frontend.whitelist') }}" class="action wishlist"
-                                                title="Wishlist"><i class="pe-7s-like"></i></a>
-                                            <a href="#" class="action quickview" data-link-action="quickview"
-                                                title="Quick view" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal"><i class="pe-7s-look"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="content">
-                                        <span class="ratings">
-                                            <span class="rating-wrap">
-                                                <span class="star" style="width: 100%"></span>
-                                            </span>
-                                            <span class="rating-num">( 5 Review )</span>
-                                        </span>
-                                        <h5 class="title"><a href="{{ route('frontend.product', $product->id) }}">{{
-                                                $product->name }}
-                                            </a>
-                                        </h5>
-                                        <span class="price">
-                                            <span class="new">{{ $product->price }}</span>
-                                        </span>
-                                    </div>  
-                                    <button  title="أضف الى السلة" class=" add-to-cart"
-                                        onclick="add_to_cart('{{$product->id}}')">أضف الى السلة
-                                    </button> 
-                                </div>
+                                        @include('partials.product-item',['product'=>$product])
                             </div>
                             @endforeach
                         </div>
@@ -137,23 +89,6 @@
 </div>
 <!-- Product Area End -->
 
-<!-- Testimonial Area Start -->
-<div class="banner-area-3 pt-100px pb-100px">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 ">
-                @foreach ($banners as $banner)
-                <div class="single-banner">
-                    <img src="{{$banner->banner_photo[0]->getUrl()}}" alt="">
-                    <div class="banner-content">
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Testimonial Area End -->
 
 <!-- Product Favourite Start -->
 <div class="product-area">
@@ -180,7 +115,6 @@
                                     }}</span></a>
                         </li>
                         @endforeach
-
                     </ul>
                     <!-- Add Arrows -->
                     <div class="swiper-buttons">
@@ -191,10 +125,8 @@
                 <!-- Tab End -->
             </div>
             <!-- Section Title End -->
-
         </div>
         <!-- Section Title & Tab End -->
-
         <!-- Product Favourite Start -->
         <div class="row">
             <div class="col">
@@ -205,58 +137,8 @@
                             <div class="new-product-wrapper swiper-wrapper">
                                 <!-- Move the foreach loop to this level -->
                                 @foreach ($category->products->take(10) as $product)
-                                @php
-                                if (isset($product->image)) {
-                                $firstImg = isset($product->image[0]) ? $product->image[0]->getUrl() :
-                                asset('assets/images/blank.jpg');
-                                $secondImg = isset($product->image[1]) ? $product->image[1]->getUrl() : $firstImg;
-                                } else {
-                                $firstImg = asset('assets/images/blank.jpg');
-                                $secondImg = asset('assets/images/blank.jpg');
-                                }
-                                @endphp
                                 <div class="new-product-item swiper-slide">
-                                    <div class="product">
-                                        <div class="thumb">
-                                            <a href="single-product.html" class="image">
-                                                <img src="{{$firstImg}}" alt="Product" />
-                                                <img class="hover-image" src="{{$secondImg}}" alt="Product" />
-                                            </a>
-                                            <span class="badges">
-                                                @if($product->discount > 0 )
-                                                <span class="sale">{{$product->discount}}%</span>
-                                                @endif
-                                                {{-- if product created_at 7days --}}
-                                                <span class="new">new</span>
-
-                                            </span>
-                                            <div class="actions">
-                                                <a href="wishlist.html" class="action wishlist" title="Wishlist"><i
-                                                        class="pe-7s-like"></i></a>
-                                                <a href="#" class="action quickview" data-link-action="quickview"
-                                                    title="Quick view" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal"><i class="pe-7s-look"></i></a>
-
-                                            </div>
-                                        </div>
-                                        <div class="content">
-                                            <span class="ratings">
-                                                <span class="rating-wrap">
-                                                    <span class="star" style="width: 100%"></span>
-                                                </span>
-                                                <span class="rating-num">( 5 Review )</span>
-                                            </span>
-                                            <h5 class="title"><a href="single-product.html">{{$product->name}}</a>
-                                            </h5>
-                                            <span class="price">
-                                                <span class="new">{{$product->price}}</span>
-                                                <span class="old">{{$product->price *2}}</span>
-                                            </span>
-                                        </div>  
-                                        <button title="أضف الى السلة" class=" add-to-cart"
-                                            onclick="add_to_cart('{{$product->id}}')">أضف الى السلة
-                                        </button> 
-                                    </div>
+                                    @include('partials.product-item',['product'=>$product])
                                 </div>
                                 @endforeach
                             </div>
@@ -269,14 +151,12 @@
     </div>
 </div>
 <!-- Product Favourite End -->
-
-
 <!-- Brand area start -->
-<div class="brand-area pt-100px">
+{{-- <div class="brand-area pt-100px">
     <div class="container">
         <div class="brand-slider swiper-container">
             <div class="swiper-wrapper align-items-center">
-                @foreach ($brands as $brand)
+                @foreach ($sellers as)
                 <div class="swiper-slide brand-slider-item text-center">
                     <a href="#"><img class=" img-fluid" style="width: 180px; height:180px"
                             src="{{ $brand->brand_image->getUrl() }}" alt="" /></a>
@@ -285,8 +165,11 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 <!-- Brand area end -->
 
-
 @endsection 
+
+
+
+

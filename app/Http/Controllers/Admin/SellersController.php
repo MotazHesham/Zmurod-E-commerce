@@ -20,12 +20,20 @@ class SellersController extends Controller
 {
     use MediaUploadingTrait;
 
+    public function update_statuses(Request $request)
+    {
+        $column_name = $request->column_name;
+        $seller = Seller::find($request->id);
+        $seller->$column_name = $request->featured_store;
+        $seller->save();
+        return 1;
+    }
     public function index(Request $request)
     {
         abort_if(Gate::denies('seller_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Seller::with(['user', 'brand_name'])->select(sprintf('%s.*', (new Seller)->table));
+            $query = Seller::with(['user'])->select(sprintf('%s.*', (new Seller)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -60,19 +68,32 @@ class SellersController extends Controller
 
                 return '';
             });
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : '';
+            });
+            $table->editColumn('email', function ($row) {
+                return $row->email ? $row->email : '';
+            });
+            $table->editColumn('country', function ($row) {
+                return $row->country ? $row->country : '';
+            });
+            $table->editColumn('phone', function ($row) {
+                return $row->phone ? $row->phone : '';
+            });
             $table->editColumn('store_name', function ($row) {
                 return $row->store_name ? $row->store_name : '';
             });
             $table->addColumn('user_name', function ($row) {
                 return $row->user ? $row->user->name : '';
             });
-
             $table->editColumn('featured_store', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->featured_store ? 'checked' : null) . '>';
+                return  ' <label class="c-switch c-switch-pill c-switch-success">
+                            <input onchange="update_statuses(this,\'featured_store\')" value="' . $row->id . '" 
+                                type="checkbox" class="c-switch-input" ' . ($row->featured_store ? "checked" : null) . '>
+                            <span class="c-switch-slider"></span>
+                        </label>';
             });
-            $table->addColumn('brand_name_name', function ($row) {
-                return $row->brand_name ? $row->brand_name->name : '';
-            });
+
 
             $table->rawColumns(['actions', 'placeholder', 'photo', 'user', 'featured_store', 'brand_name']);
 
@@ -88,9 +109,7 @@ class SellersController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $brand_names = Brand::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.sellers.create', compact('brand_names', 'users'));
+        return view('admin.sellers.create', compact('users'));
     }
 
     public function store(StoreSellerRequest $request)
@@ -113,7 +132,7 @@ class SellersController extends Controller
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $seller->id]);
         }
-        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
+        alert()->success(trans('flash.store.title'), trans('flash.store.body'));
         return redirect()->route('admin.sellers.index');
     }
 
@@ -123,11 +142,9 @@ class SellersController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $brand_names = Brand::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $seller->load('user');
 
-        $seller->load('user', 'brand_name');
-
-        return view('admin.sellers.edit', compact('brand_names', 'seller', 'users'));
+        return view('admin.sellers.edit', compact('seller', 'users'));
     }
 
     public function update(UpdateSellerRequest $request, Seller $seller)
@@ -138,11 +155,11 @@ class SellersController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password != null ? bcrypt($request->password) :$user->password,
+            'password' => $request->password != null ? bcrypt($request->password) : $user->password,
         ]);
 
         if ($request->input('photo', false)) {
-            if (! $seller->photo || $request->input('photo') !== $seller->photo->file_name) {
+            if (!$seller->photo || $request->input('photo') !== $seller->photo->file_name) {
                 if ($seller->photo) {
                     $seller->photo->delete();
                 }
@@ -151,7 +168,7 @@ class SellersController extends Controller
         } elseif ($seller->photo) {
             $seller->photo->delete();
         }
-        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
+        alert()->success(trans('flash.update.title'), trans('flash.update.body'));
         return redirect()->route('admin.sellers.index');
     }
 
@@ -159,7 +176,7 @@ class SellersController extends Controller
     {
         abort_if(Gate::denies('seller_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $seller->load('user', 'brand_name');
+        $seller->load('user');
 
         return view('admin.sellers.show', compact('seller'));
     }
@@ -169,7 +186,7 @@ class SellersController extends Controller
         abort_if(Gate::denies('seller_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $seller->delete();
-        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
+        alert()->success(trans('flash.destroy.title'), trans('flash.destroy.body'));
         return back();
     }
 

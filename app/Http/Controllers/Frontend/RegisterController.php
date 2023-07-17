@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
+use App\Models\Seller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Auth;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-    function index() {
+    public function index()
+    {
         return view('frontend.register');
     }
 
@@ -17,22 +21,33 @@ class RegisterController extends Controller
     {
         // Validate the input
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users',
-            'phone' => 'required|string|max:255',
+            'name' => 'required|string|max:50',
             'password' => 'required|string|min:6',
+            'email' => 'required|string|email|unique:users',
+            'country' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
         ]);
-        // store in DB
+        // Create a new user
         $user = User::create([
             'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'phone' => $validatedData['phone'],
             'password' => bcrypt($validatedData['password']),
+            'email' => $validatedData['email'],
             'user_type' => 'customer',
         ]);
 
-        // login the user and redirect
+        $customer = Customer::create([
+            'name' => $validatedData['name'],
+            'password' => bcrypt($validatedData['password']),
+            'email' => $validatedData['email'],
+            'country' => $validatedData['country'],
+            'phone' => $validatedData['phone'],
+            'user_id' => $user->id,
+        ]);
+
+        // Login the user
         Auth::login($user);
+
+        // Redirect to the desired page after successful registration
         return redirect()->route('customer.home');
     }
 
@@ -41,22 +56,37 @@ class RegisterController extends Controller
         // Validate the input
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users',
+            'email' => 'required|string|email|unique:sellers,email|unique:users,email',
+            'password' => 'required|string|min:6',
+            'country' => 'required',
             'phone' => 'required|string|max:255',
-            'password' => 'required|string|min:8',
+            'store_name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
         ]);
-
         // Create a new seller user
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
-            'phone' => $validatedData['phone'],
             'password' => bcrypt($validatedData['password']),
             'user_type' => 'seller',
         ]);
 
+        // Create a new seller
+        $seller = Seller::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => bcrypt($validatedData['password']),
+            'country' => $validatedData['country'],
+            'phone' => $validatedData['phone'],
+            'store_name' => $validatedData['store_name'],
+            'description' => $validatedData['description'],
+            'user_id' => $user->id,
+        ]);
+
         // Login the user and redirect
         Auth::login($user);
+
+        // Redirect to the desired page after successful registration
         return redirect()->route('seller.home');
     }
 }

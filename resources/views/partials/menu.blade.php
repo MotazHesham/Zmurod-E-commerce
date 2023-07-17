@@ -179,7 +179,7 @@
             </li>
         @endcan
         @can('general_setting_access')
-            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/sliders*") ? "c-show" : "" }} {{ request()->is("admin/banners*") ? "c-show" : "" }} {{ request()->is("admin/about-uss*") ? "c-show" : "" }} {{ request()->is("admin/brands*") ? "c-show" : "" }}">
+            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/sliders*") ? "c-show" : "" }} {{ request()->is("admin/banners*") ? "c-show" : "" }} {{ request()->is("admin/about-uss*") ? "c-show" : "" }} ">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
                     <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
 
@@ -214,16 +214,6 @@
 
                                 </i>
                                 {{ trans('cruds.aboutUs.title') }}
-                            </a>
-                        </li>
-                    @endcan
-                    @can('brand_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.brands.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/brands") || request()->is("admin/brands/*") ? "c-active" : "" }}">
-                                <i class="fa-fw fas fa-braille c-sidebar-nav-icon">
-
-                                </i>
-                                {{ trans('cruds.brand.title') }}
                             </a>
                         </li>
                     @endcan

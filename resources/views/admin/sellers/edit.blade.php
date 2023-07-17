@@ -73,32 +73,6 @@
                 <span class="help-block">{{ trans('cruds.seller.fields.description_helper') }}</span>
             </div>
             <div class="form-group">
-                <div class="form-check {{ $errors->has('featured_store') ? 'is-invalid' : '' }}">
-                    <input class="form-check-input" type="checkbox" name="featured_store" id="featured_store" value="1" {{ $seller->featured_store || old('featured_store', 0) === 1 ? 'checked' : '' }} required>
-                    <label class="required form-check-label" for="featured_store">{{ trans('cruds.seller.fields.featured_store') }}</label>
-                </div>
-                @if($errors->has('featured_store'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('featured_store') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.seller.fields.featured_store_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="brand_name_id">{{ trans('cruds.seller.fields.brand_name') }}</label>
-                <select class="form-control select2 {{ $errors->has('brand_name') ? 'is-invalid' : '' }}" name="brand_name_id" id="brand_name_id">
-                    @foreach($brand_names as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('brand_name_id') ? old('brand_name_id') : $seller->brand_name->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('brand_name'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('brand_name') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.seller.fields.brand_name_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

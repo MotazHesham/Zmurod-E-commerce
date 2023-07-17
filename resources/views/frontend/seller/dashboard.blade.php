@@ -1,177 +1,308 @@
-@extends('layouts.frontend')
+@extends('layouts.seller')
 @section('content')
 
-    <!-- breadcrumb-area start -->
-    <div class="breadcrumb-area">
-        <div class="container">
-            <div class="row align-items-center justify-content-center">
-                <div class="col-12 text-center">
-                    <h2 class="breadcrumb-title">الملف الشخصي</h2>
-                    <!-- breadcrumb-list start -->
-                    <ul class="breadcrumb-list">
-                        <li class="breadcrumb-item"><a href="index.html">الرئيسية</a></li>
-                        <li class="breadcrumb-item active">الملف الشخصي</li>
-                    </ul>
-                    <!-- breadcrumb-list end -->
-                </div>
-            </div>
+
+
+
+<!-- strat content -->
+<div class="bg-gray-100 flex-1 p-6 md:mt-16" style="direction: rtl;">
+
+
+  <!-- General Report -->
+  <div class="grid grid-cols-3 gap-6 xl:grid-cols-1">
+
+
+    <!-- card -->
+    <div class="report-card">
+      <div class="card">
+        <div class="card-body flex flex-col">
+
+          <!-- top -->
+          <div class="flex flex-row justify-between items-center">
+            <div class="h6 text-indigo-700 fad fa-shopping-cart"></div>
+
+          </div>
+          <!-- end top -->
+
+          <!-- bottom -->
+          <div class="mt-8">
+            <h3 class="h3 num-4"></h3>
+            <p> منتج تم بيعة</p>
+          </div>
+          <!-- end bottom -->
+
         </div>
+      </div>
+      <div class="footer bg-white p-1 mx-4 border border-t-0 rounded rounded-t-none"></div>
     </div>
-    <!-- breadcrumb-area end -->
+    <!-- end card -->
 
 
+    <!-- card -->
+    <div class="report-card">
+      <div class="card">
+        <div class="card-body flex flex-col">
 
-
-    <!-- account area start -->
-    <div class="account-dashboard pt-100px pb-100px">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 col-md-3 col-lg-3">
-                    <!-- Nav tabs -->
-                    <div class="dashboard_tab_button" data-aos="fade-up" data-aos-delay="0">
-                        <ul role="tablist" class="nav flex-column dashboard-list">
-                            <li><a href="#dashboard" data-bs-toggle="tab" class="nav-link active">لوحة التحكم</a></li>
-                            <li> <a href="#orders" data-bs-toggle="tab" class="nav-link">طلباتي</a></li>
-                            <li><a href="#downloads" data-bs-toggle="tab" class="nav-link">الكورسات</a></li>
-                            <li><a href="#address" data-bs-toggle="tab" class="nav-link">العنوان</a></li>
-                            <li><a href="#account-details" data-bs-toggle="tab" class="nav-link">تفاصيل الحساب</a>
-                            </li>
-                            <li><a href="{{route('frontend.userlogin')}}" class="nav-link">تسجيل الخروج</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-9 col-lg-9">
-                    <!-- Tab panes -->
-                    <div class="tab-content dashboard_content" data-aos="fade-up" data-aos-delay="200">
-                        <div class="tab-pane fade show active" id="dashboard">
-                            <h4>لوحة التحكم </h4>
-<p>hello this is seller dashboard</p>
-                        </div>
-                        <div class="tab-pane fade" id="orders">
-                            <h4>طلباتي</h4>
-                            <div class="table_page table-responsive">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>الطلب</th>
-                                            <th>التاريخ</th>
-                                            <th>الحالة</th>
-                                            <th>الإجمالي</th>
-                                            <th>عرض</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>مايو 10, 2023</td>
-                                            <td><span class="success">تم التسليم</span></td>
-                                            <td>25 رس </td>
-                                            <td><a href="cart.html" class="view">عرض</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>مايو 10, 2023</td>
-                                            <td><span class="success">تم التسليم</span></td>
-                                            <td>25 رس </td>
-                                            <td><a href="cart.html" class="view">عرض</a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="downloads">
-                            <h4>الكورسات</h4>
-                            <div class="table_page table-responsive">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>اسم الكورس</th>
-                                            <th>تاريخ الاشتراك</th>
-                                            <th>ينتهي في</th>
-                                            <th>التفاصيل</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>تعليم المكرمية</td>
-                                            <td>مايو 10, 2023</td>
-                                            <td>مايو 10, 2023</td>
-                                            <td><a href="#" class="view">التفاصيل</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>تعليم الكروشية</td>
-                                            <td>مايو 10, 2023</td>
-                                            <td>مايو 10, 2023</td>
-                                            <td><a href="#" class="view">التفاصيل</a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="address">
-                            <p>The following addresses will be used on the checkout page by default.</p>
-                            <h5 class="billing-address"> عنوان الشحن</h5>
-                            <a href="#" class="view">تعديل</a>
-                            <p class="mb-2"><strong>حي الياسمين</strong></p>
-                            <address>
-                                <span class="mb-1 d-inline-block"><strong>المدينة:</strong> الرياض</span>,
-                                <br>
-                                <span class="mb-1 d-inline-block"><strong>البلد:</strong> المملكة العربية السعودبة</span>,
-                                <br>
-                                <span class="mb-1 d-inline-block"><strong>الرمز البريدي:</strong> 98101</span>,
-                            </address>
-                        </div>
-                        <div class="tab-pane fade" id="account-details">
-                            <h3>تفاصيل الحساب </h3>
-                            <div class="login">
-                                <div class="login_form_container">
-                                    <div class="account_login_form">
-                                        <form action="#">
-
-                                            <div class="input-radio">
-                                                <span class="custom-radio"><input type="radio" value="1"
-                                                        name="id_gender"> ذكر.</span>
-                                                <span class="custom-radio"><input type="radio" value="1"
-                                                        name="id_gender"> انثى.</span>
-                                            </div> <br>
-                                            <div class="default-form-box mb-20">
-                                                <label>الاسم الاول</label>
-                                                <input type="text" name="first-name">
-                                            </div>
-                                            <div class="default-form-box mb-20">
-                                                <label>الاسم الاخير</label>
-                                                <input type="text" name="last-name">
-                                            </div>
-                                            <div class="default-form-box mb-20">
-                                                <label>البريد الاكتروني</label>
-                                                <input type="text" name="email-name">
-                                            </div>
-                                            <div class="default-form-box mb-20">
-                                                <label>كلمة المرور</label>
-                                                <input type="password" name="user-password">
-                                            </div>
-                                            <div class="default-form-box mb-20">
-                                                <label>تاريخ الميلاد</label>
-                                                <input type="date" name="birthday">
-                                            </div>
-                                            <span class="example">
-                                                (E.g.: 05/31/1970)
-                                            </span>
-                                            <br>
-
-                                            <div class="save_button mt-3">
-                                                <button class="btn" type="submit">حفظ</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          <!-- top -->
+          <div class="flex flex-row justify-between items-center">
+            <div class="h6 text-red-700 fad fa-store">
             </div>
+          </div>
+          <!-- end top -->
+
+          <!-- bottom -->
+          <div class="mt-8">
+            <h1 class="h5 num-4"></h1>
+            <p>اوردر </p>
+          </div>
+          <!-- end bottom -->
+
         </div>
+      </div>
+      <div class="footer bg-white p-1 mx-4 border border-t-0 rounded rounded-t-none"></div>
     </div>
-    <!-- account area start -->
+    <!-- end card -->
+
+
+    <!-- card -->
+    <div class="report-card">
+      <div class="card">
+        <div class="card-body flex flex-col">
+
+          <!-- top -->
+          <div class="flex flex-row justify-between items-center">
+            <div class="h6 text-yellow-600 fad fa-sitemap"></div>
+
+          </div>
+          <!-- end top -->
+
+          <!-- bottom -->
+          <div class="mt-8">
+            <h1 class="h5 num-4"></h1>
+            <p>أحمالي المنتجات</p>
+          </div>
+          <!-- end bottom -->
+
+        </div>
+      </div>
+      <div class="footer bg-white p-1 mx-4 border border-t-0 rounded rounded-t-none"></div>
+    </div>
+    <!-- end card -->
+
+
+
+
+
+  </div>
+  <!-- End General Report -->
+
+
+  <!-- Sales Overview -->
+  <div class="card mt-6">
+
+    <!-- header -->
+    <div class="card-header flex flex-row justify-between">
+      <h1 class="h6">
+        نظرة عامة على المبيعات</h1>
+
+      <div class="flex flex-row justify-center items-center">
+
+        <a href="">
+          <i class="fad fa-chevron-double-down mr-6"></i>
+        </a>
+
+        <a href="">
+          <i class="fad fa-ellipsis-v"></i>
+        </a>
+
+      </div>
+
+    </div>
+    <!-- end header -->
+
+    <!-- body -->
+    <div class="card-body grid grid-cols-2 gap-6 lg:grid-cols-1">
+
+      <div class="p-1">
+        <h1 class="h2">5,337</h1>
+        <p class="text-black font-medium">مبيعات الشهر</p>
+
+        <div class="mb-2 flex items-center">
+          <div class="py-1 px-3 rounded bg-green-200 text-green-900 ml-3">
+            <i class="fa fa-caret-up"></i>
+          </div>
+          <p class="text-black"><span class="num-2 text-green-400"></span><span class="text-green-400">زيادة في
+              المبيعات مقارنة بالشهر الماضي.</span> </p>
+        </div>
+
+        <div class="flex items-center">
+          <div class="py-1 px-3 rounded bg-red-200 text-red-900 ml-3">
+            <i class="fa fa-caret-down"></i>
+          </div>
+          <p class="text-black"><span class="num-2 text-red-400"></span><span class="text-red-400">
+              80٪ عائد لكل بيع</span> بالمقارنة مع الشهر الماضي.</p>
+        </div>
+
+      </div>
+
+      <div class="">
+        <div id="sealsOverview"></div>
+      </div>
+
+    </div>
+    <!-- end body -->
+
+  </div>
+  <!-- end Sales Overview -->
+
+  <!-- start numbers -->
+  <div class="grid grid-cols-4 gap-6 xl:grid-cols-2">
+
+    <!-- card -->
+    <div class="card mt-6">
+      <div class="card-body flex items-center">
+
+        <div class="px-3 py-2 rounded bg-indigo-600 text-white ml-3">
+          <i class="fad fa-wallet"></i>
+        </div>
+
+        <div class="flex flex-col">
+          <h1 class="font-semibold"><span class="num-2"></span> مبيعات</h1>
+        </div>
+
+      </div>
+    </div>
+    <!-- end card -->
+
+    <!-- card -->
+    <div class="card mt-6">
+      <div class="card-body flex items-center">
+
+        <div class="px-3 py-2 rounded bg-green-600 text-white ml-3">
+          <i class="fad fa-shopping-cart"></i>
+        </div>
+
+        <div class="flex flex-col">
+          <h1 class="font-semibold"><span class="num-2"></span> اوردر</h1>
+        </div>
+
+      </div>
+    </div>
+    <!-- end card -->
+
+    <!-- card -->
+    <div class="card mt-6 xl:mt-1">
+      <div class="card-body flex items-center">
+
+        <div class="px-3 py-2 rounded bg-yellow-600 text-white ml-3">
+          <i class="fad fa-blog"></i>
+        </div>
+
+        <div class="flex flex-col">
+          <h1 class="font-semibold"><span class="num-2"></span> منتج جديد</h1>
+        </div>
+
+      </div>
+    </div>
+    <!-- end card -->
+
+    <!-- card -->
+    <div class="card mt-6 xl:mt-1">
+      <div class="card-body flex items-center">
+
+        <div class="px-3 py-2 rounded bg-red-600 text-white ml-3">
+          <i class="fad fa-comments"></i>
+        </div>
+
+        <div class="flex flex-col">
+          <h1 class="font-semibold"><span class="num-2"></span> تعليق</h1>
+        </div>
+
+      </div>
+    </div>
+    <!-- end card -->
+
+
+
+  </div>
+  <!-- end nmbers -->
+
+  <!-- start quick Info -->
+  <div class="grid grid-cols-1 gap-6 mt-6 xl:grid-cols-1">
+
+
+
+    <!-- Start Recent Sales -->
+    <div class="card col-span-2 xl:col-span-1">
+      <div class="card-header">أحدث الاوردرات</div>
+
+      <table class="table-auto w-full text-right">
+        <thead>
+          <tr>
+            <th class="px-4 py-2 border-r"></th>
+            <th class="px-4 py-2 border-r">المنتج</th>
+            <th class="px-4 py-2 border-r">السعر</th>
+            <th class="px-4 py-2">التاريخ</th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-600">
+
+          <tr>
+            <td class="border border-l-0 px-4 py-2 text-center text-green-500"><i class="fad fa-circle"></i></td>
+            <td class="border border-l-0 px-4 py-2">كوستر خشبي</td>
+            <td class="border border-l-0 px-4 py-2">$<span class="num-2"></span></td>
+            <td class="border border-l-0 border-r-0 px-4 py-2"><span class="num-2"></span> دقيقة</td>
+          </tr>
+          <tr>
+            <td class="border border-l-0 px-4 py-2 text-center text-yellow-500"><i class="fad fa-circle"></i></td>
+            <td class="border border-l-0 px-4 py-2">حلق خشبي
+            </td>
+            <td class="border border-l-0 px-4 py-2">$<span class="num-2"></span></td>
+            <td class="border border-l-0 border-r-0 px-4 py-2"><span class="num-2"></span> دقيقة</td>
+          </tr>
+          <tr>
+            <td class="border border-l-0 px-4 py-2 text-center text-green-500"><i class="fad fa-circle"></i></td>
+            <td class="border border-l-0 px-4 py-2">كوستر خشبي
+            </td>
+            <td class="border border-l-0 px-4 py-2">$<span class="num-2"></span></td>
+            <td class="border border-l-0 border-r-0 px-4 py-2"><span class="num-2"></span> دقيقة</td>
+          </tr>
+          <tr>
+            <td class="border border-l-0 px-4 py-2 text-center text-red-500"><i class="fad fa-circle"></i></td>
+            <td class="border border-l-0 px-4 py-2">كوستر خشبي
+            </td>
+            <td class="border border-l-0 px-4 py-2">$<span class="num-2"></span></td>
+            <td class="border border-l-0 border-r-0 px-4 py-2"><span class="num-2"></span> دقيقة</td>
+          </tr>
+          <tr>
+            <td class="border border-l-0 px-4 py-2 text-center text-yellow-500"><i class="fad fa-circle"></i></td>
+            <td class="border border-l-0 px-4 py-2">مكرمية حائط
+            </td>
+            <td class="border border-l-0 px-4 py-2">$<span class="num-2"></span></td>
+            <td class="border border-l-0 border-r-0 px-4 py-2"><span class="num-2"></span> دقيقة</td>
+          </tr>
+          <tr>
+            <td class="border border-l-0 border-b-0 px-4 py-2 text-center text-green-500"><i class="fad fa-circle"></i>
+            </td>
+            <td class="border border-l-0 border-b-0 px-4 py-2">كوستر خشبي .</td>
+            <td class="border border-l-0 border-b-0 px-4 py-2">$<span class="num-2"></span></td>
+            <td class="border border-l-0 border-b-0 border-r-0 px-4 py-2"><span class="num-2"></span> دقيقة</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+    <!-- End Recent Sales -->
+
+
+  </div>
+  <!-- end quick Info -->
+
+
+</div>
+<!-- end content -->
+
+</div>
+<!-- end wrapper -->
 
 @endsection

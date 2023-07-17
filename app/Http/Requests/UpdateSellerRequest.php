@@ -39,9 +39,6 @@ class UpdateSellerRequest extends FormRequest
                 'required',
                 'integer',
             ],
-            'featured_store' => [
-                'required',
-            ],
         ];
     }
 }

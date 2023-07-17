@@ -127,14 +127,6 @@
                             @endforeach
                         </td>
                     </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.product.fields.brand') }}
-                        </th>
-                        <td>
-                            {{ $product->brand->name ?? '' }}
-                        </td>
-                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

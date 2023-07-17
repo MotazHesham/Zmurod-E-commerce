@@ -28,16 +28,22 @@
                         {{ trans('cruds.seller.fields.photo') }}
                     </th>
                     <th>
+                        {{ trans('cruds.seller.fields.name') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.seller.fields.email') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.seller.fields.country') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.seller.fields.phone') }}
+                    </th>
+                    <th>
                         {{ trans('cruds.seller.fields.store_name') }}
                     </th>
                     <th>
-                        {{ trans('cruds.seller.fields.user') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.seller.fields.featured_store') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.seller.fields.brand_name') }}
                     </th>
                     <th>
                         &nbsp;
@@ -54,6 +60,21 @@
 @section('scripts')
 @parent
 <script>
+     function update_statuses(el,column_name){
+        if(el.checked){
+            var status = 1;
+        }
+        else{
+            var status = 0;
+        }
+        $.post('{{ route('admin.sellers.update_statuses') }}', {_token:'{{ csrf_token() }}', id:el.value, featured_store:status,  column_name:column_name}, function(data){
+            if(data == 1){
+                showAlert('success', 'Success', '');
+            }else{
+                showAlert('danger', 'Something went wrong', '');
+            }
+        });
+    }
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('seller_delete')
@@ -97,10 +118,12 @@
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'photo', name: 'photo', sortable: false, searchable: false },
+{ data: 'name', name: 'name' },
+{ data: 'email', name: 'email' },
+{ data: 'country', name: 'country' },
+{ data: 'phone', name: 'phone' },
 { data: 'store_name', name: 'store_name' },
-{ data: 'user_name', name: 'user.name' },
 { data: 'featured_store', name: 'featured_store' },
-{ data: 'brand_name_name', name: 'brand_name.name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,

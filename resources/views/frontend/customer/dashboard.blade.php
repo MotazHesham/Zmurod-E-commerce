@@ -128,12 +128,6 @@
                                     <div class="account_login_form">
                                         <form action="#">
 
-                                            <div class="input-radio">
-                                                <span class="custom-radio"><input type="radio" value="1"
-                                                        name="id_gender"> ذكر.</span>
-                                                <span class="custom-radio"><input type="radio" value="1"
-                                                        name="id_gender"> انثى.</span>
-                                            </div> <br>
                                             <div class="default-form-box mb-20">
                                                 <label>الاسم الاول</label>
                                                 <input type="text" name="first-name">

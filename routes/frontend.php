@@ -1,23 +1,23 @@
 <?php
 
+use App\Http\Livewire\Popup;
 
-Route::group([ 'as' => 'frontend.', 'namespace' => 'Frontend'] ,function(){
+Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     // Home
-    Route::get('/','HomeController@index')->name('home');
+    Route::get('/', 'HomeController@index')->name('home');
     // register
     Route::get('register', 'RegisterController@index')->name('register');
-    Route::post('register_seller','RegisterController@register_seller')->name('register_seller');
-    Route::post('register_customer','RegisterController@register_customer')->name('register_customer');
+    Route::post('seller', 'RegisterController@register_seller')->name('register_seller');
+    Route::post('customer', 'RegisterController@register_customer')->name('register_customer');
 
     //course
-    Route::get('course','HomeController@course')->name('courses');
+    Route::get('course', 'HomeController@course')->name('courses');
     Route::get('courses/{id}', 'HomeController@singlecourse')->name('singlecourse');
 
     // about and Contact
     Route::get('about', 'AboutController@index')->name('about-us');
 
-
-    // blogs
+    // blogs    
     Route::get('blogs', 'BlogController@index')->name('blogs');
     Route::get('blogs/{id}', 'BlogController@show')->name('blogbyid');
 
@@ -32,24 +32,22 @@ Route::group([ 'as' => 'frontend.', 'namespace' => 'Frontend'] ,function(){
 
     // cart & whhitelist
     Route::get('cart', 'CartController@index')->name('cart');
-    Route::get('whitelist', 'WhitelistController@index')->name('whitelist');
 
     // product
-    Route::get('product/{id}','ProductController@show')->name('product');
-    Route::get('show_popup','ProductController@show_popup')->name('productpopup');
-    
-    
+    Route::get('product/{id}', 'ProductController@show')->name('product');
+    Route::get('show_popup', 'ProductController@show_popup')->name('productpopup');
+
+
 
     // checkout
     Route::get('checkout', 'CheckoutController@index')->name('checkout');
 
     // login
     Route::get('userlogin', 'LoginController@index')->name('userlogin');
-
 });
 
 
-Route::group(['prefix' => 'customer','as' => 'customer.', 'namespace' => 'Customer', 'middleware' => ['auth','customer']] ,function(){
+Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Customer', 'middleware' => ['auth', 'customer']], function () {
     // account
     Route::get('dashboard', 'HomeController@index')->name('home');
     // cart
@@ -57,22 +55,33 @@ Route::group(['prefix' => 'customer','as' => 'customer.', 'namespace' => 'Custom
     Route::post('cart/store', 'HomeController@cart_store_product')->name('cart.store');
     Route::post('cart/update', 'HomeController@updateCart')->name('cart.update');
     Route::delete('cart/remove', 'HomeController@cart_remove_product')->name('cart.remove');
+    //whitelist
+    Route::get('whitelist', 'WhitelistController@show')->name('whitelist.show');
+
+    // pop up model 
+    Route::post('/pop', 'PopupModalController@show')->name('popup.show');
+
+    // product
+    Route::get('product/{id}', 'ProductController@show')->name('product');
+
     // order 
     Route::post('order/store', 'OrderController@store')->name('order.store');
 
+    // thanks page 
+    Route::get('thanks', 'OrderController@thank')->name('order.has.stored');
 
-// Add more routes for cart actions as needed
+
+    // Add more routes for cart actions as needed
 
 
     //Contact
     Route::get('contact', 'ContactController@index')->name('contact-us');
     Route::Post('/send', 'ContactController@store')->name('sendmessage');
-
-
-
 });
-Route::group(['prefix' => 'seller', 'as' => 'seller.', 'namespace' => 'Seller', 'middleware' => ['auth','seller']] ,function(){
+Route::group(['prefix' => 'seller', 'as' => 'seller.', 'namespace' => 'Seller', 'middleware' => ['auth', 'seller']], function () {
     // account
     Route::get('dashboard', 'HomeController@index')->name('home');
-
+    Route::get('sales', 'SalesController@index')->name('sales');
+    Route::get('products', 'MyProductsController@index')->name('myproducts');
+    Route::get('add', 'MyProductsController@show')->name('addproduct');
 });

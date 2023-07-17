@@ -483,26 +483,6 @@ class PermissionsTableSeeder extends Seeder
                 'title' => 'user_alert_access',
             ],
             [
-                'id'    => 119,
-                'title' => 'brand_create',
-            ],
-            [
-                'id'    => 120,
-                'title' => 'brand_edit',
-            ],
-            [
-                'id'    => 121,
-                'title' => 'brand_show',
-            ],
-            [
-                'id'    => 122,
-                'title' => 'brand_delete',
-            ],
-            [
-                'id'    => 123,
-                'title' => 'brand_access',
-            ],
-            [
                 'id'    => 124,
                 'title' => 'offer_create',
             ],
@@ -535,3 +515,4 @@ class PermissionsTableSeeder extends Seeder
         Permission::insert($permissions);
     }
 }
+    // from  119 to 123  are empty for use 

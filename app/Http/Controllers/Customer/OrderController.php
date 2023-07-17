@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    function store(Request $request)
+    public function store(Request $request)
     {   
 
         
@@ -75,6 +75,12 @@ class OrderController extends Controller
         // delete the cart to the user 
         auth()->user()->cart()->delete() ; 
 
-        return response()->json(['message' => 'Order created successfully' ]);
+        return redirect()->route('customer.order.has.stored')->with('message', 'Order created successfully');
+
+    }
+    
+    public function thank()
+    {
+        return view('frontend.customer.thanks');
     }
 }

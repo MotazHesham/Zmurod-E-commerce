@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
-use App\Models\Brand;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Models\Slider;
@@ -28,11 +27,11 @@ class HomeController extends Controller
         }])->orderby('updated_at', 'desc')->get()->take(5);
 
         // get all banners
-        $banners = Banner::all() ;
+        $banners = Banner::all();
 
         // Sellers
-        $brands = Brand::all();
-        return view('frontend.index', compact('sliders', 'Resent_categories', 'Favs_categories', 'brands' ,'sliders','banners'));
+
+        return view('frontend.index', compact('sliders', 'Resent_categories', 'Favs_categories', 'sliders', 'banners'));
     }
     // courses.blade
     function Course()

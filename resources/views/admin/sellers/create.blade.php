@@ -8,7 +8,8 @@
 
     <div class="card-body">
         <form method="POST" action="{{ route("admin.sellers.store") }}" enctype="multipart/form-data">
-            @csrf<div class="form-group">
+            @csrf
+            <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.user.fields.name') }}</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
                 @if($errors->has('name'))
@@ -37,6 +38,26 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.user.fields.password_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="country">{{ trans('cruds.seller.fields.country') }}</label>
+                <input class="form-control {{ $errors->has('country') ? 'is-invalid' : '' }}" type="text" name="country" id="country" value="{{ old('country', '') }}" required>
+                @if($errors->has('country'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('country') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.name_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="phone">{{ trans('cruds.seller.fields.phone') }}</label>
+                <input class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}" type="text" name="phone" id="phone" value="{{ old('phone', '') }}" required>
+                @if($errors->has('phone'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('phone') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.name_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required" for="photo">{{ trans('cruds.seller.fields.photo') }}</label>
@@ -68,32 +89,6 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.seller.fields.description_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <div class="form-check {{ $errors->has('featured_store') ? 'is-invalid' : '' }}">
-                    <input class="form-check-input" type="checkbox" name="featured_store" id="featured_store" value="1" required {{ old('featured_store', 0) == 1 ? 'checked' : '' }}>
-                    <label class="required form-check-label" for="featured_store">{{ trans('cruds.seller.fields.featured_store') }}</label>
-                </div>
-                @if($errors->has('featured_store'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('featured_store') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.seller.fields.featured_store_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="brand_name_id">{{ trans('cruds.seller.fields.brand_name') }}</label>
-                <select class="form-control select2 {{ $errors->has('brand_name') ? 'is-invalid' : '' }}" name="brand_name_id" id="brand_name_id">
-                    @foreach($brand_names as $id => $entry)
-                        <option value="{{ $id }}" {{ old('brand_name_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('brand_name'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('brand_name') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.seller.fields.brand_name_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

@@ -43,9 +43,11 @@
                                             <input type="text" name="name" placeholder="اسم المستخدم" />
                                             <input type="password" name="password" placeholder="كلمة المرور" />
                                             <input name="email" placeholder="البريد الالكتروني" type="email" />
-                                            <select id="country-select" name="country_id" ng-options="country.name for country in countriesWithPhoneCode" class="ng-pristine ng-valid ng-touched" fdprocessedid="zzeu6">
-                                                <option value="" class="" selected="selected">الدولة                                    </option>
-                                                <option value="6">السعوديه</option>
+                                            <select name="country"> 
+                                                <option value="">اختر المنطقة</option>
+                                                @foreach(\App\Models\Order::CITY_SELECT as $key => $value)
+                                                    <option value="{{ $key }}">{{ $value }}</option>
+                                                @endforeach
                                             </select>
                                             <input type="text" name="phone" placeholder="رقم الهاتف" />
                                             <div class="button-box">
@@ -59,19 +61,20 @@
                                 <div class="login-form-container">
                                     <div class="login-register-form">
                                         <form action="{{ route('frontend.register_seller') }}" method="post">
-                                        @csrf
+                                            @csrf
                                             <input type="text" name="name" placeholder="اسم المستخدم" />
-                                            <input type="password" name="password" placeholder="كلمة المرور" />
                                             <input name="email" placeholder="البريد الالكتروني" type="email" />
-                                            <select id="country-select" name="country_id" ng-options="country.name for country in countriesWithPhoneCode" class="ng-pristine ng-valid ng-touched" fdprocessedid="zzeu6">
-                                                <option value="" class="" selected="selected">الدولة </option>
-                                                <option value="6">السعوديه</option>
+                                            <input type="password" name="password" placeholder="كلمة المرور" />
+                                            <select name="country"> 
+                                                <option value="">الدوله</option>
+                                                @foreach(\App\Models\Order::CITY_SELECT as $key => $value)
+                                                    <option value="{{ $key }}">{{ $value }}</option>
+                                                @endforeach
                                             </select>
                                             <input type="text" name="phone" placeholder="رقم الهاتف" />
-                                            <input type="text" name="user-name" placeholder="اسم المتجر عربي" />
-                                            <input type="text" name="user-name" placeholder=" اسم المتجر انجليزي" />
+                                            <input type="text" name="store_name" placeholder="اسم المتجر" />
+                                            <textarea name="description" placeholder=" تفاصيل عن علاقتك بالمتجر " ></textarea>
                                             <div class="button-box">
-
                                                 <button type="submit"><span>تسجيل</span></button>
                                             </div>
                                         </form>

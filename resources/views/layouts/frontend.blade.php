@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
 
 
+
 </head>
 
 <body dir="rtl">
@@ -135,7 +136,7 @@
                                 class="header-action-btn header-action-btn-cart offcanvas-toggle pr-0">
                                 <i class="pe-7s-shopbag"></i>
 
-                                <span class="header-action-num"> @auth {{ auth()->user()->cart->count()}} @endauth</span>
+                                <span class="header-action-num">0</span>
                             </a>
                             <a href="#offcanvas-mobile-menu"
                                 class="header-action-btn header-action-btn-menu offcanvas-toggle d-lg-none">
@@ -191,7 +192,7 @@
             </div>
             <div class="foot">
                 <div class="buttons">
-                    <a href="{{route('frontend.whitelist')}}" class="btn btn-dark btn-hover-primary mt-30px"> عرض قائمة
+                    <a href="{{route('customer.whitelist.show')}}" class="btn btn-dark btn-hover-primary mt-30px"> عرض قائمة
                         الامنيات</a>
                 </div>
             </div>
@@ -369,7 +370,7 @@
                                                     href="{{route('frontend.cart')}}">طلباتي </a>
                                             </li>
                                             <li class="li"><a class="single-link"
-                                                    href="{{route('frontend.whitelist')}}">قائمة
+                                                    href="{{route('customer.whitelist.show')}}">قائمة
                                                     الامنيات</a></li>
                                             <li class="li"><a class="single-link"
                                                     href="{{route('frontend.marketshop')}}">التسوق</a>
@@ -462,7 +463,16 @@
             </div>
         </div>
         <!-- Search Modal End -->
+        {{-- Popup Modal --}}
+        <div class="modal modal-2 fade" id="exampleModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    {{-- Ajax Code here  --}}
+                </div>
+            </div>
+        </div>
 
+        {{-- Popup Modal --}}
 
 
         <!-- Global Vendor, plugins JS -->
@@ -472,7 +482,6 @@
 
         <!-- Vendor JS -->
         <script src="{{ asset('assets/js/vendor/jquery-3.5.1.min.js') }}"></script>
-
         <script src="{{ asset('assets/js/vendor/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('assets/js/vendor/jquery-migrate-3.3.0.min.js') }}"></script>
         <script src="{{ asset('assets/js/vendor/modernizr-3.11.2.min.js') }}"></script>
@@ -491,8 +500,7 @@
         <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
-
-
+    
         <!-- Main Js -->
         <script src="{{ asset('assets/js/main.js') }}"></script>
 
@@ -535,18 +543,19 @@
                     }
                 });
             }
-            
-            function add_to_cart(product_id) { 
+            // add to cart
+            function add_to_cart(pId) { 
                 $.ajax({
                     type: "POST",
                     url: '{{ route("customer.cart.store") }}',
                     data: {
-                        product_id: product_id, 
+                        product_id: pId,
                         _token: '{{ csrf_token() }}'
                     },
                     success: function (data) {
                         if(data.exist){
                             $('#cart-item-' + data.cart_id).html(data.html);
+                            $('.header-action-num').text(data.count);
                         }else{
                             $('#modal-cart-list').append(data.html);
                         }
@@ -554,8 +563,29 @@
                     }
                 });
             }
+            // pop up 
+            function quickView(pId) { 
+                $.ajax({
+                    type: "POST",
+                    url: '{{ route("customer.popup.show") }}',
+                    data: {
+                        product_id: pId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function (data) {
+                        $('#exampleModal').modal('show')
+                        // 34an afdy l modal 
+                        $('#exampleModal .modal-content').html(null)
+                        
+                        $('#exampleModal .modal-content').html(data)
+                    }
+                });
+            }
         </script>
+       
         @yield('scripts')
+       
+            
 </body>
 
 </html>

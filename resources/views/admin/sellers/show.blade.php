@@ -25,6 +25,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.seller.fields.user') }}
+                        </th>
+                        <td>
+                            {{ $seller->user->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.seller.fields.photo') }}
                         </th>
                         <td>
@@ -33,6 +41,30 @@
                                     <img src="{{ $seller->photo->getUrl('thumb') }}">
                                 </a>
                             @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.seller.fields.email') }}
+                        </th>
+                        <td>
+                            {{ $seller->email }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.seller.fields.country') }}
+                        </th>
+                        <td>
+                            {{ $seller->country }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.seller.fields.phone') }}
+                        </th>
+                        <td>
+                            {{ $seller->phone }}
                         </td>
                     </tr>
                     <tr>
@@ -51,30 +83,7 @@
                             {!! $seller->description !!}
                         </td>
                     </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.seller.fields.user') }}
-                        </th>
-                        <td>
-                            {{ $seller->user->name ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.seller.fields.featured_store') }}
-                        </th>
-                        <td>
-                            <input type="checkbox" disabled="disabled" {{ $seller->featured_store ? 'checked' : '' }}>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.seller.fields.brand_name') }}
-                        </th>
-                        <td>
-                            {{ $seller->brand_name->name ?? '' }}
-                        </td>
-                    </tr>
+                    
                 </tbody>
             </table>
             <div class="form-group">
