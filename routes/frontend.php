@@ -82,6 +82,8 @@ Route::group(['prefix' => 'seller', 'as' => 'seller.', 'namespace' => 'Seller', 
     // account
     Route::get('dashboard', 'HomeController@index')->name('home');
     Route::get('sales', 'SalesController@index')->name('sales');
-    Route::get('products', 'MyProductsController@index')->name('myproducts');
-    Route::get('add', 'MyProductsController@show')->name('addproduct');
+    Route::get('allproducts', 'MyProductsController@index')->name('products.index');
+    Route::get('products', 'MyProductsController@create')->name('addproduct');
+    Route::post('products/add', 'MyProductsController@store')->name('products.store');
+    
 });

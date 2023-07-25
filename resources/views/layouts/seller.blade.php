@@ -61,7 +61,7 @@
             <hr>
             <!-- item -->
             <a class="px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out"
-              href="#">
+              href="{{route('frontend.userlogin')}}" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
               <i class="fad fa-user-times text-xs mr-1"></i>
               تسجيل الخروج
             </a>
@@ -291,7 +291,7 @@
         <!-- end link -->
 
         <!-- link -->
-        <a href="{{route('seller.myproducts')}}"
+        <a href="{{route('seller.products.index')}}"
           class="mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500 rtl">
           <i class="fad fa-folder-open text-xs mr-2"></i>
           منتجاتي
@@ -306,13 +306,13 @@
         <!-- end link -->
 
 
-        <!-- link -->
+        {{-- <!-- link -->
         <a href="seller-courses.html"
           class="mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500 rtl">
           <i class="fad fa-computer-classic text-xs mr-2"></i>
           ورش العمل
         </a>
-        <!-- end link -->
+        <!-- end link --> --}}
 
 
       </div>
@@ -325,6 +325,10 @@
   </div>
 </body>
 <!-- script -->
+<form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
+  {{ csrf_field() }}
+</form>
+
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script src="{{asset('seller/js/scripts.js')}}"></script>
 <!-- end script -->

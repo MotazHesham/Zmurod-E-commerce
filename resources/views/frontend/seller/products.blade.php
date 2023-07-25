@@ -27,41 +27,15 @@
                     </tr>
                 </thead>
                 <tbody class="text-gray-600">
-
-
-                    <tr>
-                        <td class="border border-l-0 border-b-0 border-r-0 px-4 py-2">20 مايو </td>
-
-                        <td class="border border-l-0 px-4 py-2 text-center pro-img "> <img src="img/1.jpg "></td>
-                        <td class="border border-l-0 border-b-0 px-4 py-2">كوستر خشبي .</td>
-                        <td class="border border-l-0 border-b-0 px-4 py-2">10 ريال</td>
-                        <td class="border border-l-0 border-b-0 border-r-0 px-4 py-2"> تعديل</td>
-                    </tr>
-                    <tr>
-                        <td class="border border-l-0 border-b-0 border-r-0 px-4 py-2">20 مايو </td>
-
-                        <td class="border border-l-0 px-4 py-2 text-center pro-img "> <img src="img/1.jpg "></td>
-                        <td class="border border-l-0 border-b-0 px-4 py-2">كوستر خشبي .</td>
-                        <td class="border border-l-0 border-b-0 px-4 py-2">10 ريال</td>
-                        <td class="border border-l-0 border-b-0 border-r-0 px-4 py-2"> تعديل</td>
-                    </tr>
-                    <tr>
-                        <td class="border border-l-0 border-b-0 border-r-0 px-4 py-2">20 مايو </td>
-
-                        <td class="border border-l-0 px-4 py-2 text-center pro-img "> <img src="img/1.jpg "></td>
-                        <td class="border border-l-0 border-b-0 px-4 py-2">كوستر خشبي .</td>
-                        <td class="border border-l-0 border-b-0 px-4 py-2">10 ريال</td>
-                        <td class="border border-l-0 border-b-0 border-r-0 px-4 py-2"> تعديل</td>
-                    </tr>
-                    <tr>
-                        <td class="border border-l-0 border-b-0 border-r-0 px-4 py-2">20 مايو </td>
-
-                        <td class="border border-l-0 px-4 py-2 text-center pro-img "> <img src="img/1.jpg "></td>
-                        <td class="border border-l-0 border-b-0 px-4 py-2">كوستر خشبي .</td>
-                        <td class="border border-l-0 border-b-0 px-4 py-2">10 ريال</td>
-                        <td class="border border-l-0 border-b-0 border-r-0 px-4 py-2"> تعديل</td>
-                    </tr>
-
+                    @foreach ($products as $product )
+                        <tr>
+                            <td class="border border-l-0 border-b-0 border-r-0 px-4 py-2">{{ $product->created_at->format(config('panel.date_format')) }}</td>
+                            <td class="border border-l-0 px-4 py-2 text-center pro-img "> <img src="{{$product->image[0]->getUrl()}}"></td>
+                            <td class="border border-l-0 border-b-0 px-4 py-2">{{$product->name}}</td>
+                            <td class="border border-l-0 border-b-0 px-4 py-2">{{$product->price}}</td>
+                            <td class="border border-l-0 border-b-0 border-r-0 px-4 py-2"> <button class="btn btn-danger">تعديل</button></td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
