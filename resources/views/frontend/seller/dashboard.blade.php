@@ -26,7 +26,7 @@
 
           <!-- bottom -->
           <div class="mt-8">
-            <h3 class="h3 num-4"></h3>
+            <h3 class="h3 "> {{$totalSoldProducts}}</h3>
             <p> منتج تم بيعة</p>
           </div>
           <!-- end bottom -->
@@ -52,7 +52,7 @@
 
           <!-- bottom -->
           <div class="mt-8">
-            <h1 class="h5 num-4"></h1>
+            <h1 class="h5 ">{{$totalOrders}}</h1>
             <p>اوردر </p>
           </div>
           <!-- end bottom -->
@@ -75,11 +75,17 @@
 
           </div>
           <!-- end top -->
-
+          @php
+          $total = 0 ; 
+            foreach ($order_products as $order_product) 
+            {
+              $total += $order_product->quantity ;
+            }
+          @endphp
           <!-- bottom -->
           <div class="mt-8">
-            <h1 class="h5 num-4"></h1>
-            <p>أحمالي المنتجات</p>
+            <h1 class="h5 ">{{$total}}</h1>
+            <p>اجمالي المنتجات</p>
           </div>
           <!-- end bottom -->
 
