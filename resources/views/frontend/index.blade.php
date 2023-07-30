@@ -152,20 +152,20 @@
 </div>
 <!-- Product Favourite End -->
 <!-- Brand area start -->
-{{-- <div class="brand-area pt-100px">
+<div class="brand-area pt-100px">
     <div class="container">
         <div class="brand-slider swiper-container">
             <div class="swiper-wrapper align-items-center">
-                @foreach ($sellers as)
+                @foreach ($sellers as $seller)
                 <div class="swiper-slide brand-slider-item text-center">
                     <a href="#"><img class=" img-fluid" style="width: 180px; height:180px"
-                            src="{{ $brand->brand_image->getUrl() }}" alt="" /></a>
+                            src="{{ $seller->photo->getUrl() }}" alt="" /></a>
                 </div>
                 @endforeach
             </div>
         </div>
     </div>
-</div> --}}
+</div>
 <!-- Brand area end -->
 
 @endsection 

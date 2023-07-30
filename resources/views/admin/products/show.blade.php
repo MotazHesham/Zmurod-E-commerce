@@ -127,6 +127,14 @@
                             @endforeach
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.product.fields.shipping_method') }}
+                        </th>
+                        <td>
+                            {{ App\Models\Product::SHIPPING_METHOD_SELECT[$product->shipping_method] ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

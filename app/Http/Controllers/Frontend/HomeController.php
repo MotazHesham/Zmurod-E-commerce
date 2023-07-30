@@ -10,7 +10,7 @@ use App\Models\Slider;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Product;
-
+use App\Models\Seller;
 
 class HomeController extends Controller
 {
@@ -30,8 +30,8 @@ class HomeController extends Controller
         $banners = Banner::all();
 
         // Sellers
-
-        return view('frontend.index', compact('sliders', 'Resent_categories', 'Favs_categories', 'sliders', 'banners'));
+        $sellers = Seller::where('featured_store',true)->with('media')->get()->take(5) ;
+        return view('frontend.index', compact('sliders', 'Resent_categories', 'Favs_categories', 'sliders', 'banners' , 'sellers'));
     }
     // courses.blade
     function Course()

@@ -13,7 +13,6 @@ class OrderController extends Controller
     public function store(Request $request)
     {   
 
-        
         // validate the form 
         $validatedData = $request->validate([
             'first_name' => 'required',

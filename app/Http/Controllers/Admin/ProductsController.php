@@ -121,6 +121,10 @@ class ProductsController extends Controller
 
                 return implode(' ', $labels);
             });
+
+            $table->editColumn('shipping_method', function ($row) {
+                return $row->shipping_method ? Product::SHIPPING_METHOD_SELECT[$row->shipping_method] : '';
+            });
     
             $table->rawColumns(['actions', 'placeholder', 'most_recent', 'image', 'product_tags', 'product_category', 'user', 'fav', 'product_offers']);
 

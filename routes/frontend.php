@@ -9,6 +9,8 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     Route::get('register', 'RegisterController@index')->name('register');
     Route::post('seller', 'RegisterController@register_seller')->name('register_seller');
     Route::post('customer', 'RegisterController@register_customer')->name('register_customer');
+    Route::post('sellers/media', 'RegisterController@storeMedia')->name('sellers.storeMedia');
+    Route::post('sellers/ckmedia', 'RegisterController@storeCKEditorImages')->name('sellers.storeCKEditorImages');
 
     //course
     Route::get('course', 'HomeController@course')->name('courses');
@@ -36,6 +38,8 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     // product
     Route::get('product/{id}', 'ProductController@show')->name('product');
     Route::get('show_popup', 'ProductController@show_popup')->name('productpopup');
+
+
 
 
 
@@ -78,12 +82,4 @@ Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Custo
     Route::get('contact', 'ContactController@index')->name('contact-us');
     Route::Post('/send', 'ContactController@store')->name('sendmessage');
 });
-Route::group(['prefix' => 'seller', 'as' => 'seller.', 'namespace' => 'Seller', 'middleware' => ['auth', 'seller']], function () {
-    // account
-    Route::get('dashboard', 'HomeController@index')->name('home');
-    Route::get('sales', 'SalesController@index')->name('sales');
-    Route::get('allproducts', 'MyProductsController@index')->name('products.index');
-    Route::get('products', 'MyProductsController@create')->name('addproduct');
-    Route::post('products/add', 'MyProductsController@store')->name('products.store');
-    
-});
+

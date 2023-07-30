@@ -58,8 +58,8 @@
 
                                         <td class="product-subtotal">{{$cart->quantity * $cart->price_with_discount }}</td>
                                         <td class="product-remove">
-                                            <button><i class="fa fa-pencil"></i></button>
-                                            <button><i class="fa fa-times"></i></button>
+                                            {{-- pass product id onclick to ajax request to delete from cart --}}
+                                            <button onclick="remove_from_cart('{{$cart->id}}')"><i class="fa fa-times"></i></button>
                                         </td>
                                     </tr> 
                                 @endforeach

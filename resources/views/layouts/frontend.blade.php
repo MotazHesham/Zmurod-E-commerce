@@ -136,7 +136,7 @@
                                 class="header-action-btn header-action-btn-cart offcanvas-toggle pr-0">
                                 <i class="pe-7s-shopbag"></i>
 
-                                <span class="header-action-num">0</span>
+                                <span  id ="header-action-num" class="header-action-num">0</span>
                             </a>
                             <a href="#offcanvas-mobile-menu"
                                 class="header-action-btn header-action-btn-menu offcanvas-toggle d-lg-none">
@@ -390,10 +390,12 @@
                                 <div class="footer-links">
                                     <div class="footer-row">
                                         <ul class="align-items-center">
-                                            <li class="li">
-                                                <a class="single-link" href="#">brand
-                                                </a>
-                                            </li>
+                                                @foreach (\App\Models\Seller::get()->take(5) as $seller )
+                                                    <li class="li">
+                                                        <a class="single-link" href="#">{{$seller->name}}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
                                         </ul>
                                     </div>
                                 </div>
@@ -503,7 +505,7 @@
     
         <!-- Main Js -->
         <script src="{{ asset('assets/js/main.js') }}"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
         <script>
             function showAlert(type, title, message) {
                 swal({
@@ -555,7 +557,7 @@
                     success: function (data) {
                         if(data.exist){
                             $('#cart-item-' + data.cart_id).html(data.html);
-                            $('.header-action-num').text(data.count);
+                            $('#header-action-num').text(data.count);
                         }else{
                             $('#modal-cart-list').append(data.html);
                         }

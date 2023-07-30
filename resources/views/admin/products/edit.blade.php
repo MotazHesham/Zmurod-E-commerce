@@ -137,6 +137,21 @@
                 <span class="help-block">{{ trans('cruds.product.fields.product_offers_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required">{{ trans('cruds.product.fields.shipping_method') }}</label>
+                <select class="form-control {{ $errors->has('shipping_method') ? 'is-invalid' : '' }}" name="shipping_method" id="shipping_method" required>
+                    <option value disabled {{ old('shipping_method', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach(App\Models\Product::SHIPPING_METHOD_SELECT as $key => $label)
+                        <option value="{{ $key }}" {{ old('shipping_method', $product->shipping_method) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('shipping_method'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('shipping_method') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.product.fields.shipping_method_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

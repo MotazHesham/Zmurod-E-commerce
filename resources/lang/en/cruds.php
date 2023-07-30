@@ -73,7 +73,7 @@ return [
         'fields'         => [
             'id'                      => 'ID',
             'id_helper'               => ' ',
-            'name'                    => 'الاسم',
+            'name'                    => 'name',
             'name_helper'             => ' ',
             'created_at'              => 'Created at',
             'created_at_helper'       => ' ',
@@ -103,6 +103,8 @@ return [
             'fav_helper'              => ' ',
             'product_offers'          => 'Offers',
             'product_offers_helper'   => ' ',
+            'shipping_method'         => 'Shipping Method',
+            'shipping_method_helper'  => ' ',
         ],
     ],
     'course' => [

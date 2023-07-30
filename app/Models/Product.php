@@ -27,6 +27,12 @@ class Product extends Model implements HasMedia
         'deleted_at',
     ];
 
+    public const SHIPPING_METHOD_SELECT = [
+        'seller' => 'الشحن من خلال البائع',
+        'Admin'  => 'الشحن من خلال حرائر',
+    ];
+
+    
     protected $fillable = [
         'name',
         'current_stock',
@@ -37,6 +43,7 @@ class Product extends Model implements HasMedia
         'product_category_id',
         'user_id',
         'fav',
+        'shipping_method',
         'created_at',
         'updated_at',
         'deleted_at',

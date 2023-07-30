@@ -8,10 +8,12 @@ use App\Models\Seller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Auth;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Traits\MediaUploadingTrait;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class RegisterController extends Controller
 {
+    use MediaUploadingTrait;
     public function index()
     {
         return view('frontend.register');
@@ -70,7 +72,7 @@ class RegisterController extends Controller
             'password' => bcrypt($validatedData['password']),
             'user_type' => 'seller',
         ]);
-
+        
         // Create a new seller
         $seller = Seller::create([
             'name' => $validatedData['name'],
@@ -83,10 +85,28 @@ class RegisterController extends Controller
             'user_id' => $user->id,
         ]);
 
+        if ($request->input('photo', false)) {
+            $seller->addMedia(storage_path('tmp/uploads/' . basename($request->input('photo'))))->toMediaCollection('photo');
+        }
+
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $seller->id]);
+        }
+
         // Login the user and redirect
         Auth::login($user);
 
         // Redirect to the desired page after successful registration
         return redirect()->route('seller.home');
+    }
+
+    public function storeCKEditorImages(Request $request)
+    {
+        $model         = new Seller();
+        $model->id     = $request->input('crud_id', 0);
+        $model->exists = true;
+        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+
+        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
 }

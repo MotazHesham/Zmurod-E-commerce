@@ -21,6 +21,15 @@
 <!-- checkout area start -->
 <div class="checkout-area pt-100px pb-100px">
     <div class="container">
+        @if($errors->count() > 0)
+        <div class="alert alert-danger">
+            <ul class="list-unstyled">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <form action="{{route('customer.order.store')}}" method="post">
             @csrf
             <div class="row">

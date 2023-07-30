@@ -57,8 +57,9 @@
                     <th>
                         {{ trans('cruds.product.fields.most_recent') }}
                     </th>
-                    
-               
+                    <th>
+                        {{ trans('cruds.product.fields.shipping_method') }}
+                    </th>
                     <th>
                         &nbsp;
                     </th>
@@ -143,6 +144,7 @@
 { data: 'product_offers', name: 'product_offers.name' },
 { data: 'fav', name: 'fav' },
 { data: 'most_recent', name: 'most_recent' },
+{ data: 'shipping_method', name: 'shipping_method' },
 
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],

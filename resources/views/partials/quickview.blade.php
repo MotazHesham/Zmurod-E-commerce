@@ -62,15 +62,13 @@
                 <div class="pro-details-categories-info pro-details-same-style d-flex">
                     <span>الفئات: </span>
                     <ul class="d-flex">
+                        @foreach ($product->product_tags as $tag )
                         <li>
-                            <a href="#">مكرمية, </a>
+                            <a href="#">{{$tag->name}},  </a>
                         </li>
-                        <li>
-                            <a href="#">هاند ميد, </a>
-                        </li>
-                        <li>
-                            <a href="#">ديكور حائط</a>
-                        </li>
+                        @endforeach
+                       
+                        
                     </ul>
                 </div>
                 <div class="pro-details-social-info pro-details-same-style d-flex">

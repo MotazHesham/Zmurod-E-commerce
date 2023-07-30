@@ -14,78 +14,24 @@
                     <tr>
                         <th class="px-4 py-2 border-r"></th>
                         <th class="px-4 py-2">التاريخ</th>
-
                         <th class="px-4 py-2 border-r">المنتج</th>
                         <th class="px-4 py-2 border-r">عدد القطع</th>
                         <th class="px-4 py-2 border-r">السعر</th>
                         <th class="px-4 py-2">المستخدم</th>
-
                     </tr>
                 </thead>
                 <tbody class="text-gray-600">
-
+                @foreach ($order_products as $order_product )
                     <tr>
                         <td class="border border-l-0 px-4 py-2 text-center text-green-500"><i class="fad fa-circle"></i>
                         </td>
-                        <td class="border border-l-0 border-r-0 px-4 py-2"><span class="num-2"></span> دقيقة</td>
-
-                        <td class="border border-l-0 px-4 py-2">كوستر خشبي</td>
-                        <td class="border border-l-0 px-4 py-2"> 2</td>
-                        <td class="border border-l-0 px-4 py-2">$<span class="num-2"></span></td>
-                        <td class="border border-l-0 px-4 py-2"> محمد محمود</td>
-
+                        <td class="border border-l-0 border-r-0 px-4 py-2"> {{$order_product->created_at->format(config('panel.date_format'))}}</td>
+                        <td class="border border-l-0 px-4 py-2"> {{$order_product->product->name}}</td>
+                        <td class="border border-l-0 px-4 py-2"> {{$order_product->quantity}}</td>
+                        <td class="border border-l-0 px-4 py-2">{{$order_product->price * $order_product->quantity }}</td>
+                        <td class="border border-l-0 px-4 py-2"> {{$order_product->order->user->name}}</td>
                     </tr>
-                    <tr>
-                        <td class="border border-l-0 px-4 py-2 text-center text-green-500"><i class="fad fa-circle"></i>
-                        </td>
-                        <td class="border border-l-0 border-r-0 px-4 py-2"><span class="num-2"></span> دقيقة</td>
-
-                        <td class="border border-l-0 px-4 py-2">كوستر خشبي</td>
-                        <td class="border border-l-0 px-4 py-2"> 2</td>
-                        <td class="border border-l-0 px-4 py-2">$<span class="num-2"></span></td>
-                        <td class="border border-l-0 px-4 py-2"> محمد محمود</td>
-                    </tr>
-                    <tr>
-                        <td class="border border-l-0 px-4 py-2 text-center text-green-500"><i class="fad fa-circle"></i>
-                        </td>
-                        <td class="border border-l-0 border-r-0 px-4 py-2"><span class="num-2"></span> دقيقة</td>
-
-                        <td class="border border-l-0 px-4 py-2">كوستر خشبي</td>
-                        <td class="border border-l-0 px-4 py-2"> 2</td>
-                        <td class="border border-l-0 px-4 py-2">$<span class="num-2"></span></td>
-                        <td class="border border-l-0 px-4 py-2"> محمد محمود</td>
-                    </tr>
-                    <tr>
-                        <td class="border border-l-0 px-4 py-2 text-center text-red-500"><i class="fad fa-circle"></i>
-                        </td>
-                        <td class="border border-l-0 border-r-0 px-4 py-2"><span class="num-2"></span> دقيقة</td>
-
-                        <td class="border border-l-0 px-4 py-2">كوستر خشبي</td>
-                        <td class="border border-l-0 px-4 py-2"> 2</td>
-                        <td class="border border-l-0 px-4 py-2">$<span class="num-2"></span></td>
-                        <td class="border border-l-0 px-4 py-2"> محمد محمود</td>
-                    </tr>
-                    <tr>
-                        <td class="border border-l-0 px-4 py-2 text-center text-green-500"><i class="fad fa-circle"></i>
-                        </td>
-                        <td class="border border-l-0 border-r-0 px-4 py-2"><span class="num-2"></span> دقيقة</td>
-
-                        <td class="border border-l-0 px-4 py-2">كوستر خشبي</td>
-                        <td class="border border-l-0 px-4 py-2"> 2</td>
-                        <td class="border border-l-0 px-4 py-2">$<span class="num-2"></span></td>
-                        <td class="border border-l-0 px-4 py-2"> محمد محمود</td>
-                    </tr>
-                    <tr>
-                        <td class="border border-l-0 px-4 py-2 text-center text-blue-500"><i class="fad fa-circle"></i>
-                        </td>
-                        <td class="border border-l-0 border-r-0 px-4 py-2"><span class="num-2"></span> دقيقة</td>
-
-                        <td class="border border-l-0 px-4 py-2">كوستر خشبي</td>
-                        <td class="border border-l-0 px-4 py-2"> 2</td>
-                        <td class="border border-l-0 px-4 py-2">$<span class="num-2"></span></td>
-                        <td class="border border-l-0 px-4 py-2"> محمد محمود</td>
-                    </tr>
-
+                @endforeach
                 </tbody>
             </table>
         </div>

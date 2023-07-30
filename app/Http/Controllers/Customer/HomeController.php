@@ -79,11 +79,7 @@ class HomeController extends Controller
                 </li>';
         // count of product in cart 
         $carts = Cart::all();
-        $count = 0;
-        foreach ($carts as $cart) {
-            $count += $cart->quantity;
-        }
-
+        $count = $carts->count();
         return response()->json(['html' => $str, 'exist' => $exist, 'cart_id' => $cart->id, 'count' => $count]);
     }
 

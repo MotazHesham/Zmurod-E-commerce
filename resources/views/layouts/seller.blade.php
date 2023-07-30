@@ -7,6 +7,7 @@
   <link rel="shortcut icon" href="./img/fav.png" type="image/x-icon">
   <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.12.1/css/pro.min.css">
   <link rel="stylesheet" type="text/css" href="{{asset('seller/css/style.css')}}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" />
   <title>Zmurod .. زمرد</title>
 </head>
 
@@ -42,7 +43,12 @@
         <div class="dropdown relative md:static">
           <button class="menu-btn focus:outline-none focus:shadow-outline flex flex-wrap items-center">
             <div class="w-8 h-8 overflow-hidden rounded-full">
-              <img class="w-full h-full object-cover" src="{{asset('assets/images/user.jpg')}}">
+              @php
+              $seller = \App\Models\Seller::where('email',auth()->user()->email)->first();
+              $seller && $seller->photo ? $img = $seller->photo->getUrl('thumb'): $img = asset('assets/images/blank.jpg') ; 
+              
+              @endphp
+              <img class="w-full h-full object-cover" src="{{$img}}">
             </div>
             <div class="mr-2 capitalize flex ">
               <h1 class="text-sm text-gray-800 font-semibold m-0 p-0 leading-none">{{auth()->user()->name}} </h1>
@@ -328,11 +334,12 @@
 <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
   {{ csrf_field() }}
 </form>
-
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> --}}
 <script src="{{asset('seller/js/scripts.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
 <!-- end script -->
-
+@yield('scripts')
 </body>
 
 </html>

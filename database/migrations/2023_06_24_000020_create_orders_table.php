@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->decimal('total_cost', 15, 2)->nullable();
             $table->decimal('discount', 15, 2)->nullable();
             $table->string('shipment_type');
-            $table->string('area_code');
+            $table->string('city');
             $table->timestamps();
             $table->softDeletes();
         });

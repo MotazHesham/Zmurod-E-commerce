@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->decimal('discount', 15, 2)->nullable();
             $table->decimal('price', 15, 2)->nullable();
             $table->boolean('fav')->default(0)->nullable();
+            $table->string('shipping_method');
             $table->timestamps();
             $table->softDeletes();
         });

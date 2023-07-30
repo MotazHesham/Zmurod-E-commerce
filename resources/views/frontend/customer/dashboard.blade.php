@@ -32,7 +32,7 @@
                         <ul role="tablist" class="nav flex-column dashboard-list">
                             <li><a href="#dashboard" data-bs-toggle="tab" class="nav-link active">لوحة التحكم</a></li>
                             <li> <a href="#orders" data-bs-toggle="tab" class="nav-link">طلباتي</a></li>
-                            <li><a href="#downloads" data-bs-toggle="tab" class="nav-link">الكورسات</a></li>
+                            <li><a href="#downloads" data-bs-toggle="tab" class="nav-link">ورش العمل</a></li>
                             <li><a href="#address" data-bs-toggle="tab" class="nav-link">العنوان</a></li>
                             <li><a href="#account-details" data-bs-toggle="tab" class="nav-link">تفاصيل الحساب</a>
                             </li>
@@ -80,7 +80,7 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="downloads">
-                            <h4>الكورسات</h4>
+                            <h4>ورش العمل</h4>
                             <div class="table_page table-responsive">
                                 <table>
                                     <thead>
