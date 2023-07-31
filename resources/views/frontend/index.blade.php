@@ -106,8 +106,7 @@
                     <ul class="product-tab-nav nav swiper-wrapper ">
                         @foreach ($Favs_categories as $category)
                         @php
-                        isset($category->icon) ? ($image = $category->icon->getUrl()) :
-                        asset('assets/images/blank.jpg');
+                            $image = isset($category->icon) ? ($image = $category->icon->getUrl()) : asset('assets/images/blank.jpg');
                         @endphp
                         <li class="nav-item swiper-slide"><a class="nav-link @if ($loop->first) active @endif "
                                 data-bs-toggle="tab" href="#tab--{{ $category->name }}"> <img src={{ $image }}

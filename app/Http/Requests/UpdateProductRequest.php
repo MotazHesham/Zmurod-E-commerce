@@ -52,10 +52,7 @@ class UpdateProductRequest extends FormRequest
             ],
             'product_offers' => [
                 'array',
-            ],
-            'shipping_method' => [
-                'required',
-            ],
+            ], 
         ];
     }
 }

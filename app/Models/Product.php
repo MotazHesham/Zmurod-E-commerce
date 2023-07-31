@@ -29,7 +29,7 @@ class Product extends Model implements HasMedia
 
     public const SHIPPING_METHOD_SELECT = [
         'seller' => 'الشحن من خلال البائع',
-        'Admin'  => 'الشحن من خلال حرائر',
+        'hrayer'  => 'الشحن من خلال حرائر',
     ];
 
     

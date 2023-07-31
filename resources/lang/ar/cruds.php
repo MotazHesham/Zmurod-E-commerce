@@ -25,7 +25,7 @@ return [
         'title'          => 'المجموعات',
         'title_singular' => 'مجموعة',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'title' => 'العنوان',
             'title_helper' => ' ',
@@ -43,7 +43,7 @@ return [
         'title' => 'المستخدمين',
         'title_singular' => 'مستخدم',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'name' => 'الاسم',
             'name_helper' => ' ',
@@ -71,7 +71,7 @@ return [
         'title' => 'المنتجات',
         'title_singular' => 'منتج',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'name' => 'الاسم',
             'name_helper' => ' ',
@@ -111,7 +111,7 @@ return [
         'title' => 'الدورات',
         'title_singular' => 'دورة',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'name' => 'اسم الدورة',
             'name_helper' => ' ',
@@ -143,7 +143,7 @@ return [
         'title' => 'المنتديات',
         'title_singular' => 'منتدى',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'name' => 'الاسم',
             'name_helper' => '',
@@ -163,7 +163,7 @@ return [
         'title' => 'المنشورات',
         'title_singular' => 'منشور',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'title' => 'العنوان',
             'title_helper' => ' ',
@@ -195,7 +195,7 @@ return [
         'title' => 'التعليقات',
         'title_singular' => 'تعليق',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'comment' => 'التعليق',
             'comment_helper' => ' ',
@@ -219,7 +219,7 @@ return [
         'title' => 'المدونات',
         'title_singular' => 'مدونة',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'title' => 'العنوان',
             'title_helper' => ' ',
@@ -255,7 +255,7 @@ return [
         'title' => 'الرسائل',
         'title_singular' => 'رسالة',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'name' => 'الاسم',
             'name_helper' => ' ',
@@ -281,7 +281,7 @@ return [
         'title' => 'السلايدر',
         'title_singular' => 'سلايدر',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'title' => 'العنوان',
             'title_helper' => ' ',
@@ -303,7 +303,7 @@ return [
         'title' => 'البانر',
         'title_singular' => 'بانر',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'title' => 'العنوان',
             'title_helper' => ' ',
@@ -327,7 +327,7 @@ return [
         'title' => 'التصنيفات',
         'title_singular' => 'تصنيف',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'name' => 'الاسم',
             'name_helper' => ' ',
@@ -349,7 +349,7 @@ return [
         'title' => 'البائعون',
         'title_singular' => 'بائع',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'photo' => 'الصورة',
             'photo_helper' => ' ',
@@ -372,12 +372,12 @@ return [
         ],
     ],
     'tag' => [
-        'title' => 'العلامات',
-        'title_singular' => 'علامة',
+        'title' => 'الكلامات الدلالية',
+        'title_singular' => 'كلمة دلالية',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
-            'name' => 'الاسم',
+            'name' => 'الكلمة الدالة',
             'name_helper' => ' ',
             'created_at' => 'تاريخ الإنشاء',
             'created_at_helper' => ' ',
@@ -391,7 +391,7 @@ return [
         'title' => 'التقييمات',
         'title_singular' => 'تقييم',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'rating' => 'التقييم',
             'rating_helper' => ' ',
@@ -415,7 +415,7 @@ return [
         'title' => 'من نحن',
         'title_singular' => 'من نحن',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'vision' => 'الرؤية',
             'vision_helper' => ' ',
@@ -449,7 +449,7 @@ return [
         'title' => 'الطلبات',
         'title_singular' => 'الطلب',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'order_num' => 'رقم الطلب',
             'order_num_helper' => ' ',
@@ -485,7 +485,7 @@ return [
         'title' => 'السلة',
         'title_singular' => 'السلة',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'user' => 'المستخدم',
             'user_helper' => ' ',
@@ -509,7 +509,7 @@ return [
         'title' => 'منتج الطلب',
         'title_singular' => 'منتج الطلب',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'product' => 'المنتج',
             'product_helper' => ' ',
@@ -533,7 +533,7 @@ return [
         'title' => 'المناطق',
         'title_singular' => 'المنطقة',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'name' => 'الاسم',
             'name_helper' => ' ',
@@ -555,7 +555,7 @@ return [
         'title' => 'سجلات المراجعة',
         'title_singular' => 'سجل المراجعة',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'description' => 'الوصف',
             'description_helper' => ' ',
@@ -579,7 +579,7 @@ return [
         'title' => 'تنبيهات المستخدم',
         'title_singular' => 'تنبيه المستخدم',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'alert_text' => 'نص التنبيه',
             'alert_text_helper' => ' ',
@@ -597,7 +597,7 @@ return [
         'title' => 'العلامات التجارية',
         'title_singular' => 'العلامة التجارية',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'name' => 'الاسم',
             'name_helper' => ' ',
@@ -619,7 +619,7 @@ return [
         'title' => 'العروض',
         'title_singular' => 'العرض',
         'fields' => [
-            'id' => 'المعرف',
+            'id' => 'id',
             'id_helper' => ' ',
             'name' => 'الاسم',
             'name_helper' => ' ',
