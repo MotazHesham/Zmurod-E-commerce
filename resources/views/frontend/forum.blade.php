@@ -23,52 +23,51 @@
         <div class="container">
             <div class="ibox-content forum-container">
                 @foreach ($forums as $forum )
-                <div class="forum-title ">
-                    <div class="pull-left forum-desc">
-                        <samll>عدد الموضوعات:  {{$forum->count()}}</samll>
+                    <div class="forum-title ">
+                        <div class="pull-left forum-desc">
+                            <samll>عدد الموضوعات:  {{$forum->count()}}</samll>
+                        </div>
+                        <h3>{{$forum->category}}</h3>
                     </div>
-                    <h3>{{$forum->category}}</h3>
-                </div>
-                @foreach ($posts as $post )
-                @if ($post->post_forum->category == $forum->category)
-                <div class="forum-item active">
-                    <div class="row">
-                        <div class="col-md-9">
-                            <div class="forum-icon">
-                                <i class="fa fa-shield"></i>
+                    @foreach ($posts as $post )
+                        @if ($post->post_forum->category == $forum->category)
+                        <div class="forum-item active">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="forum-icon">
+                                        <i class="fa fa-shield"></i>
+                                    </div>
+                                    <a href="{{route('frontend.post',$post->id)}}" class="forum-item-title">{{$post->title}}</a>
+                                    <div class="forum-sub-title">{{$post->content}}</div>
+                                </div>
+                                <div class="col-md-1 forum-info">
+                                    <span class="views-number">
+                                        {{rand(1,100)}}
+                                    </span>
+                                    <div>
+                                        <small>المشاهدات</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 forum-info">
+                                    <span class="views-number">
+                                        {{$post->post_forum->count()}}
+                                    </span>
+                                    <div>
+                                        <small>الموضوعات</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 forum-info">
+                                    <span class="views-number">
+                                        {{$post->post_comments->count()}}
+                                    </span>
+                                    <div>
+                                        <small>التعليقات</small>
+                                    </div>
+                                </div>
                             </div>
-                            <a href="{{route('frontend.post',$post->id)}}" class="forum-item-title">{{$post->title}}</a>
-                            <div class="forum-sub-title">{{$post->content}}</div>
                         </div>
-                        <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{rand(1,100)}}
-                            </span>
-                            <div>
-                                <small>المشاهدات</small>
-                            </div>
-                        </div>
-                        <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{$post->post_forum->count()}}
-                            </span>
-                            <div>
-                                <small>الموضوعات</small>
-                            </div>
-                        </div>
-                        <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{$post->post_comments->count()}}
-                            </span>
-                            <div>
-                                <small>التعليقات</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
-                @endforeach
-
+                        @endif
+                    @endforeach
                 @endforeach
             </div>
         </div>

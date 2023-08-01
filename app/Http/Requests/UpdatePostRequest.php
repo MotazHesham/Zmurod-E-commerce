@@ -40,6 +40,9 @@ class UpdatePostRequest extends FormRequest
             'post_comments' => [
                 'array',
             ],
+            'photos' => [
+                'array',
+            ],
         ];
     }
 }

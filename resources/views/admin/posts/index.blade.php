@@ -41,6 +41,15 @@
                             {{ trans('cruds.post.fields.author') }}
                         </th>
                         <th>
+                            {{ trans('cruds.post.fields.post_comments') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.post.fields.photos') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.post.fields.tags') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -69,7 +78,16 @@
                             <td>
                                 {{ $post->author->name ?? '' }}
                             </td>
-                        
+                            <td>
+                                @foreach($post->photos as $key => $media)
+                                    <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
+                                        <img src="{{ $media->getUrl('thumb') }}">
+                                    </a>
+                                @endforeach
+                            </td>
+                            <td>
+                                {{ $post->tags->name ?? '' }}
+                            </td>
                             <td>
                                 @can('post_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.posts.show', $post->id) }}">
@@ -107,50 +125,50 @@
 @section('scripts')
 @parent
 <script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('post_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.posts.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
+        $(function () {
+    let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+    @can('post_delete')
+    let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+    let deleteButton = {
+        text: deleteButtonTrans,
+        url: "{{ route('admin.posts.massDestroy') }}",
+        className: 'btn-danger',
+        action: function (e, dt, node, config) {
+        var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
+            return $(entry).data('entry-id')
+        });
 
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
+        if (ids.length === 0) {
+            alert('{{ trans('global.datatables.zero_selected') }}')
 
-        return
-      }
+            return
+        }
 
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
+        if (confirm('{{ trans('global.areYouSure') }}')) {
+            $.ajax({
+            headers: {'x-csrf-token': _token},
+            method: 'POST',
+            url: config.url,
+            data: { ids: ids, _method: 'DELETE' }})
+            .done(function () { location.reload() })
+        }
+        }
     }
-  }
-  dtButtons.push(deleteButton)
-@endcan
+    dtButtons.push(deleteButton)
+    @endcan
 
-  $.extend(true, $.fn.dataTable.defaults, {
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
-  });
-  let table = $('.datatable-Post:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-  
-})
+    $.extend(true, $.fn.dataTable.defaults, {
+        orderCellsTop: true,
+        order: [[ 1, 'desc' ]],
+        pageLength: 100,
+    });
+    let table = $('.datatable-Post:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+    $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
+        $($.fn.dataTable.tables(true)).DataTable()
+            .columns.adjust();
+    });
+    
+    })
 
 </script>
 @endsection

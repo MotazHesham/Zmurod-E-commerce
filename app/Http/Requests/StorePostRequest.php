@@ -40,6 +40,9 @@ class StorePostRequest extends FormRequest
             'post_comments' => [
                 'array',
             ],
+            'photos' => [
+                'array',
+            ],
         ];
     }
 }

@@ -28,7 +28,7 @@
                     <div class="blog-posts">
                         <div class="single-blog-post blog-grid-post">
                             <div class="blog-image single-blog" data-aos="fade-up" data-aos-delay="200">
-                                <img class="img-fluid h-auto" src="assets/images/blog-image/single-blog.jpg"
+                                <img class="img-fluid h-auto" src="{{asset('assets/images/blog-image/single-blog.jpg')}}"
                                     alt="blog" />
                             </div>
                             <div class="blog-post-content-inner mt-30px" data-aos="fade-up" data-aos-delay="400">
