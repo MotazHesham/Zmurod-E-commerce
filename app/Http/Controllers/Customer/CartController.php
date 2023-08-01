@@ -7,15 +7,10 @@ use App\Models\AboutUs;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use App\Models\CartProduct;
-use Auth;
+
 
 class CartController extends Controller
 {
-    public  function index()
-    {
-        return view('frontend.customer.dashboard');
-    }
     public function show()
     {
 
@@ -80,12 +75,17 @@ class CartController extends Controller
                 
         // count of product in cart 
         $carts = Cart::all();
-        $count = $carts->count();
+        $count = 0 ;
+        foreach($carts as $cart)
+        {
+            $count += $cart->quantity;
+        }
+            
         return response()->json(['html' => $str, 'exist' => $exist, 'cart_id' => $cart->id, 'count' => $count]);
     }
 
     public function cart_remove_product(Request $request)
-    {
+    {   
         $cart = Cart::find($request->id);
         // Check if the cart item exists
         if (!$cart) {
@@ -93,6 +93,13 @@ class CartController extends Controller
         }
         $cart->delete();
 
-        return response()->json(['message' => 'Item removed from cart successfully']);
+        // count of product in cart 
+        $carts = Cart::all();
+        $count = 0 ;
+        foreach($carts as $cart)
+        {
+            $count += $cart->quantity;
+        }
+        return response()->json(['message' => 'Item removed from cart successfully' , 'count' =>$count]);
     }
 }

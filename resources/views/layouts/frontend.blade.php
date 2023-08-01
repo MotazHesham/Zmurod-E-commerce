@@ -532,6 +532,7 @@
                     },
                     success: function (data) {
                         $('#modal-cart-list').find('#cart-item-' + id).remove();
+                        $('#header-action-num').text(data.count);
                         showToast('success','تمت ازالة المنتج من السلة بنجاح');
                     },
                     error: function (xhr, status, error) {
@@ -554,6 +555,7 @@
                             $('#header-action-num').text(data.count);
                         }else{
                             $('#modal-cart-list').append(data.html);
+                            $('#header-action-num').text(data.count);
                         }
                         showToast('success', 'تمت إضافة المنتج إلى السلة بنجاح');
                     }

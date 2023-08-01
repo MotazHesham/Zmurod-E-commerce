@@ -121,9 +121,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('order-products/destroy', 'OrderProductController@massDestroy')->name('order-products.massDestroy');
     Route::resource('order-products', 'OrderProductController');
 
-    // Areas
-    Route::delete('areas/destroy', 'AreasController@massDestroy')->name('areas.massDestroy');
-    Route::resource('areas', 'AreasController');
 
     // Audit Logs
     Route::resource('audit-logs', 'AuditLogsController', ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
