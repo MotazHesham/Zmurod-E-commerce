@@ -61,7 +61,7 @@
                                             <ul class="d-block " id="#categoryList">
                                                 <li class="title"><a href="#">الفئات الرئيسية</a></li>
                                                 @foreach (\App\Models\Category::all() as $category)
-                                                <li><a href="{{route('frontend.marketshop')}}">{{ $category->name }}</a>
+                                                <li><a href="{{route('customer.marketshop')}}">{{ $category->name }}</a>
                                                 </li>
                                                 @endforeach
                                             </ul>
@@ -70,14 +70,14 @@
                                                 @foreach(\App\Models\Product::orderBy('updated_at','desc')->take(5)->get()
                                                 as $product)
                                                 <li><a
-                                                        href="{{route('frontend.marketshop',['title'=>$product->name])}}">{{
+                                                        href="{{route('customer.marketshop',['title'=>$product->name])}}">{{
                                                         $product->name }}</a></li>
                                                 @endforeach
                                             </ul>
                                             <ul class="d-block">
                                                 <li class="title"><a href="#">المنتجات الاكثر مبيعا</a></li>
                                                 @foreach (\App\Models\Product::take(5)->get() as $product)
-                                                <li><a href="{{route('frontend.marketshop')}}">{{ $product->name }}</a>
+                                                <li><a href="{{route('customer.marketshop')}}">{{ $product->name }}</a>
                                                 </li>
                                                 @endforeach
                                             </ul>
@@ -94,7 +94,7 @@
                                     </ul>
                                 </li>
                                 <li><a href="{{ route('frontend.courses') }}">ورش العمل</a></li>
-                                <li><a href="{{route('frontend.shops')}}">المتاجر</a></li>
+                                <li><a href="{{route('customer.shops')}}">المتاجر</a></li>
                                 <li><a href="{{route('frontend.forums')}}">ملتقى التجار</a></li>
                                 <li><a href="{{route('frontend.blogs')}}">البلوج</a></li>
                                 <li><a href="{{route('customer.contact-us')}}">تواصل معنا</a></li>
@@ -160,34 +160,28 @@
                 <button class="offcanvas-close">×</button>
             </div>
             <div class="body customScroll">
-                <ul class="minicart-product-list">
-                    <li>
-                        <a href="single-product.html" class="image"><img
-                                src="{{ asset('assets/images/product-image/1.jpg') }}" alt="Cart product Image"></a>
-                        <div class="content">
-                            <a href="single-product.html" class="title">كوستر خشبي </a>
-                            <span class="quantity-price">1 x <span class="amount">$21.86</span></span>
-                            <a href="#" class="remove">×</a>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="single-product.html" class="image"><img
-                                src="{{ asset('assets/images/product-image/2.jpg') }}" alt="Cart product Image"></a>
-                        <div class="content">
-                            <a href="single-product.html" class="title">حلق خشبي </a>
-                            <span class="quantity-price">1 x <span class="amount">$13.28</span></span>
-                            <a href="#" class="remove">×</a>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="single-product.html" class="image"><img
-                                src="{{ asset('assets/images/product-image/3.jpg') }}" alt="Cart product Image"></a>
-                        <div class="content">
-                            <a href="single-product.html" class="title">مفرش كروشية</a>
-                            <span class="quantity-price">1 x <span class="amount">$17.34</span></span>
-                            <a href="#" class="remove">×</a>
-                        </div>
-                    </li>
+                <ul class="minicart-product-list" id="modal-whitlist-list">
+                @auth
+                    @foreach ( auth()->user()->whitelist()->with('product')->get() as $whitelist )
+                    @php
+                    if (isset($whitelist->product->image)) {
+                            $image_first = isset($whitelist->product->image[0]) ? $whitelist->product->image[0]->getUrl() :
+                        asset('assets/images/blank.jpg');
+                        }else{
+                            $image_first = asset('assets/images/blank.jpg');
+                        }
+                    @endphp
+                        <li id="whitlist-item-{{$whitelist->id}}">
+                            <a href="#" class="image"><img src="{{$image_first}}" alt="Whitlist product Image"></a>
+                            <div class="content">
+                                <a href="#" class="title ml-3"><h6>{{$whitelist->product->name}}</h6>  </a>
+                                <span class="amount">${{$whitelist->product->price}}</span>
+                                <a href="#"  onclick="deleteFromWhitelist('{{$whitelist->id}}')" class="remove">×</a>
+                            </div>
+                        </li>
+                    @endforeach
+                @endauth
+                    
                 </ul>
             </div>
             <div class="foot">
@@ -211,29 +205,29 @@
             <div class="body customScroll">
                 <ul class="minicart-product-list" id="modal-cart-list">
                     @auth
-                    @foreach (auth()->user()->cart()->with('product')->get() as $cart )
+                        @foreach (auth()->user()->cart()->with('product')->get() as $cart )
 
-                    @php
-                    if (isset($cart->product->image)) {
-                            $image_first = isset($cart->product->image[0]) ? $cart->product->image[0]->getUrl() :
-                        asset('assets/images/blank.jpg');
-                        }else{
-                            $image_first = asset('assets/images/blank.jpg');
-                        }
-                    @endphp
-                    <li id="cart-item-{{$cart->id}}">
-                        <a href="" class="image"><img src="{{ $image_first }}" alt="Cart product Image"></a>
-                        <div class="content">
-                            <a href="" class="title" style="font-size: 20px;">{{ $cart->product->name }}</a>
-                            <div class="d-flex justify-content-around">
-                                <span class="quantity" style="font-size: 25px; "> x{{$cart->quantity}}</span>
-                                <span class="price" style="font-size: 20px;"><strong>{{ $cart->price}}</strong></span>
+                        @php
+                        if (isset($cart->product->image)) {
+                                $image_first = isset($cart->product->image[0]) ? $cart->product->image[0]->getUrl() :
+                            asset('assets/images/blank.jpg');
+                            }else{
+                                $image_first = asset('assets/images/blank.jpg');
+                            }
+                        @endphp
+                        <li id="cart-item-{{$cart->id}}">
+                            <a href="" class="image"><img src="{{ $image_first }}" alt="Cart product Image"></a>
+                            <div class="content">
+                                <a href="" class="title" style="font-size: 20px;">{{ $cart->product->name }}</a>
+                                <div class="d-flex justify-content-around">
+                                    <span class="quantity" style="font-size: 25px; "> x{{$cart->quantity}}</span>
+                                    <span class="price" style="font-size: 20px;"><strong>{{ $cart->price}}</strong></span>
+                                </div>
                             </div>
-                        </div>
-                        <a class="remove" href="#" onclick="remove_from_cart('{{$cart->id}}')">×</a>
-                        
-                    </li>
-                    @endforeach
+                            <a class="remove" href="#" onclick="remove_from_cart('{{$cart->id}}')">×</a>
+                            
+                        </li>
+                        @endforeach
                     @endauth
                 </ul>
             </div>
@@ -283,7 +277,7 @@
 
                     <li><a href="{{ route('frontend.courses') }}"> ورش العمل</a></li>
                     <li>
-                    <li><a href="{{route('frontend.marketshop')}}"> المتاجر</a></li>
+                    <li><a href="{{route('customer.marketshop')}}"> المتاجر</a></li>
                     <li>
                     <li><a href="{{route('frontend.forums')}}">ملتقى التجار</a></li>
                     <li>
@@ -373,7 +367,7 @@
                                                     href="{{route('customer.whitelist.show')}}">قائمة
                                                     الامنيات</a></li>
                                             <li class="li"><a class="single-link"
-                                                    href="{{route('frontend.marketshop')}}">التسوق</a>
+                                                    href="{{route('customer.marketshop')}}">التسوق</a>
                                             </li>
                                             <li class="li"><a class="single-link" href="#">كيف نعمل</a>
                                             </li>
@@ -564,6 +558,43 @@
                         showToast('success', 'تمت إضافة المنتج إلى السلة بنجاح');
                     }
                 });
+            }
+            // add to whitelist
+            function add_to_whitelist(pId) { 
+                $.ajax({
+                    type: "POST",
+                    url: '{{ route("customer.whitelist.store") }}',
+                    data: {
+                        product_id: pId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function (data) {
+                        if(data.exist){
+                            $('#whitlist-item-' + data.whitlist_id).html(data.html);
+                        }else{
+                            $('#modal-whitlist-list').append(data.html);
+                        }
+                        showToast('success', 'تمت إضافة المنتج إلى قائمة الامنيات بنجاح');
+                    }
+                });
+            }
+            // remove from whitelist
+            function deleteFromWhitelist(wId) {
+                $.ajax({
+                    type: "DELETE",
+                    url: '{{route("customer.whitelist.remove")}}',
+                    data: {
+                        id: wId, 
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function (data) {
+                        $('#modal-whitlist-list').find('#whitlist-item-' + wId).remove();
+                        showToast('success','تمت ازالة المنتج من قائمة الامنيات بنجاح');
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                })
             }
             // pop up 
             function quickView(pId) { 

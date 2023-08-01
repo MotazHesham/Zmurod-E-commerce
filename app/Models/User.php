@@ -91,7 +91,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
-    public function cart(){
+    public function cart()
+    {
         return $this->hasMany(Cart::class);
+    }
+
+    public function whitelist()
+    {
+        return $this->hasMany(Whitelist::class);
     }
 }

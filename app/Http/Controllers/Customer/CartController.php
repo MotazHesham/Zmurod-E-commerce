@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\CartProduct;
 use Auth;
 
-class HomeController extends Controller
+class CartController extends Controller
 {
     public  function index()
     {
@@ -77,6 +77,7 @@ class HomeController extends Controller
                     </div>
                     <a  class="remove" href="#" onclick="remove_from_cart(' . $cart->id . ')">×</a>        
                 </li>';
+                
         // count of product in cart 
         $carts = Cart::all();
         $count = $carts->count();

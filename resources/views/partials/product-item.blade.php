@@ -23,8 +23,9 @@
         </span>
         {{-- popup and whitelist  --}}
         <div class="actions">
-            <a href="{{ route('customer.whitelist.show') }}" class="action wishlist"
-                title="Wishlist"><i class="pe-7s-like"></i>
+            <a href="#" class="action wishlist"
+                title="Wishlist"
+                onclick="add_to_whitelist('{{$product->id}}')"><i class="pe-7s-like"></i>
             </a>
             <a href="#" class="action quickview" 
                 title="Quick view"

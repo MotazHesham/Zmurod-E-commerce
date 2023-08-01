@@ -61,7 +61,6 @@ class Order extends Model
         'shipment_type',
         'city',
         'user_id',
-        'product_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -76,11 +75,7 @@ class Order extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'product_id');
-    }
+    
     public function orderProduct()
     {
         return $this->hasMany(OrderProduct::class , 'order_id' );    

@@ -23,11 +23,8 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     Route::get('blogs', 'BlogController@index')->name('blogs');
     Route::get('blogs/{id}', 'BlogController@show')->name('blogbyid');
 
-    // shops
-    Route::get('shops', 'ShopController@index')->name('shops');
-    Route::get('shop/{id}', 'ShopController@shop')->name('shop');
-    Route::get('shop', 'ShopController@show')->name('marketshop');
-
+    
+   
     // forums
     Route::get('forums', 'ForumController@index')->name('forums');
     Route::get('forum/{id}', 'ForumController@show')->name('post');
@@ -55,12 +52,19 @@ Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Custo
     // account
     Route::get('dashboard', 'HomeController@index')->name('home');
     // cart
-    Route::get('cart/show', 'HomeController@show')->name('cart.show');
-    Route::post('cart/store', 'HomeController@cart_store_product')->name('cart.store');
-    Route::post('cart/update', 'HomeController@updateCart')->name('cart.update');
-    Route::delete('cart/remove', 'HomeController@cart_remove_product')->name('cart.remove');
+    Route::get('cart/show', 'CartController@show')->name('cart.show');
+    Route::post('cart/store', 'CartController@cart_store_product')->name('cart.store');
+    Route::post('cart/update', 'CartController@updateCart')->name('cart.update');
+    Route::delete('cart/remove', 'CartController@cart_remove_product')->name('cart.remove');
     //whitelist
-    Route::get('whitelist', 'WhitelistController@show')->name('whitelist.show');
+    Route::get('whitelist/show', 'WhitelistController@show')->name('whitelist.show');
+    Route::post('whitelist/store', 'WhitelistController@store')->name('whitelist.store');
+    Route::delete('whitelist/remove', 'WhitelistController@destroy')->name('whitelist.remove');
+
+    // shops
+    Route::get('shops', 'ShopController@index')->name('shops');
+    Route::get('shop/{id}', 'ShopController@shop')->name('shop');
+    Route::get('shop', 'ShopController@show')->name('marketshop');
 
     // pop up model 
     Route::post('/pop', 'PopupModalController@show')->name('popup.show');

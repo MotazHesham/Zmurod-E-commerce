@@ -33,60 +33,24 @@
                                     <th></th>
                                     <th>اسم المنتج</th>
                                     <th>السعر</th>
-                                    <th>العدد</th>
-                                    <th>السعر</th>
                                     <th>أضف الى السلة</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($whitelist as $item)
                                 <tr>
                                     <td class="product-thumbnail">
-                                        <a href="#"><img class="img-responsive ml-15px" src="{{asset('assets/images/product-image/1.jpg')}}" alt="" /></a>
+                                        <a href="#"><img class="img-responsive ml-15px" src="{{$item->product->image[0]->getUrl()}}" alt="" /></a>
                                     </td>
-                                    <td class="product-name"><a href="#">اسم المنتج</a></td>
-                                    <td class="product-price-cart"><span class="amount">ر.س 60.00</span></td>
-                                    <td class="product-quantity">
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1" />
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal">ر.س 60.00</td>
+                                    <td class="product-name"><a href="#">{{$item->product->name}}</a></td>
+                                    <td class="product-price-cart"><span class="amount">ر.س {{$item->product->price}}</span></td>
                                     <td class="product-wishlist-cart">
-                                        <a href="#">أضف الى السلة</a>
+                                        <button  class=" btn-success" title="أضف الى السلة" class=" add-to-cart"
+                                            onclick="add_to_cart('{{$item->product->id}}')">أضف الى السلة
+                                        </button> 
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <a href="#"><img class="img-responsive ml-15px" src="{{asset('assets/images/product-image/2.jpg')}}" alt="" /></a>
-                                    </td>
-                                    <td class="product-name"><a href="#">اسم المنتج</a></td>
-                                    <td class="product-price-cart"><span class="amount">ر.س 60.00</span></td>
-                                    <td class="product-quantity">
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1" />
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal">ر.س 60.00</td>
-                                    <td class="product-wishlist-cart">
-                                        <a href="#">أضف الى السلة</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <a href="#"><img class="img-responsive ml-15px" src="{{asset('assets/images/product-image/3.jpg')}}" alt="" /></a>
-                                    </td>
-                                    <td class="product-name"><a href="#">اسم المنتج</a></td>
-                                    <td class="product-price-cart"><span class="amount">ر.س 60.00</span></td>
-                                    <td class="product-quantity">
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1" />
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal">ر.س 60.00</td>
-                                    <td class="product-wishlist-cart">
-                                        <a href="#">أضف الى السلة</a>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

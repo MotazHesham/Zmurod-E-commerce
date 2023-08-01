@@ -25,12 +25,13 @@
 <div class="service-area pt-100px pb-100px">
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center">
-            @foreach ($brands as $brand)
-
-                @if (isset($brand->brand_image))
-                 <div class="col-md-2 col-4" >
-                <div class="shops">
-                <a href="{{ route('frontend.shop', ['id' => $brand->id]) }}"><img class=" img-fluid border-" src="{{$brand->brand_image->getUrl()}}" alt="" /></a></div>
+            @foreach ($sellers as $seller)
+                @if (isset($seller->photo))
+                <div class="col-md-2 col-4" >
+                    <div class="shops">
+                        <a href="{{ route('customer.shop', ['id' => $seller->id]) }}"><img class=" img-fluid border-" src="{{$seller->photo->getUrl()}}" alt="" />
+                        </a>
+                    </div>
                 </div>
 
                 @endif

@@ -52,7 +52,7 @@
 
           <!-- bottom -->
           <div class="mt-8">
-            <h1 class="h5 ">{{$totalOrders}}</h1>
+            <h1 class="h5 ">{{$totalSoldOrders}}</h1>
             <p>اوردر </p>
           </div>
           <!-- end bottom -->
@@ -75,16 +75,9 @@
 
           </div>
           <!-- end top -->
-          @php
-          $total = 0 ; 
-            foreach ($order_products as $order_product) 
-            {
-              $total += $order_product->quantity ;
-            }
-          @endphp
           <!-- bottom -->
           <div class="mt-8">
-            <h1 class="h5 ">{{$total}}</h1>
+            <h1 class="h5 ">{{$totalProducts}}</h1>
             <p>اجمالي المنتجات</p>
           </div>
           <!-- end bottom -->
@@ -161,7 +154,7 @@
   </div>
   <!-- end Sales Overview -->
 
-  <!-- start numbers -->
+  {{-- <!-- start numbers -->
   <div class="grid grid-cols-4 gap-6 xl:grid-cols-2">
 
     <!-- card -->
@@ -231,7 +224,7 @@
 
 
   </div>
-  <!-- end nmbers -->
+  <!-- end nmbers --> --}}
 
   <!-- start quick Info -->
   <div class="grid grid-cols-1 gap-6 mt-6 xl:grid-cols-1">
