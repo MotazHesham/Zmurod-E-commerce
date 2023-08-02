@@ -43,6 +43,12 @@ class StorePostRequest extends FormRequest
             'photos' => [
                 'array',
             ],
+            'post_tags.*' => [
+                'integer',
+            ],
+            'post_tags' => [
+                'array',
+            ],
         ];
     }
 }

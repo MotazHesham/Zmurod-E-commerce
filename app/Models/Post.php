@@ -16,18 +16,14 @@ class Post extends Model implements HasMedia
 
     public $table = 'posts';
 
+    protected $appends = [
+        'photos',
+    ];
+
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',
-    ];
-
-    protected $appends = [
-        'photo',
-        'photos',
-        'file',
-        'files',
-        'images',
     ];
 
     protected $fillable = [
@@ -35,7 +31,6 @@ class Post extends Model implements HasMedia
         'content',
         'post_forum_id',
         'author_id',
-        'tags_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -67,18 +62,6 @@ class Post extends Model implements HasMedia
         return $this->belongsToMany(Comment::class);
     }
 
-    public function getPhotoAttribute()
-    {
-        $file = $this->getMedia('photo')->last();
-        if ($file) {
-            $file->url       = $file->getUrl();
-            $file->thumbnail = $file->getUrl('thumb');
-            $file->preview   = $file->getUrl('preview');
-        }
-
-        return $file;
-    }
-
     public function getPhotosAttribute()
     {
         $files = $this->getMedia('photos');
@@ -91,30 +74,8 @@ class Post extends Model implements HasMedia
         return $files;
     }
 
-    public function getFileAttribute()
+    public function post_tags()
     {
-        return $this->getMedia('file')->last();
-    }
-
-    public function getFilesAttribute()
-    {
-        return $this->getMedia('files');
-    }
-
-    public function getImagesAttribute()
-    {
-        $files = $this->getMedia('images');
-        $files->each(function ($item) {
-            $item->url       = $item->getUrl();
-            $item->thumbnail = $item->getUrl('thumb');
-            $item->preview   = $item->getUrl('preview');
-        });
-
-        return $files;
-    }
-
-    public function tags()
-    {
-        return $this->belongsTo(Tag::class, 'tags_id');
+        return $this->belongsToMany(Tag::class);
     }
 }

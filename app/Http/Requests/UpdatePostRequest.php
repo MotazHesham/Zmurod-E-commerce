@@ -30,10 +30,6 @@ class UpdatePostRequest extends FormRequest
                 'required',
                 'integer',
             ],
-            'author_id' => [
-                'required',
-                'integer',
-            ],
             'post_comments.*' => [
                 'integer',
             ],
@@ -41,6 +37,12 @@ class UpdatePostRequest extends FormRequest
                 'array',
             ],
             'photos' => [
+                'array',
+            ],
+            'post_tags.*' => [
+                'integer',
+            ],
+            'post_tags' => [
                 'array',
             ],
         ];

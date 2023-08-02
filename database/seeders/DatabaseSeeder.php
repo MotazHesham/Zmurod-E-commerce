@@ -19,6 +19,9 @@ class DatabaseSeeder extends Seeder
             AboutUsSeeder::class,
             CustomerSeeder::class,
             SellerSeeder::class,
+            TagTableSeeder::class,
+            FroumsTableSeeder::class,
+        
         ]);
     }
 }

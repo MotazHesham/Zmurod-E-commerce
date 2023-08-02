@@ -40,14 +40,12 @@
                         <th>
                             {{ trans('cruds.post.fields.author') }}
                         </th>
-                        <th>
-                            {{ trans('cruds.post.fields.post_comments') }}
-                        </th>
+                       
                         <th>
                             {{ trans('cruds.post.fields.photos') }}
                         </th>
                         <th>
-                            {{ trans('cruds.post.fields.tags') }}
+                            {{ trans('cruds.post.fields.post_tags') }}
                         </th>
                         <th>
                             &nbsp;
@@ -86,7 +84,9 @@
                                 @endforeach
                             </td>
                             <td>
-                                {{ $post->tags->name ?? '' }}
+                                @foreach($post->post_tags as $key => $item)
+                                    <span class="badge badge-info">{{ $item->name }}</span>
+                                @endforeach
                             </td>
                             <td>
                                 @can('post_show')
@@ -94,13 +94,11 @@
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
-
                                 @can('post_edit')
                                     <a class="btn btn-xs btn-info" href="{{ route('admin.posts.edit', $post->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
-
                                 @can('post_delete')
                                     <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
@@ -108,9 +106,7 @@
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                     </form>
                                 @endcan
-
                             </td>
-
                         </tr>
                     @endforeach
                 </tbody>

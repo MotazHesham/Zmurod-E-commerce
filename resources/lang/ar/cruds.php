@@ -139,7 +139,7 @@ return [
         'title' => 'منتدى التجار',
         'title_singular' => 'منتدى التجار',
     ],
-    'forum' => [
+    'froum' => [
         'title' => 'المنتديات',
         'title_singular' => 'منتدى',
         'fields' => [
@@ -169,7 +169,7 @@ return [
             'title_helper'         => ' ',
             'content'              => 'المحتوى',
             'content_helper'       => ' ',
-            'post_forum'           => 'موضوع المنشور',
+            'post_forum'           => 'فئة المنشور',
             'post_forum_helper'    => ' ',
             'author'               => 'الناشر',
             'author_helper'        => ' ',
@@ -181,18 +181,10 @@ return [
             'deleted_at_helper'    => ' ',
             'post_comments'        => 'تعليقات المنشور',
             'post_comments_helper' => ' ',
-            'photo'                => 'صورة',
-            'photo_helper'         => ' ',
             'photos'               => 'الصور',
             'photos_helper'        => ' ',
-            'file'                 => 'ملف',
-            'file_helper'          => ' ',
-            'files'                => 'الملفات',
-            'files_helper'         => ' ',
-            'images'               => 'الصور',
-            'images_helper'        => ' ',
-            'tags'                 => 'الوسوم',
-            'tags_helper'          => ' ',
+            'post_tags'            => ' الكلمات الداله',
+            'post_tags_helper'     => ' ',
         ],
     ],
     'comment' => [

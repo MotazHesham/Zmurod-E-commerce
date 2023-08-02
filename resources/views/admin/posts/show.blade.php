@@ -79,10 +79,12 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.post.fields.tags') }}
+                            {{ trans('cruds.post.fields.post_tags') }}
                         </th>
                         <td>
-                            {{ $post->tags->name ?? '' }}
+                            @foreach($post->post_tags as $key => $post_tags)
+                                <span class="label label-info">{{ $post_tags->name }}</span>
+                            @endforeach
                         </td>
                     </tr>
                 </tbody>

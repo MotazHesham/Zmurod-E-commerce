@@ -25,7 +25,7 @@ class PostsController extends Controller
     {
         abort_if(Gate::denies('post_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $posts = Post::with(['post_forum', 'author', 'post_comments' ,'tags' ,'media'])->get();
+        $posts = Post::with(['post_forum', 'author', 'post_comments' ,'post_tags' ,'media'])->get();
 
         return view('admin.posts.index', compact('posts'));
     }
@@ -36,19 +36,18 @@ class PostsController extends Controller
 
         $post_forums = Froum::pluck('category', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $authors = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
         $post_comments = Comment::pluck('comment', 'id');
 
-        $tags = Tag::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $post_tags = Tag::pluck('name', 'id');
 
-        return view('admin.posts.create', compact('authors', 'post_comments', 'post_forums' ,'tags'));
+        return view('admin.posts.create', compact('post_comments', 'post_forums' ,'post_tags'));
     }
 
     public function store(StorePostRequest $request)
     {
         $post = Post::create($request->all());
         $post->post_comments()->sync($request->input('post_comments', []));
+        $post->post_tags()->sync($request->input('post_tags', []));
 
         foreach ($request->input('photos', []) as $file) {
             $post->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photos');
@@ -68,22 +67,23 @@ class PostsController extends Controller
 
         $post_forums = Froum::pluck('category', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $authors = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        // $authors = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $post_comments = Comment::pluck('comment', 'id');
 
-        $tags = Tag::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $post_tags = Tag::pluck('name', 'id');
 
-        $post->load('post_forum', 'author', 'post_comments', 'tags');
 
-        return view('admin.posts.edit', compact('authors', 'post', 'post_comments', 'post_forums', 'tags'));
+        $post->load('post_forum', 'author', 'post_comments', 'post_tags');
+
+        return view('admin.posts.edit', compact('post', 'post_comments', 'post_forums', 'post_tags'));
     }
 
     public function update(UpdatePostRequest $request, Post $post)
     {
         $post->update($request->all());
         $post->post_comments()->sync($request->input('post_comments', []));
-
+        $post->post_tags()->sync($request->input('post_tags', []));
         if (count($post->photos) > 0) {
             foreach ($post->photos as $media) {
                 if (! in_array($media->file_name, $request->input('photos', []))) {
@@ -106,7 +106,7 @@ class PostsController extends Controller
     {
         abort_if(Gate::denies('post_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $post->load('post_forum', 'author', 'post_comments', 'tags');
+        $post->load('post_forum', 'author', 'post_comments', 'post_tags');
 
         return view('admin.posts.show', compact('post'));
     }
