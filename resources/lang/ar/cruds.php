@@ -483,6 +483,8 @@ return [
             'deleted_at_helper' => ' ',
             'user' => 'المستخدم',
             'user_helper' => ' ',
+            'city' => 'المدينة',
+            'city_helper' => ' ',
         ],
     ],
     'cart' => [

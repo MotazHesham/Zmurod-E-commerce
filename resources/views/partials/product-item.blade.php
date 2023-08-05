@@ -1,12 +1,10 @@
 @php
     if (isset($product->image)) {
-    $image_first = isset($product->image[0]) ? $product->image[0]->getUrl() :
-    asset('assets/images/blank.jpg');
-    $image_second = isset($product->image[1]) ? $product->image[1]->getUrl() :
-    $image_first;
+        $image_first = isset($product->image[0]) ? $product->image[0]->getUrl('preview2') : asset('assets/images/blank.jpg');
+        $image_second = isset($product->image[1]) ? $product->image[1]->getUrl('preview2') : $image_first;
     } else {
-    $image_first = asset('assets/images/blank.jpg');
-    $image_second = asset('assets/images/blank.jpg');
+        $image_first = asset('assets/images/blank.jpg');
+        $image_second = asset('assets/images/blank.jpg');
     }
 @endphp
 
@@ -18,7 +16,7 @@
         </a>
         <span class="badges">
             @foreach ($product->product_offers as $offer )
-            <span class="new"> {{$offer->name}}</span>
+                <span class="new"> {{$offer->name}}</span>
             @endforeach
         </span>
         {{-- popup and whitelist  --}}
