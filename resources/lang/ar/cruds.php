@@ -644,7 +644,7 @@ return [
         ],
     ],
     'customer' => [
-        'title'          => 'Customers',
+        'title'          => 'العملاء',
         'title_singular' => 'Customer',
         'fields'         => [
             'id'                    => 'ID',

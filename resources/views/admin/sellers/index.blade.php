@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 @section('content')
 @can('seller_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.sellers.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.seller.title_singular') }}
-            </a>
-        </div>
+<div style="margin-bottom: 10px;" class="row">
+    <div class="col-lg-12">
+        <a class="btn btn-success" href="{{ route('admin.sellers.create') }}">
+            {{ trans('global.add') }} {{ trans('cruds.seller.title_singular') }}
+        </a>
     </div>
+</div>
 @endcan
 <div class="card">
     <div class="card-header">
@@ -60,7 +60,7 @@
 @section('scripts')
 @parent
 <script>
-     function update_statuses(el,column_name){
+    function update_statuses(el,column_name){
         if(el.checked){
             var status = 1;
         }
@@ -115,16 +115,55 @@
     aaSorting: [],
     ajax: "{{ route('admin.sellers.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'photo', name: 'photo', sortable: false, searchable: false },
-{ data: 'name', name: 'name' },
-{ data: 'email', name: 'email' },
-{ data: 'country', name: 'country' },
-{ data: 'phone', name: 'phone' },
-{ data: 'store_name', name: 'store_name' },
-{ data: 'featured_store', name: 'featured_store' },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+        { 
+            data: 'placeholder', 
+            name: 'placeholder' 
+        },
+
+        { 
+            data: 'id', 
+            name: 'id' 
+        },
+
+
+        { 
+            data: 'photo',
+            name: 'photo',
+            sortable: false, 
+            searchable: false 
+        },
+
+        { 
+            data: 'user.name', 
+            name: 'name' 
+        },
+        { 
+            data: 'user.email', 
+            name: 'email' 
+        },
+        { 
+            data: 'user.country', 
+            name: 'country' 
+        },
+        { 
+            data: 'user.phone', 
+            name: 'phone' 
+        },
+
+        {     
+            data: 'store_name', 
+            name: 'store_name' 
+        },
+
+        { 
+            data: 'featured_store', 
+            name: 'featured_store' 
+        },
+
+        { 
+            data: 'actions', 
+            name: '{{ trans('global.actions') }}' 
+        }
     ],
     orderCellsTop: true,
     order: [[ 1, 'desc' ]],

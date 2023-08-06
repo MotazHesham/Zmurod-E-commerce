@@ -48,7 +48,7 @@
                             {{ trans('cruds.seller.fields.email') }}
                         </th>
                         <td>
-                            {{ $seller->email }}
+                            {{ $seller->user->email }}
                         </td>
                     </tr>
                     <tr>
@@ -56,7 +56,7 @@
                             {{ trans('cruds.seller.fields.country') }}
                         </th>
                         <td>
-                            {{ $seller->country }}
+                            {{ $seller->user->country }}
                         </td>
                     </tr>
                     <tr>
@@ -64,7 +64,7 @@
                             {{ trans('cruds.seller.fields.phone') }}
                         </th>
                         <td>
-                            {{ $seller->phone }}
+                            {{ $seller->user->phone }}
                         </td>
                     </tr>
                     <tr>

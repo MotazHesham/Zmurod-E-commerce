@@ -69,22 +69,19 @@ class SellersController extends Controller
                 return '';
             });
             $table->editColumn('name', function ($row) {
-                return $row->name ? $row->name : '';
+                return $row->name ? $row->user->name : '';
             });
             $table->editColumn('email', function ($row) {
-                return $row->email ? $row->email : '';
+                return $row->email ? $row->user->email : '';
             });
             $table->editColumn('country', function ($row) {
-                return $row->country ? $row->country : '';
+                return $row->country ? $row->user->country : '';
             });
             $table->editColumn('phone', function ($row) {
-                return $row->phone ? $row->phone : '';
+                return $row->phone ? $row->user->phone : '';
             });
             $table->editColumn('store_name', function ($row) {
                 return $row->store_name ? $row->store_name : '';
-            });
-            $table->addColumn('user_name', function ($row) {
-                return $row->user ? $row->user->name : '';
             });
             $table->editColumn('featured_store', function ($row) {
                 return  ' <label class="c-switch c-switch-pill c-switch-success">
