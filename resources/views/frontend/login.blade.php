@@ -33,11 +33,30 @@
                                 <a class="active" data-bs-toggle="tab" href="#lg1">
                                     <h4 class="text-center">دخول</h4>
                                 </a>
-                                <br />
+                                <br>
+                                @if($errors->count() > 0)
+                                    <div class="alert alert-danger">
+                                        <ul class="list-unstyled">
+                                            @foreach($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
-                                    <input type="email" name="email" placeholder="البريد الألكتروني" />
-                                    <input type="password" name="password" placeholder="كلمة المرور" />
+                                    <input type="email" name="email" value="{{ old('email') }}" placeholder="البريد الألكتروني" required autofocus autocomplete="email"/>
+                                    @if($errors->has('email'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('email') }}
+                                        </div>
+                                    @endif
+                                    <input type="password" name="password" placeholder="كلمة المرور" required/>
+                                    @if($errors->has('password'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('password') }}
+                                        </div>
+                                    @endif
                                     <div class="button-box">
                                         <div class="login-toggle-btn">
                                             <input type="checkbox" name="remember"/>

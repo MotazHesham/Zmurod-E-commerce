@@ -38,6 +38,7 @@ class Product extends Model implements HasMedia
         'current_stock',
         'information',
         'most_recent',
+        'published',
         'discount',
         'price',
         'product_category_id',

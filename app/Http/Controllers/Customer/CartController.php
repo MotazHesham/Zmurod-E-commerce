@@ -38,8 +38,7 @@ class CartController extends Controller
         $cart = auth()->user()->cart()->where('product_id', $productId)->first();
         $exist = 0;
         if ($cart) {
-            $cart->quantity += 1;
-            $cart->price += $product->price;
+            $cart->quantity += 1; 
             $cart->total_cost = $cart->quantity * $cart->price_with_discount;
             $cart->save();
             $exist = 1;
@@ -48,9 +47,9 @@ class CartController extends Controller
                 'user_id' => $customerId,
                 'product_id' => $productId,
                 'price' => $product->price,
-                'price_with_discount' => $product->price - ($product->price * ($product->discount / 100)),
+                'price_with_discount' => $product->calc_product_price(),
                 'quantity' => 1,
-                'total_cost' =>  $product->price - ($product->price * ($product->discount / 100))
+                'total_cost' =>  $product->calc_product_price()
             ]);
             $exist = 0;
         }
@@ -74,12 +73,7 @@ class CartController extends Controller
                 </li>';
                 
         // count of product in cart 
-        $carts = Cart::all();
-        $count = 0 ;
-        foreach($carts as $cart)
-        {
-            $count += $cart->quantity;
-        }
+        $count = Cart::where('user_id',auth()->user()->id)->count(); 
             
         return response()->json(['html' => $str, 'exist' => $exist, 'cart_id' => $cart->id, 'count' => $count]);
     }

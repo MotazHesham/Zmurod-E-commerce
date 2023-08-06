@@ -67,8 +67,7 @@
                                             </ul>
                                             <ul class="d-block">
                                                 <li class="title"><a href="#">احدث المنتجات</a></li>
-                                                @foreach(\App\Models\Product::orderBy('updated_at','desc')->take(5)->get()
-                                                as $product)
+                                                @foreach(\App\Models\Product::where('published',1)->orderBy('updated_at','desc')->take(5)->get() as $product)
                                                 <li><a
                                                         href="{{route('customer.marketshop',['title'=>$product->name])}}">{{
                                                         $product->name }}</a></li>
@@ -76,7 +75,7 @@
                                             </ul>
                                             <ul class="d-block">
                                                 <li class="title"><a href="#">المنتجات الاكثر مبيعا</a></li>
-                                                @foreach (\App\Models\Product::take(5)->get() as $product)
+                                                @foreach (\App\Models\Product::where('published',1)->take(5)->get() as $product)
                                                 <li><a href="{{route('customer.marketshop')}}">{{ $product->name }}</a>
                                                 </li>
                                                 @endforeach
@@ -136,7 +135,7 @@
                                 class="header-action-btn header-action-btn-cart offcanvas-toggle pr-0">
                                 <i class="pe-7s-shopbag"></i>
 
-                                <span  id ="header-action-num" class="header-action-num">0</span>
+                                <span  id ="header-action-num" class="header-action-num">@auth {{\App\Models\Cart::where('user_id',auth()->user()->id)->count()}} @endauth</span>
                             </a>
                             <a href="#offcanvas-mobile-menu"
                                 class="header-action-btn header-action-btn-menu offcanvas-toggle d-lg-none">
@@ -218,10 +217,10 @@
                         <li id="cart-item-{{$cart->id}}">
                             <a href="" class="image"><img src="{{ $image_first }}" alt="Cart product Image"></a>
                             <div class="content">
-                                <a href="" class="title" style="font-size: 20px;">{{ $cart->product->name }}</a>
+                                <a href="" class="title" style="font-size: 20px;">{{ $cart->product->name ?? '' }}</a>
                                 <div class="d-flex justify-content-around">
                                     <span class="quantity" style="font-size: 25px; "> x{{$cart->quantity}}</span>
-                                    <span class="price" style="font-size: 20px;"><strong>{{ $cart->price}}</strong></span>
+                                    <span class="price" style="font-size: 20px;"><strong>{{ $cart->price_with_discount}}</strong></span>
                                 </div>
                             </div>
                             <a class="remove" href="#" onclick="remove_from_cart('{{$cart->id}}')">×</a>
@@ -330,9 +329,7 @@
                                 <div class="footer-about">
                                     <div class="footer-row">
 
-                                        <p>{{$about->vision}}</p>
-                                        <p>{{$about->vision}}</p>
-
+                                        <p>{{$about->vision}}</p> 
 
                                     </div>
                                 </div>
@@ -404,12 +401,15 @@
                                 <div class="footer-links">
                                     <!-- News letter area -->
                                     <p class="mail">للتواصل السريع والاستفسارات <br>
-                                        <a href="{{$about->email}}">{{$about->email}}</a>
-                                    </p>
-
-                                    <p class="phone m-0"><i class="pe-7s-phone"></i><span><a href="tel:0123456789">+
-                                                {{$about->phone_number_2}}</a> <br> <a href="tel:0123456789">+
-                                                {{$about->phone_number}}</a></span>
+                                        <a href="mailto:{{$about->email}}">{{$about->email}}</a>
+                                    </p> 
+                                    <p class="phone m-0">
+                                        <i class="pe-7s-phone"></i>
+                                        <span>
+                                            <a href="tel:{{$about->phone_number_2}}">{{$about->phone_number_2}}</a> 
+                                            <br> 
+                                            <a href="tel:{{$about->phone_number}}"> {{$about->phone_number}}</a>
+                                        </span>
                                     </p>
 
                                     <!-- News letter area  End -->
@@ -616,11 +616,8 @@
                     }
                 });
             }
-        </script>
-       
-        @yield('scripts')
-       
-            
+        </script> 
+        @yield('scripts')  
 </body>
 
 </html>

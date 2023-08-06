@@ -45,7 +45,12 @@
             </a>
         </h5>
         <span class="price">
-            <span class="new">{{ $product->price }}</span>
+            @if($product->discount > 0)
+                <span class="new">{{ $product->calc_product_price() }}</span>
+                <span class="old">{{ $product->price }}</span>
+            @else 
+                <span class="new">{{ $product->price }}</span>
+            @endif
         </span>
     </div>  
     <button  title="أضف الى السلة" class=" add-to-cart"

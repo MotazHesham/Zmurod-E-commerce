@@ -32,9 +32,9 @@
                                 <tr>
                                     <th>صورة المنتج</th>
                                     <th>أسم المنتج</th>
-                                    <th> السعر بعد الخصم</th>
+                                    <th> السعر  </th>
                                     <th>العدد</th>
-                                    <th>السعر</th>
+                                    <th>الأجمالي</th>
                                     <th>حذف / تعديل</th>
                                 </tr>
                             </thead>
@@ -56,7 +56,7 @@
                                             </div>
                                         </td>
 
-                                        <td class="product-subtotal">{{$cart->quantity * $cart->price_with_discount }}</td>
+                                        <td class="product-subtotal">{{ $cart->total_cost }}</td>
                                         <td class="product-remove">
                                             {{-- pass product id onclick to ajax request to delete from cart --}}
                                             <button onclick="remove_from_cart('{{$cart->id}}')"><i class="fa fa-times"></i></button>

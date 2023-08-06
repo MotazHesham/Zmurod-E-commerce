@@ -101,6 +101,8 @@ return [
             'user_helper'             => ' ',
             'fav'                     => 'FAV',
             'fav_helper'              => ' ',
+            'published' => 'Published',
+            'published_helper' => ' ',
             'product_offers'          => 'Offers',
             'product_offers_helper'   => ' ',
             'shipping_method'         => 'Shipping Method',

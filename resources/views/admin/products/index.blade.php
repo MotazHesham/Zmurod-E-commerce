@@ -46,6 +46,9 @@
                             {{ trans('cruds.product.fields.fav') }}
                         </th>
                         <th>
+                            {{ trans('cruds.product.fields.published') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.product.fields.most_recent') }}
                         </th>
                         <th>
@@ -165,6 +168,10 @@
                     {
                         data: 'fav',
                         name: 'fav'
+                    },
+                    {
+                        data: 'published',
+                        name: 'published'
                     },
                     {
                         data: 'most_recent',
