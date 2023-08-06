@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyCustomerRequest;
 use App\Http\Requests\StoreCustomerRequest;
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
 use App\Models\User;
@@ -49,10 +50,10 @@ class CustomersController extends Controller
                 return $row->id ? $row->id : '';
             });
             $table->editColumn('name', function ($row) {
-                return $row->name ? $row->name : '';
+                return $row->name ? $row->user->name : '';
             });
             $table->editColumn('email', function ($row) {
-                return $row->email ? $row->email : '';
+                return $row->email ? $row->user->email : '';
             });
             $table->editColumn('personal_photo', function ($row) {
                 if ($photo = $row->personal_photo) {
@@ -66,10 +67,7 @@ class CustomersController extends Controller
                 return '';
             });
             $table->editColumn('phone', function ($row) {
-                return $row->phone ? $row->phone : '';
-            });
-            $table->addColumn('user_name', function ($row) {
-                return $row->user ? $row->user->name : '';
+                return $row->phone ? $row->user->phone : '';
             });
 
             $table->rawColumns(['actions', 'placeholder', 'personal_photo', 'user']);
@@ -89,9 +87,21 @@ class CustomersController extends Controller
         return view('admin.customers.create', compact('users'));
     }
 
-    public function store(StoreCustomerRequest $request)
-    {
-        $customer = Customer::create($request->all());
+    public function store(StoreCustomerRequest $request )
+    {   
+        $user = User::create([
+            "name"      =>$request->name,
+            "email"     =>$request->email,
+            "password"     =>$request->password,
+            "user_type"     =>'customer',
+            'country' => $request->country, 
+            'phone' => $request->phone,
+            
+        ]) ;
+        // pass the user ID to the Customer
+        $validated_request = $request->all();
+        $validated_request['user_id'] = $user->id;
+        $customer = Customer::create($validated_request);
 
         if ($request->input('personal_photo', false)) {
             $customer->addMedia(storage_path('tmp/uploads/' . basename($request->input('personal_photo'))))->toMediaCollection('personal_photo');
@@ -100,7 +110,7 @@ class CustomersController extends Controller
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $customer->id]);
         }
-
+        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
         return redirect()->route('admin.customers.index');
     }
 
@@ -129,7 +139,7 @@ class CustomersController extends Controller
         } elseif ($customer->personal_photo) {
             $customer->personal_photo->delete();
         }
-
+        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.customers.index');
     }
 
@@ -147,7 +157,7 @@ class CustomersController extends Controller
         abort_if(Gate::denies('customer_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $customer->delete();
-
+        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
 

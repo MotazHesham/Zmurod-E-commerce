@@ -15,16 +15,14 @@ class SellerSeeder extends Seeder
             'name' => 'Abanoub',
             'email' => 'seller@seller.com',
             'password' => Hash::make('123456'), 
-            'user_type' => 'seller'
+            'user_type' => 'seller',
+            'country' =>'Egypt',
+            'phone'=> '01270433409',
         ]);
 
         // Create a customer associated with the user
         Seller::create([
-            'name' =>$user->name,
-            'email' =>$user->email,
-            'password' =>$user->password,
-            'country' =>'Egypt',
-            'phone'=> '01270433409',
+            'address' => '12 dummy st Cairo ,'. $user->country , 
             'store_name' =>'Happines Store',
             'description' => 'bla bla bla bla',
             'featured_store' => false ,

@@ -28,7 +28,7 @@
                             {{ trans('cruds.customer.fields.name') }}
                         </th>
                         <td>
-                            {{ $customer->name }}
+                            {{ $customer->user->name }}
                         </td>
                     </tr>
                     <tr>
@@ -36,7 +36,7 @@
                             {{ trans('cruds.customer.fields.email') }}
                         </th>
                         <td>
-                            {{ $customer->email }}
+                            {{ $customer->user->email }}
                         </td>
                     </tr>
                     <tr>
@@ -64,15 +64,7 @@
                             {{ trans('cruds.customer.fields.phone') }}
                         </th>
                         <td>
-                            {{ $customer->phone }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.customer.fields.user') }}
-                        </th>
-                        <td>
-                            {{ $customer->user->name ?? '' }}
+                            {{ $customer->user->phone }}
                         </td>
                     </tr>
                 </tbody>

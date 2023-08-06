@@ -30,23 +30,21 @@
                     <!-- Nav tabs -->
                     <div class="dashboard_tab_button" data-aos="fade-up" data-aos-delay="0">
                         <ul role="tablist" class="nav flex-column dashboard-list">
-                            <li><a href="#dashboard" data-bs-toggle="tab" class="nav-link active">لوحة التحكم</a></li>
                             <li> <a href="#orders" data-bs-toggle="tab" class="nav-link">طلباتي</a></li>
-                            <li><a href="#downloads" data-bs-toggle="tab" class="nav-link">ورش العمل</a></li>
-                            <li><a href="#address" data-bs-toggle="tab" class="nav-link">العنوان</a></li>
+                            <li><a href="#courses" data-bs-toggle="tab" class="nav-link">ورش العمل</a></li>
                             <li><a href="#account-details" data-bs-toggle="tab" class="nav-link">تفاصيل الحساب</a>
                             </li>
-                            <li><a href="{{route('frontend.userlogin')}}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">تسجيل الخروج</a></li>
+                            {{-- <li><a href="{{route('frontend.userlogin')}}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">تسجيل الخروج</a></li> --}}
                         </ul>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-9 col-lg-9">
                     <!-- Tab panes -->
                     <div class="tab-content dashboard_content" data-aos="fade-up" data-aos-delay="200">
-                        <div class="tab-pane fade show active" id="dashboard">
+                        {{-- <div class="tab-pane fade show active" id="dashboard">
                             <h4>لوحة التحكم </h4>
                                 <p> Hello This is customer dashboard</p>
-                        </div>
+                        </div> --}}
                         <div class="tab-pane fade" id="orders">
                             <h4>طلباتي</h4>
                             <div class="table_page table-responsive">
@@ -57,29 +55,22 @@
                                             <th>التاريخ</th>
                                             <th>الحالة</th>
                                             <th>الإجمالي</th>
-                                            <th>عرض</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($orders as $order )
                                         <tr>
-                                            <td>1</td>
-                                            <td>مايو 10, 2023</td>
-                                            <td><span class="success">تم التسليم</span></td>
-                                            <td>25 رس </td>
-                                            <td><a href="cart.html" class="view">عرض</a></td>
+                                            <td>{{$order->order_num}}</td>
+                                            <td>{{$order->created_at->format(config('panel.date_format'))}}</td>
+                                            <td><span class="success">{{$order->delivery_status}}</span></td>
+                                            <td>{{$order->total_cost }}</td>
                                         </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>مايو 10, 2023</td>
-                                            <td><span class="success">تم التسليم</span></td>
-                                            <td>25 رس </td>
-                                            <td><a href="cart.html" class="view">عرض</a></td>
-                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="downloads">
+                        <div class="tab-pane fade" id="courses">
                             <h4>ورش العمل</h4>
                             <div class="table_page table-responsive">
                                 <table>
@@ -108,51 +99,44 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="tab-pane" id="address">
-                            <p>The following addresses will be used on the checkout page by default.</p>
-                            <h5 class="billing-address"> عنوان الشحن</h5>
-                            <a href="#" class="view">تعديل</a>
-                            <p class="mb-2"><strong>حي الياسمين</strong></p>
-                            <address>
-                                <span class="mb-1 d-inline-block"><strong>المدينة:</strong> الرياض</span>,
-                                <br>
-                                <span class="mb-1 d-inline-block"><strong>البلد:</strong> المملكة العربية السعودبة</span>,
-                                <br>
-                                <span class="mb-1 d-inline-block"><strong>الرمز البريدي:</strong> 98101</span>,
-                            </address>
-                        </div>
                         <div class="tab-pane fade" id="account-details">
                             <h3>تفاصيل الحساب </h3>
                             <div class="login">
                                 <div class="login_form_container">
                                     <div class="account_login_form">
-                                        <form action="#">
-
+                                        <form method="POST" action="{{ route("customer.customers.update" ,$customer->id) }}" enctype="multipart/form-data">
+                                            @method('PUT')
+                                            @csrf
+                                            <input type="hidden" name="user_id" value="{{$customer->id}}">
+                                            {{-- <div class="default-form-box mb-20">
+                                                <label class="required" for="personal_photo">{{ trans('cruds.customer.fields.personal_photo') }}</label>
+                                                    <div class="needsclick dropzone {{ $errors->has('personal_photo') ? 'is-invalid' : '' }}"
+                                                        id="personal_photo-dropzone">
+                                                        <div class="dz-default dz-message"><span style="color: red; font-size: 30px">Click here to upload your photo</span></div>
+                                                    </div>
+                                                @if($errors->has('personal_photo'))
+                                                    <div class="invalid-feedback">
+                                                        {{ $errors->first('personal_photo') }}
+                                                    </div>
+                                                @endif
+                                                <span class="help-block">{{ trans('cruds.customer.fields.personal_photo_helper') }}</span>
+                                            </div> --}}
                                             <div class="default-form-box mb-20">
-                                                <label>الاسم الاول</label>
-                                                <input type="text" name="first-name">
-                                            </div>
-                                            <div class="default-form-box mb-20">
-                                                <label>الاسم الاخير</label>
-                                                <input type="text" name="last-name">
+                                                <label>الاسم</label>
+                                                <input type="text" name="name" value="{{$customer->name}}" required>
                                             </div>
                                             <div class="default-form-box mb-20">
                                                 <label>البريد الاكتروني</label>
-                                                <input type="text" name="email-name">
+                                                <input type="text" name="email" value="{{$customer->email}}" required>
                                             </div>
                                             <div class="default-form-box mb-20">
-                                                <label>كلمة المرور</label>
-                                                <input type="password" name="user-password">
+                                                <label>الهاتف المحمول </label>
+                                                <input type="text" name="phone" value="{{$customer->phone}}" required>
                                             </div>
                                             <div class="default-form-box mb-20">
-                                                <label>تاريخ الميلاد</label>
-                                                <input type="date" name="birthday">
+                                                <label>العنوان </label>
+                                                <input type="text" name="phone" value="{{$customer->phone}}" required>
                                             </div>
-                                            <span class="example">
-                                                (E.g.: 05/31/1970)
-                                            </span>
-                                            <br>
-
                                             <div class="save_button mt-3">
                                                 <button class="btn" type="submit">حفظ</button>
                                             </div>
@@ -168,4 +152,62 @@
     </div>
     <!-- account area start -->
 
+@endsection
+
+@section('scripts')
+<script>
+    Dropzone.options.personalPhotoDropzone = {
+    url: '{{ route('customer.customers.storeMedia') }}',
+    maxFilesize: 2, // MB
+    acceptedFiles: '.jpeg,.jpg,.png,.gif',
+    maxFiles: 1,
+    addRemoveLinks: true,
+    headers: {
+      'X-CSRF-TOKEN': "{{ csrf_token() }}"
+    },
+    params: {
+      size: 2,
+      width: 4096,
+      height: 4096
+    },
+    success: function (file, response) {
+      $('form').find('input[name="personal_photo"]').remove()
+      $('form').append('<input type="hidden" name="personal_photo" value="' + response.name + '">')
+    },
+    removedfile: function (file) {
+      file.previewElement.remove()
+      if (file.status !== 'error') {
+        $('form').find('input[name="personal_photo"]').remove()
+        this.options.maxFiles = this.options.maxFiles + 1
+      }
+    },
+    init: function () {
+@if(isset($customer) && $customer->personal_photo)
+      var file = {!! json_encode($customer->personal_photo) !!}
+          this.options.addedfile.call(this, file)
+      this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+      file.previewElement.classList.add('dz-complete')
+      $('form').append('<input type="hidden" name="personal_photo" value="' + file.file_name + '">')
+      this.options.maxFiles = this.options.maxFiles - 1
+@endif
+    },
+    error: function (file, response) {
+        if ($.type(response) === 'string') {
+            var message = response //dropzone sends it's own error messages in string
+        } else {
+            var message = response.errors.file
+        }
+        file.previewElement.classList.add('dz-error')
+        _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+        _results = []
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            node = _ref[_i]
+            _results.push(node.textContent = message)
+        }
+
+        return _results
+    }
+}
+
+</script>
 @endsection

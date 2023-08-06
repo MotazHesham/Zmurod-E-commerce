@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 @section('content')
 @can('customer_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.customers.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.customer.title_singular') }}
-            </a>
-        </div>
+<div style="margin-bottom: 10px;" class="row">
+    <div class="col-lg-12">
+        <a class="btn btn-success" href="{{ route('admin.customers.create') }}">
+            {{ trans('global.add') }} {{ trans('cruds.customer.title_singular') }}
+        </a>
     </div>
+</div>
 @endcan
 <div class="card">
     <div class="card-header">
@@ -19,7 +19,6 @@
             <thead>
                 <tr>
                     <th width="10">
-
                     </th>
                     <th>
                         {{ trans('cruds.customer.fields.id') }}
@@ -35,9 +34,6 @@
                     </th>
                     <th>
                         {{ trans('cruds.customer.fields.phone') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.customer.fields.user') }}
                     </th>
                     <th>
                         &nbsp;
@@ -94,14 +90,40 @@
     aaSorting: [],
     ajax: "{{ route('admin.customers.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'name', name: 'name' },
-{ data: 'email', name: 'email' },
-{ data: 'personal_photo', name: 'personal_photo', sortable: false, searchable: false },
-{ data: 'phone', name: 'phone' },
-{ data: 'user_name', name: 'user.name' },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+        { 
+            data: 'placeholder',
+            name: 'placeholder',
+        },
+        { 
+            data: 'id', 
+            name: 'id' 
+        },
+        { 
+            data: 'user.name',
+            name: 'name' 
+        },
+
+        { 
+            data: 'user.email',
+            name: 'email'
+        },
+
+        { 
+            data: 'personal_photo',
+            name: 'personal_photo', 
+            sortable: false, 
+            searchable: false 
+        },
+
+        { 
+            data: 'user.phone', 
+            name: 'phone' 
+        },
+
+        { 
+            data: 'actions', 
+            name: '{{ trans('global.actions') }}' 
+        }
     ],
     orderCellsTop: true,
     order: [[ 1, 'desc' ]],

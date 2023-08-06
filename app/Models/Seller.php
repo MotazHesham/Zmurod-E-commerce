@@ -28,11 +28,7 @@ class Seller extends Model implements HasMedia
     ];
 
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'country',
-        'phone',
+        'address' ,
         'store_name',
         'description',
         'featured_store',

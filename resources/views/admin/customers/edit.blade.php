@@ -12,7 +12,7 @@
             @csrf
             <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.customer.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $customer->name) }}" required>
+                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $customer->user->name) }}" required>
                 @if($errors->has('name'))
                     <div class="invalid-feedback">
                         {{ $errors->first('name') }}
@@ -22,7 +22,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="email">{{ trans('cruds.customer.fields.email') }}</label>
-                <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email" id="email" value="{{ old('email', $customer->email) }}" required>
+                <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email" id="email" value="{{ old('email', $customer->user->email) }}" required>
                 @if($errors->has('email'))
                     <div class="invalid-feedback">
                         {{ $errors->first('email') }}
@@ -53,7 +53,7 @@
             </div>
             <div class="form-group">
                 <label for="phone">{{ trans('cruds.customer.fields.phone') }}</label>
-                <input class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}" type="text" name="phone" id="phone" value="{{ old('phone', $customer->phone) }}">
+                <input class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}" type="text" name="phone" id="phone" value="{{ old('phone', $customer->user->phone) }}">
                 @if($errors->has('phone'))
                     <div class="invalid-feedback">
                         {{ $errors->first('phone') }}

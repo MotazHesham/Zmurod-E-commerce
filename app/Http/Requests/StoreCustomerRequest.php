@@ -34,6 +34,9 @@ class StoreCustomerRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'address' =>[
+                'required',
+            ],
         ];
     }
 }

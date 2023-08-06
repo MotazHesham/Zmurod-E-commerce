@@ -31,10 +31,6 @@ class UpdateCustomerRequest extends FormRequest
                 'string',
                 'nullable',
             ],
-            'user_id' => [
-                'required',
-                'integer',
-            ],
         ];
     }
 }

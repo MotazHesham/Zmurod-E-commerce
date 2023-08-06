@@ -48,7 +48,10 @@ Route::post('customer/pop', 'Customer\PopupModalController@show')->name('custome
 
 Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Customer', 'middleware' => ['auth', 'customer']], function () {
     // account
-    Route::get('dashboard', 'HomeController@index')->name('home');
+    Route::get('dashboard', 'CustomersController@index')->name('home');
+    Route::post('dashboard/media', 'CustomersController@storeMedia')->name('customers.storeMedia');
+    Route::post('dashboard/ckmedia', 'CustomersController@storeCKEditorImages')->name('customers.storeCKEditorImages');
+    Route::put('dashboard/update/{id}', 'CustomersController@update')->name('customers.update');
     // cart
     Route::get('cart/show', 'CartController@show')->name('cart.show');
     Route::post('cart/store', 'CartController@cart_store_product')->name('cart.store');

@@ -16,16 +16,14 @@ class CustomerSeeder extends Seeder
             'name' => 'Abanoub',
             'email' => 'customer@customer.com',
             'password' => Hash::make('123456'), 
-            'user_type' => 'customer'
+            'user_type' => 'customer',
+            'country' => 'Egypt', 
+            'phone' => '1234567890', 
         ]);
 
         // Create a customer associated with the user
         Customer::create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'password' => $user->password, 
-            'country' => 'EGYPT', 
-            'phone' => '1234567890', 
+            'address' =>'11 dummy st cairo ' . $user->country , 
             'user_id' => $user->id,
         ]);
 

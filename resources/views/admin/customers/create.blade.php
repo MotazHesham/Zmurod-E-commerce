@@ -40,6 +40,36 @@
                 <span class="help-block">{{ trans('cruds.customer.fields.password_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="phone">{{ trans('cruds.customer.fields.phone') }}</label>
+                <input class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}" type="text" name="phone" id="phone" value="{{ old('phone', '') }}">
+                @if($errors->has('phone'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('phone') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.customer.fields.phone_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="country">{{ trans('cruds.user.fields.country') }}</label>
+                <input class="form-control {{ $errors->has('country') ? 'is-invalid' : '' }}" type="text" name="country" id="country" value="{{ old('country', '') }}">
+                @if($errors->has('country'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('country') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.country_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="address">{{ trans('cruds.customer.fields.address') }}</label>
+                <input class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" type="text" name="address" id="address" value="{{ old('address', '') }}">
+                @if($errors->has('address'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('address') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.customer.fields.phone_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required" for="personal_photo">{{ trans('cruds.customer.fields.personal_photo') }}</label>
                 <div class="needsclick dropzone {{ $errors->has('personal_photo') ? 'is-invalid' : '' }}" id="personal_photo-dropzone">
                 </div>
@@ -49,16 +79,6 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.customer.fields.personal_photo_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="phone">{{ trans('cruds.customer.fields.phone') }}</label>
-                <input class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}" type="text" name="phone" id="phone" value="{{ old('phone', '') }}">
-                @if($errors->has('phone'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('phone') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.customer.fields.phone_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
