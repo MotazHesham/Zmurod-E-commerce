@@ -307,7 +307,7 @@
                                 </span>
                                 <span class="rating-num">( 5 Review )</span>
                             </span>
-                            <h5 class="title"><a href="{{route('frontend.shop',$product->id)}}"> {{$product->name}}
+                            <h5 class="title"><a href="{{route('customer.shop',$product->id)}}"> {{$product->name}}
                                 </a>
                             </h5>
                             <span class="price">

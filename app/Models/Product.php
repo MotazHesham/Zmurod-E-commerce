@@ -38,6 +38,7 @@ class Product extends Model implements HasMedia
         'current_stock',
         'information',
         'most_recent',
+        'published',
         'discount',
         'price',
         'product_category_id',
@@ -58,6 +59,7 @@ class Product extends Model implements HasMedia
     {
         $this->addMediaConversion('thumb')->fit('crop', 50, 50);
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
+        $this->addMediaConversion('preview2')->fit('crop', 800, 800);
     }
 
     public function getImageAttribute()
@@ -67,6 +69,7 @@ class Product extends Model implements HasMedia
             $item->url       = $item->getUrl();
             $item->thumbnail = $item->getUrl('thumb');
             $item->preview   = $item->getUrl('preview');
+            $item->preview2   = $item->getUrl('preview2');
         });
 
         return $files;

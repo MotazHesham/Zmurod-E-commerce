@@ -9,7 +9,7 @@
                     <h2 class="breadcrumb-title">الملف الشخصي</h2>
                     <!-- breadcrumb-list start -->
                     <ul class="breadcrumb-list">
-                        <li class="breadcrumb-item"><a href="index.html">الرئيسية</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('frontend.home') }}">الرئيسية</a></li>
                         <li class="breadcrumb-item active">الملف الشخصي</li>
                     </ul>
                     <!-- breadcrumb-list end -->

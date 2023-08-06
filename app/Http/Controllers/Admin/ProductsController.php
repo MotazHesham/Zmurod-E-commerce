@@ -113,6 +113,13 @@ class ProductsController extends Controller
                 </label>'; 
 
             });
+            $table->editColumn('published', function ($row) { 
+                return ' <label class="c-switch c-switch-pill c-switch-success">
+                    <input onchange="update_statuses(this,\'published\')" value="'. $row->id .'" type="checkbox" class="c-switch-input" '. ($row->published ? "checked" : null) .'>
+                    <span class="c-switch-slider"></span>
+                </label>'; 
+
+            });
             $table->editColumn('product_offers', function ($row) {
                 $labels = [];
                 foreach ($row->product_offers as $product_offer) {
@@ -126,7 +133,7 @@ class ProductsController extends Controller
                 return $row->shipping_method ? Product::SHIPPING_METHOD_SELECT[$row->shipping_method] : '';
             });
     
-            $table->rawColumns(['actions', 'placeholder', 'most_recent', 'image', 'product_tags', 'product_category', 'user', 'fav', 'product_offers']);
+            $table->rawColumns(['actions', 'placeholder', 'most_recent', 'image', 'product_tags', 'product_category', 'user', 'fav', 'product_offers','published']);
 
             return $table->make(true);
         }

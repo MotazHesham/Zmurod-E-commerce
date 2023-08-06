@@ -73,10 +73,10 @@
                     <div class="tab-pane fade @if ($loop->first) active show @endif"
                         id="tab-{{ $category->name }}-{{ $category->id }}">
                         <div class="row">
-                            @foreach ($category->products()->with('product_offers')->where('most_recent', 1)->get()->take(8) as $product)
-                            <div class="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-xs-6 mb-30px">
-                                        @include('partials.product-item',['product'=>$product])
-                            </div>
+                            @foreach ($category->products->take(8) as $product)
+                                <div class="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-xs-6 mb-30px">
+                                    @include('partials.product-item',['product'=>$product])
+                                </div>
                             @endforeach
                         </div>
                     </div>
@@ -136,9 +136,9 @@
                             <div class="new-product-wrapper swiper-wrapper">
                                 <!-- Move the foreach loop to this level -->
                                 @foreach ($category->products->take(10) as $product)
-                                <div class="new-product-item swiper-slide">
-                                    @include('partials.product-item',['product'=>$product])
-                                </div>
+                                    <div class="new-product-item swiper-slide">
+                                        @include('partials.product-item',['product'=>$product])
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
@@ -156,10 +156,9 @@
         <div class="brand-slider swiper-container">
             <div class="swiper-wrapper align-items-center">
                 @foreach ($sellers as $seller)
-                <div class="swiper-slide brand-slider-item text-center">
-                    <a href="#"><img class=" img-fluid" style="width: 180px; height:180px"
-                            src="{{ $seller->photo->getUrl() }}" alt="" /></a>
-                </div>
+                    <div class="swiper-slide brand-slider-item text-center">
+                        <a href="#"><img class="img-fluid" src="{{ $seller->photo ? $seller->photo->getUrl() : '' }}" alt="" /></a>
+                    </div>
                 @endforeach
             </div>
         </div>

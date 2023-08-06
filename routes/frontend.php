@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Livewire\Popup;
+use Illuminate\Support\Facades\Route;
 
 Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     // Home
@@ -22,9 +23,7 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     // blogs    
     Route::get('blogs', 'BlogController@index')->name('blogs');
     Route::get('blogs/{id}', 'BlogController@show')->name('blogbyid');
-
     
-   
     // forums
     Route::get('forums', 'ForumController@index')->name('forums');
     Route::get('forum/{id}', 'ForumController@show')->name('post');
@@ -34,11 +33,7 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
 
     // product
     Route::get('product/{id}', 'ProductController@show')->name('product');
-    Route::get('show_popup', 'ProductController@show_popup')->name('productpopup');
-
-
-
-
+    Route::get('show_popup', 'ProductController@show_popup')->name('productpopup'); 
 
     // checkout
     Route::get('checkout', 'CheckoutController@index')->name('checkout');
@@ -47,6 +42,9 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     Route::get('userlogin', 'LoginController@index')->name('userlogin');
 });
 
+
+// pop up model 
+Route::post('customer/pop', 'Customer\PopupModalController@show')->name('customer.popup.show');
 
 Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Customer', 'middleware' => ['auth', 'customer']], function () {
     // account
@@ -66,8 +64,6 @@ Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Custo
     Route::get('shop/{id}', 'ShopController@shop')->name('shop');
     Route::get('shop', 'ShopController@show')->name('marketshop');
 
-    // pop up model 
-    Route::post('/pop', 'PopupModalController@show')->name('popup.show');
 
     // product
     Route::get('product/{id}', 'ProductController@show')->name('product');
@@ -86,4 +82,3 @@ Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Custo
     Route::get('contact', 'ContactController@index')->name('contact-us');
     Route::Post('/send', 'ContactController@store')->name('sendmessage');
 });
-

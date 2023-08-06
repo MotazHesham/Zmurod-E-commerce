@@ -50,14 +50,14 @@
                 <p class="mt-30px mb-0">
                     <?php echo $product->information ?>
                 </p>
-                <div class="pro-details-quality">
+                <div class="pro-details-quality"> 
                     <div class="pro-details-cart">
-                        <button class="add-cart" onclick="add_to_cart('{{$product->id}}')"> اضف الى
-                            السلة</button>
+                        <a class="add-cart" @auth onclick="add_to_cart('{{$product->id}}')"  @else href="{{ route('frontend.userlogin') }}" @endauth> اضف الى
+                            السلة</a>
                     </div>
                     <div class="pro-details-compare-wishlist pro-details-wishlist ">
-                        <a href="{{route('customer.whitelist.show')}}"><i class="pe-7s-like"></i></a>
-                    </div>
+                        <a @auth href="{{route('customer.whitelist.show')}}"   @else href="{{ route('frontend.userlogin') }}" @endauth><i class="pe-7s-like"></i></a>
+                    </div> 
                 </div>
                 <div class="pro-details-categories-info pro-details-same-style d-flex">
                     <span>الفئات: </span>
@@ -66,9 +66,7 @@
                         <li>
                             <a href="#">{{$tag->name}},  </a>
                         </li>
-                        @endforeach
-                       
-                        
+                        @endforeach 
                     </ul>
                 </div>
                 <div class="pro-details-social-info pro-details-same-style d-flex">

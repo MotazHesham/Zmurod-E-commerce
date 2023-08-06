@@ -48,43 +48,43 @@ class AboutUsController extends Controller
         return redirect()->route('admin.about-uss.index');
     }
 
-    public function edit(AboutUs $aboutUs)
+    public function edit(AboutUs $aboutUss)
     {
         abort_if(Gate::denies('about_us_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.aboutUss.edit', compact('aboutUs'));
+        return view('admin.aboutUss.edit', compact('aboutUss'));
     }
 
-    public function update(UpdateAboutUsRequest $request, AboutUs $aboutUs)
+    public function update(UpdateAboutUsRequest $request, AboutUs $aboutUss)
     {
-        $aboutUs->update($request->all());
+        $aboutUss->update($request->all());
 
         if ($request->input('logo', false)) {
-            if (! $aboutUs->logo || $request->input('logo') !== $aboutUs->logo->file_name) {
-                if ($aboutUs->logo) {
-                    $aboutUs->logo->delete();
+            if (! $aboutUss->logo || $request->input('logo') !== $aboutUss->logo->file_name) {
+                if ($aboutUss->logo) {
+                    $aboutUss->logo->delete();
                 }
-                $aboutUs->addMedia(storage_path('tmp/uploads/' . basename($request->input('logo'))))->toMediaCollection('logo');
+                $aboutUss->addMedia(storage_path('tmp/uploads/' . basename($request->input('logo'))))->toMediaCollection('logo');
             }
-        } elseif ($aboutUs->logo) {
-            $aboutUs->logo->delete();
+        } elseif ($aboutUss->logo) {
+            $aboutUss->logo->delete();
         }
         alert()->success(trans('flash.update.title'),trans('flash.update.body'));
         return redirect()->route('admin.about-uss.index');
     }
 
-    public function show(AboutUs $aboutUs)
+    public function show(AboutUs $aboutUss)
     {
         abort_if(Gate::denies('about_us_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.aboutUss.show', compact('aboutUs'));
+        return view('admin.aboutUss.show', compact('aboutUss'));
     }
 
-    public function destroy(AboutUs $aboutUs)
+    public function destroy(AboutUs $aboutUss)
     {
         abort_if(Gate::denies('about_us_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $aboutUs->delete();
+        $aboutUss->delete();
         alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }
