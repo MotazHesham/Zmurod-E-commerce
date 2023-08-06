@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             SellerSeeder::class,
             TagTableSeeder::class,
             FroumsTableSeeder::class,
+            ProductSeeder::class,
         
         ]);
     }

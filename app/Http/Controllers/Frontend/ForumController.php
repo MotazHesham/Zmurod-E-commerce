@@ -9,14 +9,20 @@ use Illuminate\Http\Request;
 
 class ForumController extends Controller
 {
-   function index() {
-    $forums = Froum::all();
-    $posts = Post::all();
-    return view('frontend.forum',compact('forums','posts'));
+   public function index() 
+   {
+   // get all forums 
+   $forums = Froum::all();
+   // get latest post from each forum
+   $posts = Post::with('post_comments','post_forum')->get();
+   return view('frontend.forum',compact('forums','posts'));
    }
-   function show($id) {
-    $post = Post::find($id);
-    $comments = $post->post_comments()->get();
-    return view('frontend.post',compact('post' , 'comments'));
+
+   public function show($id) 
+   {
+   // single post
+   $post = Post::with('author','post_comments','post_tags','post_forum')->find($id);
+   $forums = Froum::all();
+   return view('frontend.post',compact('post','forums'));
    }
 }

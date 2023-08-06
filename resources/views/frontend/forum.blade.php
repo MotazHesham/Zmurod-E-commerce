@@ -22,15 +22,15 @@
     <div class="blog-grid pb-100px pt-100px main-blog-page single-blog-page">
         <div class="container">
             <div class="ibox-content forum-container">
-                @foreach ($forums as $forum )
+                @foreach (\App\Models\Froum::CATEGORY_SELECT as $key => $value )
                     <div class="forum-title ">
                         <div class="pull-left forum-desc">
-                            <samll>عدد الموضوعات:  {{$forum->count()}}</samll>
+                            <samll>عدد الموضوعات:  50</samll>
                         </div>
-                        <h3>{{$forum->category}}</h3>
+                        <h3>{{$value }}</h3>
                     </div>
                     @foreach ($posts as $post )
-                        @if ($post->post_forum->category == $forum->category)
+                        @if ($post->post_forum->category == $value )
                         <div class="forum-item active">
                             <div class="row">
                                 <div class="col-md-9">
@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="col-md-1 forum-info">
                                     <span class="views-number">
-                                        {{$post->post_forum->count()}}
+                                        5
                                     </span>
                                     <div>
                                         <small>الموضوعات</small>
@@ -69,6 +69,7 @@
                         @endif
                     @endforeach
                 @endforeach
+                
             </div>
         </div>
     </div>

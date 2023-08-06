@@ -11,12 +11,22 @@ class FroumsTableSeeder extends Seeder
     {
         $forumsData = [
             [
-                'name' => 'General Topics',
+                'name' => 'فوائد الاعمال اليدوية ',
                 'description' => 'This forum is for discussing general topics.',
                 'category' => 'الموضوعات العامة',
             ],
             [
-                'name' => 'Other Topics',
+                'name' => 'اشهر مشاريع الهاند ميد',
+                'description' => 'This forum is for discussing other topics.',
+                'category' => 'موضوعات اخرى',
+            ],
+            [
+                'name' => 'الكروشية والتريكو ',
+                'description' => 'This forum is for discussing other topics.',
+                'category' => 'موضوعات اخرى',
+            ],
+            [
+                'name' => 'الإبداع يبدا بفكرة',
                 'description' => 'This forum is for discussing other topics.',
                 'category' => 'موضوعات اخرى',
             ],

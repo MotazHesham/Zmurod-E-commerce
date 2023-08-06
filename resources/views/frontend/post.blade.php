@@ -28,22 +28,20 @@
                     <div class="blog-posts">
                         <div class="single-blog-post blog-grid-post">
                             <div class="blog-image single-blog" data-aos="fade-up" data-aos-delay="200">
-                                <img class="img-fluid h-auto" src="{{asset('assets/images/blog-image/single-blog.jpg')}}"
+                                <img class="img-fluid h-auto" src="{{$post->photos[0]->getUrl()}}"
                                     alt="blog" />
                             </div>
                             <div class="blog-post-content-inner mt-30px" data-aos="fade-up" data-aos-delay="400">
-                                <div class="blog-athor-date ml-5">
-                                    <span> بواسطة,<a class="blog-author cercle-shape" href="#"> متجر ريماس</a></span>
-                                    <span class="blog-date" href="#">20 مايو 2023</span>
+                                <div class="blog-athor-date ml-5 p-2">
+                                    <span> بواسطة,<a class="blog-author cercle-shape" href="#"> {{$post->author->name}}</a></span>
+                                    <span class="blog-date ms-5" href="#">{{$post->created_at->format(config('panel.date_format'))}}</span>
                                 </div>
                                 <h4 class="blog-title"></h4>
                                 <p data-aos="fade-up"></p>
                                 <p data-aos="fade-up" data-aos-delay="200"></p>
                             </div>
                             <div class="single-post-content">
-
                                 <p data-aos="fade-up" data-aos-delay="200"></p>
-
                             </div>
                         </div>
                         <!-- single blog post -->
@@ -53,9 +51,9 @@
                         <div class="blog-single-tags d-flex" data-aos="fade-up" data-aos-delay="200">
                             <span class="title"><i class="fa fa-tags" aria-hidden="true"></i></span>
                             <ul class="tag-list">
-                                <li><a href="#">المكرميات,</a></li>
-                                <li><a href="#">الكروشية,</a></li>
-                                <li class="m-0"><a href="#">الخيوط</a></li>
+                                @foreach ($post->post_tags as $tag )
+                                    <li><a href="#">{{$tag->name}}</a></li>
+                                @endforeach 
                             </ul>
                         </div>
                         <div class="blog-single-share mb-xs-15px d-flex" data-aos="fade-up" data-aos-delay="200">
@@ -75,15 +73,15 @@
                             </ul>
                         </div>
                     </div>
-                       {{-- Tags  --}}
+                    {{-- Tags  --}}
 
                     <div class="comment-area">
                         <h2 class="comment-heading" data-aos="fade-up" data-aos-delay="200">التعليقات {{$post->post_comments->count()}}</h2>
                         <div class="review-wrapper">
-                            @foreach ($comments as $comment )
+                            @foreach ($post->post_comments as $comment )
                             <div class="single-review" data-aos="fade-up" data-aos-delay="200">
                                 <div class="review-img">
-                                    <img src="assets/images/comment-image/1.png" alt="" />
+                                    <img src="{{asset('assets/images/comment-image/1.png')}}" alt="" />
                                 </div>
                                 <div class="review-content">
                                     <div class="review-top-wrap">
@@ -182,50 +180,18 @@
                             <h3 class="sidebar-title">احدث الموضوعات</h3>
 
                             <div class="recent-post-widget">
+                                @foreach ($forums as $forum )
                                 <div class="recent-single-post d-flex">
                                     <div class="thumb-side">
-                                        <a href="blog-single.html"><img
-                                                src="blog-single.html" alt="" /></a>
+                                        <a href="blog-single.html"><img src="blog-single.html" alt=""/></a>
                                     </div>
                                     <div class="media-side">
-                                        <span class="date">23 اغسطس 2023</span>
-                                        <h5><a href="blog-single.html">فوائد الاعمال اليدوية </a>
+                                        <span class="date">{{$forum->created_at->format(config('panel.date_format'))}}</span>
+                                        <h5><a href="blog-single.html">{{$forum->name}}   </a>
                                         </h5>
                                     </div>
                                 </div>
-                                <div class="recent-single-post d-flex">
-                                    <div class="thumb-side">
-                                        <a href="blog-single.html"><img
-                                                src="assets/images/blog-image/2.jpg" alt="" /></a>
-                                    </div>
-                                    <div class="media-side">
-                                        <span class="date">مايو 2023</span>
-                                        <h5><a href="blog-single.html"> اشهر مشاريع الهاند ميد </a>
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="recent-single-post d-flex">
-                                    <div class="thumb-side">
-                                        <a href="blog-single.html"><img
-                                                src="assets/images/blog-image/3.jpg" alt="" /></a>
-                                    </div>
-                                    <div class="media-side">
-                                        <span class="date">مايو 2023</span>
-                                        <h5><a href="blog-single.html">الكروشية والتريكو </a>
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="recent-single-post d-flex">
-                                    <div class="thumb-side">
-                                        <a href="blog-single-left-sidebar.html"><img
-                                                src="assets/images/blog-image/1.jpg" alt="" /></a>
-                                    </div>
-                                    <div class="media-side">
-                                        <span class="date">20 مايو 2023</span>
-                                        <h5><a href="blog-single.html">الإبداع يبدا بفكرة </a>
-                                        </h5>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
 
