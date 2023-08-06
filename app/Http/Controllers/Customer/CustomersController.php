@@ -7,6 +7,7 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CustomersController extends Controller
@@ -21,24 +22,33 @@ class CustomersController extends Controller
         return view('frontend.customer.dashboard',compact('orders','customer'));
     }
 
-    public function update(Request $request, Customer $customer)
-    {
-        $customer->update($request->all());
-        @dd($request->all());
-        if($request->input('personal_photo', false)) {
-            if (!$customer->personal_photo || $request->input('personal_photo') !== $customer->personal_photo->file_name) {
-                if ($customer->personal_photo) {
-                    $customer->personal_photo->delete();
-                }
-                $customer->addMedia(storage_path('tmp/uploads/' . basename($request->input('personal_photo'))))->toMediaCollection('personal_photo');
-            }
-        } elseif ($customer->personal_photo) {
-            $customer->personal_photo->delete();
-        }
-        // If no errors, redirect to the desired route
-        return redirect()->route('customer.home');
-    }
+    public function update(Request $request)
+    {   
+        $request->validate([
+            'phone' => 'required|numeric|digits:11',
+            'address' => 'required|string|max:255',
+        ]);
+    
+        $customer = Customer::where('user_id', $request->user_id)->first();
+        
 
+        if ($customer) {
+            $customer->update([
+                'address' => $request['address'], 
+            ]);
+            
+    
+            $user = User::find($request->user_id);
+            if ($user) {
+                $user->update([
+                    'phone' => $request['phone'],
+                ]);
+            }
+        }
+    
+        // If no errors, redirect to the desired route
+        return redirect()->route('customer.home')->with('success', 'Customer information updated successfully.');
+    }
     public function storeCKEditorImages(Request $request)
     {
         $model         = new Customer();

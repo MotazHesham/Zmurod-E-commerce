@@ -104,38 +104,24 @@
                             <div class="login">
                                 <div class="login_form_container">
                                     <div class="account_login_form">
-                                        <form method="POST" action="{{ route("customer.customers.update" ,$customer->id) }}" enctype="multipart/form-data">
-                                            @method('PUT')
+                                        <form  action="{{ route("customer.customers.update") }}"  method="POST" enctype="multipart/form-data">
                                             @csrf
-                                            <input type="hidden" name="user_id" value="{{$customer->id}}">
-                                            {{-- <div class="default-form-box mb-20">
-                                                <label class="required" for="personal_photo">{{ trans('cruds.customer.fields.personal_photo') }}</label>
-                                                    <div class="needsclick dropzone {{ $errors->has('personal_photo') ? 'is-invalid' : '' }}"
-                                                        id="personal_photo-dropzone">
-                                                        <div class="dz-default dz-message"><span style="color: red; font-size: 30px">Click here to upload your photo</span></div>
-                                                    </div>
-                                                @if($errors->has('personal_photo'))
-                                                    <div class="invalid-feedback">
-                                                        {{ $errors->first('personal_photo') }}
-                                                    </div>
-                                                @endif
-                                                <span class="help-block">{{ trans('cruds.customer.fields.personal_photo_helper') }}</span>
-                                            </div> --}}
+                                            <input type="hidden" name="user_id" value="{{$customer->user_id}}">
                                             <div class="default-form-box mb-20">
                                                 <label>الاسم</label>
-                                                <input type="text" name="name" value="{{$customer->name}}" required>
+                                                <input type="text" name="name" value="{{$customer->user->name}}" readonly>
                                             </div>
                                             <div class="default-form-box mb-20">
                                                 <label>البريد الاكتروني</label>
-                                                <input type="text" name="email" value="{{$customer->email}}" required>
+                                                <input type="text" name="email" value="{{$customer->user->email}}" readonly>
                                             </div>
                                             <div class="default-form-box mb-20">
                                                 <label>الهاتف المحمول </label>
-                                                <input type="text" name="phone" value="{{$customer->phone}}" required>
+                                                <input type="text" name="phone" value="{{$customer->user->phone}}" required>
                                             </div>
                                             <div class="default-form-box mb-20">
                                                 <label>العنوان </label>
-                                                <input type="text" name="phone" value="{{$customer->phone}}" required>
+                                                <input type="text" name="address" value="{{$customer->address}}" required>
                                             </div>
                                             <div class="save_button mt-3">
                                                 <button class="btn" type="submit">حفظ</button>

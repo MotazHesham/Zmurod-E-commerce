@@ -25,7 +25,6 @@
         <h1 class="cart-page-title" style="text-align: center;color:crimson; font-size: 40px;">Your cart items</h1>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                <form action="#">
                     <div class="table-content table-responsive cart-table-content">
                         <table>
                             <thead>
@@ -50,13 +49,14 @@
                                         <td class="product-price-cart"><span class="amount">{{$cart->price_with_discount}}</span></td>
                                         <td class="product-quantity">
                                             <div class="cart-plus-minus">
-                                                <input class="cart-plus-minus-box quantity-input" type="number"
-                                                    name="qtybutton" 
-                                                    value="{{$cart->quantity}}" />
+                                                <div class="dec qtybutton" >-</div>
+                                                    <input id="quantity-{{$cart->product_id}}" onchange="updateCart('{{$cart->product_id}}')" class="cart-plus-minus-box quantity-input" onkeyup="updateCart('{{$cart->product_id}}')" type="number"
+                                                        name="qtybutton" 
+                                                        value="{{$cart->quantity}}" />
+                                                <div class="inc qtybutton">+</div>
                                             </div>
                                         </td>
-
-                                        <td class="product-subtotal">{{ $cart->total_cost }}</td>
+                                        <td  id="totalcost-{{$cart->product_id}}"  class="product-subtotal">{{ $cart->total_cost }}</td>
                                         <td class="product-remove">
                                             {{-- pass product id onclick to ajax request to delete from cart --}}
                                             <button onclick="remove_from_cart('{{$cart->id}}')"><i class="fa fa-times"></i></button>
@@ -82,7 +82,6 @@
                             </div>
                         </div>
                     </div>
-                </form>      
                 </div>
             </div>
         </div>
@@ -94,14 +93,30 @@
 
 @section('scripts')
 @parent
-
 <script>
-
+    function updateCart(id) {
+        var value = $('#quantity-'+ id).attr('value');
+        console.log(value);
+        $.ajax({
+                    type: "POST",
+                    url: '{{ route("customer.cart.store") }}',
+                    data: {
+                        product_id: id,
+                        quantity : parseInt(value) ,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function (data) {
+                        if(data.exist){
+                            $('#cart-item-' + data.cart_id).html(data.html);
+                            $('#header-action-num').text(data.count);
+                        }else{
+                            $('#modal-cart-list').append(data.html);
+                            $('#header-action-num').text(data.count);
+                        }
+                        $('#totalcost-'+ id).html(data.totalcost);
+                        // showToast('success', 'تمت إضافة المنتج إلى السلة بنجاح');
+                    }
+                });
+    }
 </script>
-
-
-
-
-
-
 @endsection
