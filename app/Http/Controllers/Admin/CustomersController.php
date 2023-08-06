@@ -129,6 +129,15 @@ class CustomersController extends Controller
     {
         $customer->update($request->all());
 
+        // find customer
+        $user = User::find($customer->user_id);
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password != null ? bcrypt($request->password) : $user->password,
+            'phone' =>$request->phone ,
+            'country' =>$request->country,
+        ]);
         if ($request->input('personal_photo', false)) {
             if (! $customer->personal_photo || $request->input('personal_photo') !== $customer->personal_photo->file_name) {
                 if ($customer->personal_photo) {

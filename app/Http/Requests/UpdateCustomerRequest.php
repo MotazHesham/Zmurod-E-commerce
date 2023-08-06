@@ -24,12 +24,21 @@ class UpdateCustomerRequest extends FormRequest
             'email' => [
                 'required',
             ],
+            'password' => [
+                'required',
+            ],
             'personal_photo' => [
                 'required',
             ],
             'phone' => [
                 'string',
                 'nullable',
+            ],
+            'country'=>[
+                'required',
+            ],
+            'address' =>[
+                'required',
             ],
         ];
     }
