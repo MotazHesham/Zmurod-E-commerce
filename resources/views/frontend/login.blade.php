@@ -33,7 +33,7 @@
                                     <h4 class="text-center">دخول</h4>
                                 </a>
                                 <br>
-                                {{-- @if($errors->count() > 0)
+                                @if($errors->count() > 0)
                                     <div class="alert alert-danger">
                                         <ul class="list-unstyled">
                                             @foreach($errors->all() as $error)
@@ -41,7 +41,7 @@
                                             @endforeach
                                         </ul>
                                     </div>
-                                @endif --}}
+                                @endif
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
                                     <input type="email" name="email" value="{{ old('email') }}" placeholder="البريد الألكتروني" required autofocus autocomplete="email"/>

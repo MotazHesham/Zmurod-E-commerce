@@ -43,8 +43,7 @@
             <!-- Section Title Start -->
             <div class="col-12">
                 <div class="section-title text-center mb-60px">
-                    <h2 class="title"> وصل حديثا</h2>
-                    <p>هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد </p>
+                    <h2 class="title"> وصل حديثا</h2> 
                 </div>
                 <!-- Tab Start -->
                 <div class="tab-slider nav-center nav-center-2">
@@ -98,8 +97,7 @@
             <!-- Section Title Start -->
             <div class="col-12">
                 <div class="section-title text-center">
-                    <h2 class="title">الاقسام المفضلة</h2>
-                    <p>هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد </p>
+                    <h2 class="title">الاقسام المفضلة</h2> 
                 </div>
                 <!-- Tab Start -->
                 <div class="tab-slider swiper-container slider-nav-style-1 small-nav">
@@ -108,10 +106,11 @@
                         @php
                             $image = isset($category->icon) ? ($image = $category->icon->getUrl()) : asset('assets/images/blank.jpg');
                         @endphp
-                        <li class="nav-item swiper-slide"><a class="nav-link @if ($loop->first) active @endif "
-                                data-bs-toggle="tab" href="#tab--{{ $category->name }}"> <img src={{ $image }}
-                                    width="100px" height="100px" alt="{{ $category->name }}"><span>{{ $category->name
-                                    }}</span></a>
+                        <li class="nav-item swiper-slide">
+                            <a class="nav-link @if ($loop->first) active @endif " data-bs-toggle="tab" href="#tab--{{ $category->name }}">
+                                <img src={{ $image }} width="100px" height="100px" alt="{{ $category->name }}">
+                                <span class="fav-span">{{ $category->name }}</span>
+                            </a>
                         </li>
                         @endforeach
                     </ul>

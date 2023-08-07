@@ -24,14 +24,14 @@ class ProductSeeder extends Seeder
                 'information' => "Information for Product {$i}",
                 'most_recent' => 1,
                 'fav'=> 1 ,
-                'published' => 0,
+                'published' => 1,
                 'discount' => null, // You can adjust the range of discount here
                 'price' => rand(50, 500), // You can adjust the range of price here
                 'product_category_id' => Category::inRandomOrder()->first()->id,
                 'user_id' => 1, // Replace 1 with the ID of the user who owns the products
                 'shipping_method' => $shippingMethods[array_rand($shippingMethods)],
             ]);
-            $product->addMediaFromUrl("http://local.zumord:8080/public/assets/images/product-image/{$i}.jpg")
+            $product->addMediaFromUrl(asset('assets/images/product-image/'.$i.'.jpg'))
             ->toMediaCollection('image');
         
         }

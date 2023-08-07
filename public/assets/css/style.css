@@ -6333,6 +6333,9 @@ Pages - My Account
 .product-tab-nav .nav-item .nav-link:hover, .product-tab-nav .nav-item .nav-link.active {
   color: #fff;
 }
+.product-tab-nav .nav-item .nav-link:hover, .product-tab-nav .nav-item .nav-link.active .fav-span{
+  color: #795548;
+}
 .product-tab-nav .nav-item .nav-link:hover span::after, .product-tab-nav .nav-item .nav-link.active span::after {
   opacity: 1;
 }

@@ -11,8 +11,7 @@ class CreateSellersTable extends Migration
         Schema::create('sellers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('store_name');
-            $table->longText('description');
-            $table->text('address');
+            $table->longText('description'); 
             $table->boolean('featured_store')->default(0);
             $table->timestamps();
             $table->softDeletes();

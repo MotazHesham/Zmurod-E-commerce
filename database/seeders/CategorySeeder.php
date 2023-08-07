@@ -24,7 +24,7 @@ class CategorySeeder extends Seeder
             ]);
         
             // Upload the icon for the category
-            $category->addMediaFromUrl("http://local.zumord:8080/public/{$categoryData['icon_url']}")
+            $category->addMediaFromUrl(asset($categoryData['icon_url']))
                 ->toMediaCollection('icon');
         }
     }

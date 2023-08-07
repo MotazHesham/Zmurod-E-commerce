@@ -6,14 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Seller;
 use Illuminate\Http\Request;
-use App\Models\User;
-use Auth;
+use App\Models\User; 
 use App\Http\Controllers\Traits\MediaUploadingTrait;
+use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class RegisterController extends Controller
 {
     use MediaUploadingTrait;
+
     public function index()
     {
         return view('frontend.register');
@@ -34,15 +35,12 @@ class RegisterController extends Controller
             'name' => $validatedData['name'],
             'password' => bcrypt($validatedData['password']),
             'email' => $validatedData['email'],
+            'country' => $validatedData['country'],
+            'phone' => $validatedData['phone'],
             'user_type' => 'customer',
         ]);
 
-        $customer = Customer::create([
-            'name' => $validatedData['name'],
-            'password' => bcrypt($validatedData['password']),
-            'email' => $validatedData['email'],
-            'country' => $validatedData['country'],
-            'phone' => $validatedData['phone'],
+        $customer = Customer::create([ 
             'user_id' => $user->id,
         ]);
 
@@ -58,11 +56,11 @@ class RegisterController extends Controller
         // Validate the input
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:sellers,email|unique:users,email',
+            'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|min:6',
             'country' => 'required',
             'phone' => 'required|string|max:255',
-            'store_name' => 'required|string|max:255',
+            'store_name' => 'required|string|max:255|unique:sellers,store_name|regex:/^[A-Za-z][A-Za-z0-9_-]{3,29}$/',
             'description' => 'required|string|max:255',
         ]);
         // Create a new seller user
@@ -70,16 +68,13 @@ class RegisterController extends Controller
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'password' => bcrypt($validatedData['password']),
+            'country' => $validatedData['country'],
+            'phone' => $validatedData['phone'],
             'user_type' => 'seller',
         ]);
         
         // Create a new seller
-        $seller = Seller::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => bcrypt($validatedData['password']),
-            'country' => $validatedData['country'],
-            'phone' => $validatedData['phone'],
+        $seller = Seller::create([  
             'store_name' => $validatedData['store_name'],
             'description' => $validatedData['description'],
             'user_id' => $user->id,

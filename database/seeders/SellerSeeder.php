@@ -18,11 +18,11 @@ class SellerSeeder extends Seeder
             'user_type' => 'seller',
             'country' =>'Egypt',
             'phone'=> '01270433409',
+            'address' => '12 dummy st Cairo', 
         ]);
 
         // Create a customer associated with the user
         Seller::create([
-            'address' => '12 dummy st Cairo ,'. $user->country , 
             'store_name' =>'Happines Store',
             'description' => 'bla bla bla bla',
             'featured_store' => false ,

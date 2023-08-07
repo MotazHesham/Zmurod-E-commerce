@@ -32,8 +32,11 @@
                         <ul role="tablist" class="nav flex-column dashboard-list">
                             <li> <a href="#orders" data-bs-toggle="tab" class="nav-link">طلباتي</a></li>
                             <li><a href="#courses" data-bs-toggle="tab" class="nav-link">ورش العمل</a></li>
-                            <li><a href="#account-details" data-bs-toggle="tab" class="nav-link">تفاصيل الحساب</a>
-                            </li>
+                            <li><a href="#account-details" data-bs-toggle="tab" class="nav-link">تفاصيل الحساب</a> </li>
+                            <li><a href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();" class="nav-link">تسجيل الخروج</a> </li>
+                            <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
                             {{-- <li><a href="{{route('frontend.userlogin')}}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">تسجيل الخروج</a></li> --}}
                         </ul>
                     </div>

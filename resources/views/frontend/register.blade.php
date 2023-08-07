@@ -19,6 +19,15 @@
     </div>
     <!-- breadcrumb-area end -->
 
+    @if($errors->count() > 0)
+        <div class="alert alert-danger">
+            <ul class="list-unstyled">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <!-- login area start -->
     <div class="login-register-area pt-100px pb-100px">
@@ -40,16 +49,16 @@
                                     <div class="login-register-form">
                                         <form action="{{ route('frontend.register_customer') }}" method="post">
                                             @csrf
-                                            <input type="text" name="name" placeholder="اسم المستخدم" />
-                                            <input type="password" name="password" placeholder="كلمة المرور" />
-                                            <input name="email" placeholder="البريد الالكتروني" type="email" />
+                                            <input type="text" name="name" value="{{ old('name') }}" placeholder="اسم المستخدم" required/>
+                                            <input type="password" name="password" placeholder="كلمة المرور" required/>
+                                            <input name="email" value="{{ old('email') }}" placeholder="البريد الالكتروني" type="email" required/>
                                             <select name="country"> 
                                                 <option value="">اختر المنطقة</option>
                                                 @foreach(\App\Models\Order::CITY_SELECT as $key => $value)
-                                                    <option value="{{ $key }}">{{ $value }}</option>
+                                                    <option value="{{ $key }}" @if(old('country') == $key) selected @endif>{{ $value }}</option>
                                                 @endforeach
                                             </select>
-                                            <input type="text" name="phone" placeholder="رقم الهاتف" />
+                                            <input type="text" name="phone" value="{{ old('phone') }}" placeholder="رقم الهاتف" required/>
                                             <div class="button-box">
                                             <button type="submit"><span>تسجيل</span></button>
                                             </div>
@@ -60,20 +69,30 @@
                             <div id="lg2" class="tab-pane">
                                 <div class="login-form-container">
                                     <div class="login-register-form">
+                                        @if($errors->count() > 0)
+                                            <div class="alert alert-danger">
+                                                <ul class="list-unstyled">
+                                                    @foreach($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
                                         <form action="{{ route('frontend.register_seller') }}" method="post">
                                             @csrf
-                                            <input type="text" name="name" placeholder="اسم المستخدم" />
-                                            <input name="email" placeholder="البريد الالكتروني" type="email" />
-                                            <input type="password" name="password" placeholder="كلمة المرور" />
-                                            <select name="country"> 
+                                            <input type="text" name="name" value="{{old('name')}}" placeholder="اسم المستخدم" required/>
+                                            <input name="email" value="{{old('email')}}" placeholder="البريد الالكتروني" type="email" required/>
+                                            <input type="password" name="password" placeholder="كلمة المرور" required/>
+                                            <select name="country" required> 
                                                 <option value="">الدوله</option>
                                                 @foreach(\App\Models\Order::CITY_SELECT as $key => $value)
-                                                    <option value="{{ $key }}">{{ $value }}</option>
+                                                    <option value="{{ $key }}" @if(old('country') == $key) selected @endif>{{ $value }}</option>
                                                 @endforeach
                                             </select>
-                                            <input type="text" name="phone" placeholder="رقم الهاتف" />
-                                            <input type="text" name="store_name" placeholder="اسم المتجر" />
-                                           
+                                            <input type="text" name="phone" value="{{old('phone')}}" placeholder="رقم الهاتف" required/>
+                                            <input type="text" name="store_name" value="{{old('store_name')}}" placeholder="اسم المتجر" required/> 
+                                            <small>* should start with alphabets <br> *all othe characters can be alphabets, numbers or underscore <br> * lenght 4-30 characters  </small>
+                                            <br>
                                             <label class="required" for="photo">{{ trans('cruds.seller.fields.photo') }}</label>
                                             <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }}" id="photo-dropzone">
                                             </div>
@@ -81,10 +100,7 @@
                                                 <div class="invalid-feedback">
                                                     {{ $errors->first('photo') }}
                                                 </div>
-                                            @endif
-                                            <span class="help-block">{{ trans('cruds.seller.fields.photo_helper') }}</span>
-                                            
-                                            <textarea name="description" placeholder=" تفاصيل عن علاقتك بالمتجر "  > </textarea>
+                                            @endif 
                                             <div class="button-box">
                                                 <button type="submit"><span>تسجيل</span></button>
                                             </div>

@@ -100,6 +100,11 @@
                             </ul>
                         </div>
                     </div>
+                    
+                    @php
+                        $login_route = route('frontend.userlogin');
+                    @endphp
+
                     <div class="col col-lg-auto align-self-center pl-0">
                         <div class="header-actions">
                             <a href="#" class="header-action-btn" data-bs-toggle="modal" data-bs-target="#searchActive">
@@ -128,14 +133,14 @@
                                     @endauth
                                 </ul>
                             </div>
-                            <a href="@auth #offcanvas-wishlist @else {{route('frontend.userlogin')}} @endauth" class="header-action-btn offcanvas-toggle">
+                            <a @auth href="#offcanvas-wishlist" @else href="#" onclick="location.href='{{$login_route}}'" @endauth class="header-action-btn offcanvas-toggle">
                                 <i class="pe-7s-like"></i>
                             </a> 
-                            <a href="@auth #offcanvas-cart @else {{route('frontend.userlogin')}} @endauth"
+                            <a @auth href="#offcanvas-cart" @else href="#" onclick="location.href='{{$login_route}}'" @endauth
                                 class="header-action-btn header-action-btn-cart offcanvas-toggle pr-0">
                                 <i class="pe-7s-shopbag"></i>
 
-                                <span  id ="header-action-num" class="header-action-num">@auth {{\App\Models\Cart::where('user_id',auth()->user()->id)->count()}} @endauth</span>
+                                <span  id ="header-action-num" class="header-action-num">@auth {{\App\Models\Cart::where('user_id',auth()->user()->id)->count()}} @else 0 @endauth</span>
                             </a>
                             <a href="#offcanvas-mobile-menu"
                                 class="header-action-btn header-action-btn-menu offcanvas-toggle d-lg-none">
@@ -307,16 +312,7 @@
             </div>
         </div>
     </div>
-    <!-- OffCanvas Menu End -->
-            @if($errors->count() > 0)
-                <div class="alert alert-danger">
-                    <ul class="list-unstyled">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+    <!-- OffCanvas Menu End --> 
     @yield('content')
 
     @php

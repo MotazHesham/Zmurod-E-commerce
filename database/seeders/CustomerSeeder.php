@@ -19,11 +19,11 @@ class CustomerSeeder extends Seeder
             'user_type' => 'customer',
             'country' => 'Egypt', 
             'phone' => '1234567890', 
+            'address' =>'11 dummy st cairo', 
         ]);
 
         // Create a customer associated with the user
         Customer::create([
-            'address' =>'11 dummy st cairo ' . $user->country , 
             'user_id' => $user->id,
         ]);
 

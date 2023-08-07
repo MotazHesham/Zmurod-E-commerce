@@ -28,7 +28,6 @@ class Seller extends Model implements HasMedia
     ];
 
     protected $fillable = [
-        'address' ,
         'store_name',
         'description',
         'featured_store',
