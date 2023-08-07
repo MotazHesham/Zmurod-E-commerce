@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 @section('content')
-    <!-- breadcrumb-area start -->
+     <!-- breadcrumb-area start -->
     <div class="breadcrumb-area">
         <div class="container">
             <div class="row align-items-center justify-content-center">
@@ -8,7 +8,7 @@
                     <h2 class="breadcrumb-title">ملتقى التجار</h2>
                     <!-- breadcrumb-list start -->
                     <ul class="breadcrumb-list">
-                        <li class="breadcrumb-item"><a href="index.html">الرئيسية</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('frontend.home') }}">الرئيسية</a></li>
                         <li class="breadcrumb-item active">ملتقى التجار</li>
                     </ul>
                     <!-- breadcrumb-list end -->
@@ -16,8 +16,13 @@
             </div>
         </div>
     </div>
+    <div>
+        <h1 class="text-center">
+            comming soon
+        </h1>
+    </div>
     <!-- breadcrumb-area end -->
-
+    {{--
     <!-- Blog Area Start -->
     <div class="blog-grid pb-100px pt-100px main-blog-page single-blog-page">
         <div class="container">
@@ -25,7 +30,7 @@
                 @foreach (\App\Models\Froum::CATEGORY_SELECT as $key => $value )
                     <div class="forum-title ">
                         <div class="pull-left forum-desc">
-                            <samll>عدد الموضوعات:  50</samll>
+                            <small>عدد الموضوعات:  50</small>
                         </div>
                         <h3>{{$value }}</h3>
                     </div>
@@ -72,6 +77,6 @@
                 
             </div>
         </div>
-    </div>
+    </div> --}} 
     <!-- Blag Area End -->
 @endsection

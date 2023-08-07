@@ -10,7 +10,9 @@ use App\Models\Slider;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Product;
+use App\Models\Review;
 use App\Models\Seller;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {

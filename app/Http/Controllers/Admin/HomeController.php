@@ -161,7 +161,7 @@ class HomeController
 
         $settings5['data'] = [];
         if (class_exists($settings5['model'])) {
-            $settings5['data'] = $settings5['model']::latest()
+            $settings5['data'] = $settings5['model']::with('user_review','product_review')->latest()
                 ->take($settings5['entries_number'])
                 ->get();
         }

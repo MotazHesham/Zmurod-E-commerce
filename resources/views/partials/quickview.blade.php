@@ -52,7 +52,7 @@
                 </p>
                 <div class="pro-details-quality"> 
                     <div class="pro-details-cart">
-                        <a class="add-cart" @auth onclick="add_to_cart('{{$product->id}}')"  @else href="{{ route('frontend.userlogin') }}" @endauth> اضف الى
+                        <a class="add-cart" @auth onclick="add_to_cart('{{$product->id}}')" href=""  @else href="{{ route('frontend.userlogin') }}" @endauth> اضف الى
                             السلة</a>
                     </div>
                     <div class="pro-details-compare-wishlist pro-details-wishlist ">
@@ -60,7 +60,7 @@
                     </div> 
                 </div>
                 <div class="pro-details-categories-info pro-details-same-style d-flex">
-                    <span>الفئات: </span>
+                    <span>الكلمات الدالة: </span>
                     <ul class="d-flex">
                         @foreach ($product->product_tags as $tag )
                         <li>

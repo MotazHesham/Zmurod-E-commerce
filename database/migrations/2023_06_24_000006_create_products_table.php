@@ -12,6 +12,7 @@ class CreateProductsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('current_stock');
+            $table->integer('rating')->default(0);
             $table->longText('information');
             $table->boolean('most_recent')->default(0);
             $table->boolean('published')->default(0);

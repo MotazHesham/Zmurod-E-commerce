@@ -5,11 +5,11 @@
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-12 text-center">
-                <h2 class="breadcrumb-title">الكورسات</h2>
+                <h2 class="breadcrumb-title">ورش العمل</h2>
                 <!-- breadcrumb-list start -->
                 <ul class="breadcrumb-list">
                     <li class="breadcrumb-item"><a href="index.html">الرئيسية</a></li>
-                    <li class="breadcrumb-item active">الكورسات</li>
+                    <li class="breadcrumb-item active">ورش العمل</li>
                 </ul>
                 <!-- breadcrumb-list end -->
             </div>
@@ -18,8 +18,13 @@
 </div>
 <!-- breadcrumb-area end -->
 
+<div>
+    <h1 class="text-center">
+        comming soon
+    </h1>
+</div>
 <!-- Blog Area Start -->
-<div class="blog-grid pb-100px pt-100px main-blog-page single-blog-page">
+{{-- <div class="blog-grid pb-100px pt-100px main-blog-page single-blog-page">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-xl-9 col-md-12 ">
@@ -106,6 +111,6 @@
             <!-- Sidebar Area End -->
         </div>
     </div>
-</div>
+</div> --}}
 <!-- Blag Area End -->
 @endsection

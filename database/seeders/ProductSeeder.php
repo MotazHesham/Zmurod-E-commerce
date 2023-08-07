@@ -28,7 +28,7 @@ class ProductSeeder extends Seeder
                 'discount' => null, // You can adjust the range of discount here
                 'price' => rand(50, 500), // You can adjust the range of price here
                 'product_category_id' => Category::inRandomOrder()->first()->id,
-                'user_id' => 1, // Replace 1 with the ID of the user who owns the products
+                'user_id' => null, // null means that product refer to the admin
                 'shipping_method' => $shippingMethods[array_rand($shippingMethods)],
             ]);
             $product->addMediaFromUrl(asset('assets/images/product-image/'.$i.'.jpg'))

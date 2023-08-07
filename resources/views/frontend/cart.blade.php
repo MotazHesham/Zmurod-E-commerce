@@ -69,14 +69,10 @@
                         <div class="col-lg-12">
                             <div class="cart-shiping-update-wrapper">
                                 <div class="cart-shiping-update">
-                                    <a href="#">استمر في التسوق</a>
-                                </div>
-                                <div class="cart-shiping-update">
+                                    <a href="{{ route('frontend.home') }}">استمر في التسوق</a>
+                                </div> 
+                                <div class="cart-clear"> 
                                     <a href="{{route('frontend.checkout')}}">الذهاب لتسجيل الطلب</a>
-                                </div>
-                                <div class="cart-clear">
-                                    <button>تحديث</button>
-                                    <a href="#">حذف الكل</a>
                                 </div>
                             </div>
                         </div>

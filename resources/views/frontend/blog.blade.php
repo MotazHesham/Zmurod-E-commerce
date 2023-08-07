@@ -18,13 +18,17 @@
     </div>
     <!-- breadcrumb-area end -->
 
+    <div>
+        <h1 class="text-center">
+            comming soon
+        </h1>
+    </div>
     <!-- Blog Area Start -->
-    <div class="blog-grid pb-100px pt-100px main-blog-page single-blog-page">
+    {{-- <div class="blog-grid pb-100px pt-100px main-blog-page single-blog-page">
         <div class="container">
             <div class="row">
                 @foreach ($blogs as $blog)
-                    @if ($blog->type == 'Media')
-                        {{-- Start media blog --}}
+                    @if ($blog->type == 'Media') 
                         <div class="col-lg-6 col-md-6 col-xl-4 mb-50px">
                             <div class="single-blog">
                                 <div class="blog-post-media">
@@ -52,10 +56,8 @@
                                         class="btn btn-primary blog-btn"> المزيد</a>
                                 </div>
                             </div>
-                        </div>
-                        {{-- end media blog --}}
-                    @elseif ($blog->type == 'Video')
-                        {{-- start video blog --}}
+                        </div> 
+                    @elseif ($blog->type == 'Video') 
                         <div class="col-lg-6 col-md-6 col-xl-4 mb-50px">
                             <div class="single-blog">
                                 <div class="blog-post-media">
@@ -90,8 +92,7 @@
                                         class="btn btn-primary blog-btn"> المزيد</a>
                                 </div>
                             </div>
-                        </div>
-                        {{-- end video blog --}}
+                        </div> 
                     @else
                         <!-- Start single blog -->
                         <div class="col-lg-6 col-md-6 col-xl-4 mb-50px">
@@ -143,6 +144,6 @@
             </div>
             <!--  Pagination Area End -->
         </div>
-    </div>
+    </div> --}}
     <!-- Blag Area End -->
 @endsection

@@ -32,19 +32,33 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     Route::get('cart', 'CartController@index')->name('cart');
 
     // product
-    Route::get('product/{id}', 'ProductController@show')->name('product');
-    Route::get('show_popup', 'ProductController@show_popup')->name('productpopup'); 
+    Route::get('product/{id}', 'ProductController@show')->name('product'); 
+    Route::get('show_popup', 'ProductController@show_popup')->name('productpopup');  
+    Route::post('rating','ProductController@rating')->name('rating');
 
     // checkout
     Route::get('checkout', 'CheckoutController@index')->name('checkout');
 
     // login
     Route::get('userlogin', 'LoginController@index')->name('userlogin');
+
+
 });
 
 
-// pop up model 
-Route::post('customer/pop', 'Customer\PopupModalController@show')->name('customer.popup.show');
+Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Customer'], function () {
+    // shops
+    Route::get('shops', 'ShopController@index')->name('shops');
+    Route::get('shop/{id}', 'ShopController@shop')->name('shop');
+    Route::get('shop', 'ShopController@show')->name('marketshop');
+
+    //Contact
+    Route::get('contact', 'ContactController@index')->name('contact-us');
+    Route::Post('/send', 'ContactController@store')->name('sendmessage');
+
+    // pop up model 
+    Route::post('pop', 'PopupModalController@show')->name('popup.show');
+});
 
 Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Customer', 'middleware' => ['auth', 'customer']], function () {
     // account
@@ -61,28 +75,12 @@ Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Custo
     //whitelist
     Route::get('whitelist/show', 'WhitelistController@show')->name('whitelist.show');
     Route::post('whitelist/store', 'WhitelistController@store')->name('whitelist.store');
-    Route::delete('whitelist/remove', 'WhitelistController@destroy')->name('whitelist.remove');
-
-    // shops
-    Route::get('shops', 'ShopController@index')->name('shops');
-    Route::get('shop/{id}', 'ShopController@shop')->name('shop');
-    Route::get('shop', 'ShopController@show')->name('marketshop');
-
-
-    // product
-    Route::get('product/{id}', 'ProductController@show')->name('product');
+    Route::delete('whitelist/remove', 'WhitelistController@destroy')->name('whitelist.remove'); 
 
     // order 
     Route::post('order/store', 'OrderController@store')->name('order.store');
 
     // thanks page 
-    Route::get('thanks', 'OrderController@thank')->name('order.has.stored');
+    Route::get('thanks', 'OrderController@thank')->name('order.has.stored'); 
 
-
-    // Add more routes for cart actions as needed
-
-
-    //Contact
-    Route::get('contact', 'ContactController@index')->name('contact-us');
-    Route::Post('/send', 'ContactController@store')->name('sendmessage');
 });

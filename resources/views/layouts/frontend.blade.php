@@ -61,7 +61,7 @@
                                             <ul class="d-block " id="#categoryList">
                                                 <li class="title"><a href="#">الفئات الرئيسية</a></li>
                                                 @foreach (\App\Models\Category::all() as $category)
-                                                <li><a href="{{route('customer.marketshop')}}">{{ $category->name }}</a>
+                                                <li><a href="{{route('customer.marketshop',['category' => $category->id])}}">{{ $category->name }}</a>
                                                 </li>
                                                 @endforeach
                                             </ul>
@@ -69,14 +69,14 @@
                                                 <li class="title"><a href="#">احدث المنتجات</a></li>
                                                 @foreach(\App\Models\Product::where('published',1)->orderBy('updated_at','desc')->take(5)->get() as $product)
                                                 <li><a
-                                                        href="{{route('customer.marketshop',['title'=>$product->name])}}">{{
+                                                        href="{{route('frontend.product',$product->id)}}">{{
                                                         $product->name }}</a></li>
                                                 @endforeach
                                             </ul>
                                             <ul class="d-block">
                                                 <li class="title"><a href="#">المنتجات الاكثر مبيعا</a></li>
                                                 @foreach (\App\Models\Product::where('published',1)->take(5)->get() as $product)
-                                                <li><a href="{{route('customer.marketshop')}}">{{ $product->name }}</a>
+                                                <li><a href="{{route('frontend.product',$product->id)}}">{{ $product->name }}</a>
                                                 </li>
                                                 @endforeach
                                             </ul>
@@ -387,8 +387,7 @@
                                         <ul class="align-items-center">
                                                 @foreach (\App\Models\Seller::get()->take(5) as $seller )
                                                     <li class="li">
-                                                        <a class="single-link" href="#">{{$seller->name}}
-                                                        </a>
+                                                        <a class="single-link" href="#">{{$seller->store_name}} </a>
                                                     </li>
                                                 @endforeach
                                         </ul>
@@ -451,9 +450,9 @@
                     <div class="modal-content">
                         <div class="modal-body">
                             <h2>بحث عن منتج او متجر</h2>
-                            <form class="navbar-form position-relative" role="search">
+                            <form class="navbar-form position-relative" action="{{ route('customer.marketshop')}}" role="search">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="بحث ...">
+                                    <input type="text" class="form-control" name="search" placeholder="بحث ...">
                                 </div>
                                 <button type="submit" class="submit-btn"><i class="pe-7s-search"></i></button>
                             </form>
@@ -479,6 +478,8 @@
         <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
+        
+        @include('sweetalert::alert')
 
         <!-- Vendor JS -->
         <script src="{{ asset('assets/js/vendor/jquery-3.5.1.min.js') }}"></script>

@@ -44,6 +44,7 @@ class Product extends Model implements HasMedia
         'product_category_id',
         'user_id',
         'fav',
+        'rating',
         'shipping_method',
         'created_at',
         'updated_at',
@@ -96,9 +97,17 @@ class Product extends Model implements HasMedia
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function reviews(){
+        return $this->hasMany(Review::class,'product_review_id');
+    }
+
     public function product_offers()
     {
         return $this->belongsToMany(Offer::class);
+    }
+
+    public function calc_rating(){
+        return ;
     }
 
     public function calc_product_price(){
