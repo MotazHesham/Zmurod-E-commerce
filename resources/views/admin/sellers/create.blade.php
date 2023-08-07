@@ -61,8 +61,18 @@
                       </div>
                   @endif
                   <span class="help-block">{{ trans('cruds.user.fields.name_helper') }}</span>
-              </div>
-              <div class="form-group col-9">
+                </div>
+                <div class="form-group col-3 mt-5">
+                  <label class="required" for="address">{{ trans('cruds.seller.fields.address') }}</label>
+                  <input class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" type="text" name="address" id="address" value="{{ old('address', '') }}" required>
+                  @if($errors->has('address'))
+                      <div class="invalid-feedback">
+                          {{ $errors->first('address') }}
+                      </div>
+                  @endif
+                  <span class="help-block">{{ trans('cruds.user.fields.name_helper') }}</span>
+                </div>
+              <div class="form-group col-6">
                   <label for="description">{{ trans('cruds.seller.fields.description') }}</label>
                   <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{!! old('description') !!}</textarea>
                   @if($errors->has('description'))

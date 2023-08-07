@@ -44,7 +44,7 @@
           <button class="menu-btn focus:outline-none focus:shadow-outline flex flex-wrap items-center">
             <div class="w-8 h-8 overflow-hidden rounded-full">
               @php
-              $seller = \App\Models\Seller::where('email',auth()->user()->email)->first();
+              $seller = \App\Models\User::where('email',auth()->user()->email)->first();
               $seller && $seller->photo ? $img = $seller->photo->getUrl('thumb'): $img = asset('assets/images/blank.jpg') ; 
               
               @endphp

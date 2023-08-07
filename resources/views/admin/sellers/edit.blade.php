@@ -12,7 +12,7 @@
             @csrf
             <input type="hidden" name="user_id" value="{{ $seller->user_id }}">
             <div class="row justify-content-between">
-                <div class="form-group col-3">
+              <div class="form-group col-3">
                   <label class="required" for="name">{{ trans('cruds.user.fields.name') }}</label>
                   <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $seller->user->name) }}" required>
                   @if($errors->has('name'))
@@ -64,7 +64,17 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.seller.fields.phone_helper') }}</span>
               </div>
-              <div class="form-group col-9">
+              <div class="form-group col-3 mt-5">
+                <label for="address">{{ trans('cruds.seller.fields.address') }}</label>
+                <input class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" type="text" name="address" id="address" value="{{ old('address', $seller->address) }}">
+                @if($errors->has('address'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('address') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.seller.fields.address_helper') }}</span>
+              </div>
+              <div class="form-group col-6">
                 <label for="description">{{ trans('cruds.seller.fields.description') }}</label>
                 <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{!! old('description', $seller->description) !!}</textarea>
                 @if($errors->has('description'))

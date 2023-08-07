@@ -116,6 +116,8 @@ class SellersController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'user_type' => 'seller',
+            'country' => $request->country,
+            'phone' => $request->phone
         ]);
 
         $validated_request = $request->all();
@@ -153,6 +155,8 @@ class SellersController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password != null ? bcrypt($request->password) : $user->password,
+            'country' => $request->country,
+            'phone' => $request->phone
         ]);
 
         if ($request->input('photo', false)) {
