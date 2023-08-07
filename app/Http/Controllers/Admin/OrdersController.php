@@ -22,7 +22,7 @@ class OrdersController extends Controller
         abort_if(Gate::denies('order_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Order::with(['user', 'product'])->select(sprintf('%s.*', (new Order)->table));
+            $query = Order::with(['user', 'orderProduct'])->select(sprintf('%s.*', (new Order)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -130,7 +130,7 @@ class OrdersController extends Controller
     {
         abort_if(Gate::denies('order_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $order->load('user', 'product','orderProduct.product.user');
+        $order->load('user','orderProduct.product.user');
 
         return view('admin.orders.show', compact('order'));
     }

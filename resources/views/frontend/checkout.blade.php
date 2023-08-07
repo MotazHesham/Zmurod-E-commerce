@@ -83,12 +83,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-md-6">
-                                <div class="billing-info mb-4">
-                                    <label>البريد الالكتروني</label>
-                                    <input type="text" name="email" value="{{ auth()->user()->email }}" />
-                                </div>
-                            </div>
                         </div>
 
                         

@@ -120,6 +120,7 @@
                     <tbody>
                         <tr>
                             <th>Products</th>
+                            <th>Seller name</th>
                             <th>Prices</th>
                             <th>Quantities</th>
                             <th>Costs</th>
@@ -127,6 +128,7 @@
                     @foreach ($order->orderProduct as $orderProduct)
                         <tr>
                             <td>{{ $orderProduct->product->name ?? '' }}</td>
+                            <td>{{ $orderProduct->product->user->name ?? '' }}</td>
                             <td>{{ $orderProduct->price }}</td>
                             <td>{{ $orderProduct->quantity }}</td>
                             <td>{{ $orderProduct->total_cost }}</td>

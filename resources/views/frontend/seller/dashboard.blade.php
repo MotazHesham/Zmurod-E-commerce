@@ -27,7 +27,7 @@
           <!-- bottom -->
           <div class="mt-8">
             <h3 class="h3 "> {{$totalSoldProducts}}</h3>
-            <p> منتج تم بيعة</p>
+            <p> منتج تم طلبه</p>
           </div>
           <!-- end bottom -->
 
@@ -35,8 +35,7 @@
       </div>
       <div class="footer bg-white p-1 mx-4 border border-t-0 rounded rounded-t-none"></div>
     </div>
-    <!-- end card -->
-
+    
 
     <!-- card -->
     <div class="report-card">
@@ -97,7 +96,7 @@
 
 
   <!-- Sales Overview -->
-  <div class="card mt-6">
+  {{-- <div class="card mt-6">
 
     <!-- header -->
     <div class="card-header flex flex-row justify-between">
@@ -151,7 +150,7 @@
     </div>
     <!-- end body -->
 
-  </div>
+  </div> --}}
   <!-- end Sales Overview -->
 
   {{-- <!-- start numbers -->
@@ -232,7 +231,7 @@
 
 
     <!-- Start Recent Sales -->
-    <div class="card col-span-2 xl:col-span-1">
+    {{-- <div class="card col-span-2 xl:col-span-1">
       <div class="card-header">أحدث الاوردرات</div>
 
       <table class="table-auto w-full text-right">
@@ -290,7 +289,7 @@
 
         </tbody>
       </table>
-    </div>
+    </div> --}}
     <!-- End Recent Sales -->
 
 

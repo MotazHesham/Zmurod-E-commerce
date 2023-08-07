@@ -22,6 +22,7 @@
                         <th class="px-4 py-2 border-r">صورة المنتج</th>
                         <th class="px-4 py-2 border-r">المنتج</th>
                         <th class="px-4 py-2 border-r">السعر</th>
+                        <th class="px-4 py-2 border-r">الموافقه من الاداره </th>
                         <th class="px-4 py-2 border-r">تعديل</th>
 
                     </tr>
@@ -33,6 +34,7 @@
                             <td class="border border-l-0 px-4 py-2 text-center pro-img "> <img src="{{$product->image[0]->getUrl()}}"></td>
                             <td class="border border-l-0 border-b-0 px-4 py-2">{{$product->name}}</td>
                             <td class="border border-l-0 border-b-0 px-4 py-2">{{$product->price}}</td>
+                            <td class="border border-l-0 border-b-0 px-4 py-2">{{$product->published ? 'accepted' : 'pending' }}</td>
                             <td class="border border-l-0 border-b-0 border-r-0 px-4 py-2"> <button class="btn btn-danger">تعديل</button></td>
                         </tr>
                     @endforeach

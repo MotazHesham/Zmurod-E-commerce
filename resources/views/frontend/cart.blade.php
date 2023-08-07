@@ -49,10 +49,9 @@
                                         <td class="product-price-cart"><span class="amount">{{$cart->price_with_discount}}</span></td>
                                         <td class="product-quantity">
                                             <div class="cart-plus-minus">
-                                                <div class="dec qtybutton" >-</div>
-                                                    <input id="quantity-{{$cart->product_id}}" onchange="updateCart('{{$cart->product_id}}')" class="cart-plus-minus-box quantity-input" onkeyup="updateCart('{{$cart->product_id}}')" type="number"
-                                                        name="qtybutton" 
-                                                        value="{{$cart->quantity}}" />
+                                                <div class="dec qtybutton">-</div>
+                                                <input class="cart-plus-minus-box" type="text" name="qtybutton" data-product-id="{{$cart->product_id}}"
+                                                    value="{{$cart->quantity}}" />
                                                 <div class="inc qtybutton">+</div>
                                             </div>
                                         </td>
@@ -94,29 +93,36 @@
 @section('scripts')
 @parent
 <script>
-    function updateCart(id) {
-        var value = $('#quantity-'+ id).attr('value');
-        console.log(value);
+    function updateQuantity(productId, quantity) {
+        // console.log('productId ', productId );
+        // console.log('quantity',quantity);
         $.ajax({
-                    type: "POST",
-                    url: '{{ route("customer.cart.store") }}',
-                    data: {
-                        product_id: id,
-                        quantity : parseInt(value) ,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function (data) {
-                        if(data.exist){
-                            $('#cart-item-' + data.cart_id).html(data.html);
-                            $('#header-action-num').text(data.count);
-                        }else{
-                            $('#modal-cart-list').append(data.html);
-                            $('#header-action-num').text(data.count);
-                        }
-                        $('#totalcost-'+ id).html(data.totalcost);
-                        // showToast('success', 'تمت إضافة المنتج إلى السلة بنجاح');
-                    }
-                });
-    }
+            type: "POST",
+            url: '{{ route("customer.cart.store") }}',
+            data: 
+                { 
+                    product_id: productId,
+                    quantity: quantity ,
+                    _token: '{{ csrf_token() }}',
+                },
+            success: function (data) {
+                if(data.exist){
+                    $('#cart-item-' + data.cart_id).html(data.html);
+                    $('#header-action-num').text(data.count);
+                }else{
+                    $('#modal-cart-list').append(data.html);
+                    $('#header-action-num').text(data.count);
+                }
+                    $('#totalcost-'+productId).html(data.totalcost)
+            },
+
+
+            error: function () {
+               
+            }
+        });
+        }
+    
 </script>
+
 @endsection

@@ -361,25 +361,35 @@
 
 
 
-    /*----------------------------
-        Cart Plus Minus Button
-    ------------------------------ */
-    $(".qtybutton").on("click", function () {
+ $(".cart-plus-minus").each(function () {
+    var $cartPlusMinus = $(this);
+    $cartPlusMinus.prepend('<div class="dec qtybutton">-</div>');
+    $cartPlusMinus.append('<div class="inc qtybutton">+</div>');
+
+    $cartPlusMinus.on("click", ".qtybutton", function () {
         var $button = $(this);
-        var oldValue = $button.parent().find("input").val();
+        var $input = $button.siblings(".cart-plus-minus-box");
+        var oldValue = parseFloat($input.val());
+        var productId = $input.data("product-id");
+
         if ($button.text() === "+") {
-            var newVal = parseFloat(oldValue) + 1;
+            var newVal = oldValue + 1;
         } else {
             // Don't allow decrementing below zero
             if (oldValue > 1) {
-                var newVal = parseFloat(oldValue) - 1;
+                var newVal = oldValue - 1;
             } else {
                 newVal = 1;
             }
         }
-        $button.parent().find("input").attr('value', newVal);
-        $button.parent().find("input").fireOnChange();
+
+        $input.val(newVal);
+        updateQuantity(productId, newVal);
     });
+});
+
+
+
 
 
     /*------------------------------
