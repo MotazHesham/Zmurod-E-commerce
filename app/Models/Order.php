@@ -40,14 +40,6 @@ class Order extends Model
         'cancel'      => 'Cancel',
     ];
 
-    public const CITY_SELECT = [
-        'Ryad'     => 'الرياض',
-        'Jaddah'   => 'جده',
-        'Elmadina' => 'المدينه',
-        'suadia' => 'السعوديه',
-        'ay7aga' => 'أي حاجه ',
-        "masr"  => ' مصر'
-    ];
 
     protected $fillable = [
         'order_num',

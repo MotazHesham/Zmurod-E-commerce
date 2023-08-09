@@ -101195,3 +101195,16 @@ input, select, textarea {
 }
 
 .pro-img img   { width: 50px;  }
+
+.phone-input {
+    display: flex;
+    align-items: center;
+}
+
+.area-code {
+    width: 50px;
+}
+
+.phone-number {
+    flex: 1;
+}

@@ -36,7 +36,6 @@ class User extends Authenticatable
         'seller'   => 'Seller',
         'customer' => 'Customer',
     ];
-
     protected $fillable = [
         'name',
         'email',
@@ -103,4 +102,23 @@ class User extends Authenticatable
     {
         return $this->hasMany(Whitelist::class);
     }
+
+    // countries
+    public const CITY_SELECT = [
+        'Suadia' => 'السعوديه',
+    ];
+
+    // areas 
+    public const AREA_SELECT = [
+        'Ryad' => 'الرياض',
+        'Jaddah' => 'جدة',
+        'Makkah' => 'مكة المكرمة',
+        'Madinah' => 'المدينة المنورة',
+        'Dammam' => 'الدمام',
+        'Khobar' => 'الخبر',
+        'Taif' => 'الطائف',
+        'Jubail' => 'الجبيل',
+        'KhamisMushait' => 'خميس مشيط',
+        'ArRass' => 'الرس',
+    ];
 }

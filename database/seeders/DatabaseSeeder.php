@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             TagTableSeeder::class,
             FroumsTableSeeder::class,
             ProductSeeder::class,
-        
+            SliderSeeder::class
         ]);
     }
 }

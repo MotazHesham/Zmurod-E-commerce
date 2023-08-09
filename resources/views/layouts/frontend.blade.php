@@ -45,7 +45,7 @@
                 <div class="row">
                     <div class="col-auto align-self-center">
                         <div class="header-logo">
-                            <a href="index.html">
+                            <a href="{{route('frontend.home')}}">
                                 <img src="{{ asset('assets/images/logo.png') }}" alt="Site Logo" />
                             </a>
                         </div>
@@ -61,22 +61,26 @@
                                             <ul class="d-block " id="#categoryList">
                                                 <li class="title"><a href="#">الفئات الرئيسية</a></li>
                                                 @foreach (\App\Models\Category::all() as $category)
-                                                <li><a href="{{route('customer.marketshop',['category' => $category->id])}}">{{ $category->name }}</a>
+                                                <li><a
+                                                        href="{{route('customer.marketshop',['category' => $category->id])}}">{{
+                                                        $category->name }}</a>
                                                 </li>
                                                 @endforeach
                                             </ul>
                                             <ul class="d-block">
                                                 <li class="title"><a href="#">احدث المنتجات</a></li>
-                                                @foreach(\App\Models\Product::where('published',1)->orderBy('updated_at','desc')->take(5)->get() as $product)
-                                                <li><a
-                                                        href="{{route('frontend.product',$product->id)}}">{{
+                                                @foreach(\App\Models\Product::where('published',1)->orderBy('updated_at','desc')->take(5)->get()
+                                                as $product)
+                                                <li><a href="{{route('frontend.product',$product->id)}}">{{
                                                         $product->name }}</a></li>
                                                 @endforeach
                                             </ul>
                                             <ul class="d-block">
                                                 <li class="title"><a href="#">المنتجات الاكثر مبيعا</a></li>
-                                                @foreach (\App\Models\Product::where('published',1)->take(5)->get() as $product)
-                                                <li><a href="{{route('frontend.product',$product->id)}}">{{ $product->name }}</a>
+                                                @foreach (\App\Models\Product::where('published',1)->take(5)->get() as
+                                                $product)
+                                                <li><a href="{{route('frontend.product',$product->id)}}">{{
+                                                        $product->name }}</a>
                                                 </li>
                                                 @endforeach
                                             </ul>
@@ -100,9 +104,9 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     @php
-                        $login_route = route('frontend.userlogin');
+                    $login_route = route('frontend.userlogin');
                     @endphp
 
                     <div class="col col-lg-auto align-self-center pl-0">
@@ -116,36 +120,41 @@
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     @auth
-                                        @php
-                                            $route = auth()->user()->user_type == 'customer' ? 'customer.home' : 'seller.home';
-                                        @endphp
-                                        <li><a class="dropdown-item" href="{{route($route)}}">حسابي</a></li>
-                                        <li>
-                                            <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">تسجيل
-                                                الخروج </a>
-                                        </li>
-                                    @else 
-                                    <li> <a class="dropdown-item"
-                                        href="{{route('frontend.userlogin')}}">تسجيل الدخول</a></li>
+                                    @php
+                                    $route = auth()->user()->user_type == 'customer' ? 'customer.home' : 'seller.home';
+                                    @endphp
+                                    <li><a class="dropdown-item" href="{{route($route)}}">حسابي</a></li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"
+                                            onclick="event.preventDefault(); document.getElementById('logoutform').submit();">تسجيل
+                                            الخروج </a>
+                                    </li>
+                                    @else
+                                    <li> <a class="dropdown-item" href="{{route('frontend.userlogin')}}">تسجيل
+                                            الدخول</a></li>
                                     <li> <a class="dropdown-item" href="{{route('frontend.register')}}">تسجيل حساب جديد
                                         </a>
                                     </li>
                                     @endauth
                                 </ul>
                             </div>
-                            <a @auth href="#offcanvas-wishlist" @else href="#" onclick="location.href='{{$login_route}}'" @endauth class="header-action-btn offcanvas-toggle">
+                            <a @auth href="#offcanvas-wishlist" @else href="#"
+                                onclick="location.href='{{$login_route}}'" @endauth
+                                class="header-action-btn offcanvas-toggle">
                                 <i class="pe-7s-like"></i>
-                            </a> 
-                            <a @auth href="#offcanvas-cart" @else href="#" onclick="location.href='{{$login_route}}'" @endauth
-                                class="header-action-btn header-action-btn-cart offcanvas-toggle pr-0">
+                            </a>
+                            <a @auth href="#offcanvas-cart" @else href="#" onclick="location.href='{{$login_route}}'"
+                                @endauth class="header-action-btn header-action-btn-cart offcanvas-toggle pr-0">
                                 <i class="pe-7s-shopbag"></i>
 
-                                <span  id ="header-action-num" class="header-action-num">@auth {{\App\Models\Cart::where('user_id',auth()->user()->id)->count()}} @else 0 @endauth</span>
+                                <span id="header-action-num" class="header-action-num">@auth
+                                    {{\App\Models\Cart::where('user_id',auth()->user()->id)->count()}} @else 0
+                                    @endauth</span>
                             </a>
                             <a href="#offcanvas-mobile-menu"
                                 class="header-action-btn header-action-btn-menu offcanvas-toggle d-lg-none">
                                 <i class="pe-7s-menu"></i>
-                            </a> 
+                            </a>
 
                         </div>
                     </div>
@@ -165,32 +174,35 @@
             </div>
             <div class="body customScroll">
                 <ul class="minicart-product-list" id="modal-whitlist-list">
-                @auth
+                    @auth
                     @foreach ( auth()->user()->whitelist()->with('product')->get() as $whitelist )
                     @php
                     if (isset($whitelist->product->image)) {
-                            $image_first = isset($whitelist->product->image[0]) ? $whitelist->product->image[0]->getUrl() :
-                        asset('assets/images/blank.jpg');
-                        }else{
-                            $image_first = asset('assets/images/blank.jpg');
-                        }
+                    $image_first = isset($whitelist->product->image[0]) ? $whitelist->product->image[0]->getUrl() :
+                    asset('assets/images/blank.jpg');
+                    }else{
+                    $image_first = asset('assets/images/blank.jpg');
+                    }
                     @endphp
-                        <li id="whitlist-item-{{$whitelist->id}}">
-                            <a href="#" class="image"><img src="{{$image_first}}" alt="Whitlist product Image"></a>
-                            <div class="content">
-                                <a href="#" class="title ml-3"><h6>{{$whitelist->product->name}}</h6>  </a>
-                                <span class="amount">${{$whitelist->product->price}}</span>
-                                <a href="#"  onclick="deleteFromWhitelist('{{$whitelist->id}}')" class="remove">×</a>
-                            </div>
-                        </li>
+                    <li id="whitlist-item-{{$whitelist->id}}">
+                        <a href="#" class="image"><img src="{{$image_first}}" alt="Whitlist product Image"></a>
+                        <div class="content">
+                            <a href="#" class="title ml-3">
+                                <h6>{{$whitelist->product->name}}</h6>
+                            </a>
+                            <span class="amount">${{$whitelist->product->price}}</span>
+                            <a href="#" onclick="deleteFromWhitelist('{{$whitelist->id}}')" class="remove">×</a>
+                        </div>
+                    </li>
                     @endforeach
-                @endauth
-                    
+                    @endauth
+
                 </ul>
             </div>
             <div class="foot">
                 <div class="buttons">
-                    <a href="{{route('customer.whitelist.show')}}" class="btn btn-dark btn-hover-primary mt-30px"> عرض قائمة
+                    <a href="{{route('customer.whitelist.show')}}" class="btn btn-dark btn-hover-primary mt-30px"> عرض
+                        قائمة
                         الامنيات</a>
                 </div>
             </div>
@@ -209,29 +221,30 @@
             <div class="body customScroll">
                 <ul class="minicart-product-list" id="modal-cart-list">
                     @auth
-                        @foreach (auth()->user()->cart()->with('product')->get() as $cart )
+                    @foreach (auth()->user()->cart()->with('product')->get() as $cart )
 
-                        @php
-                        if (isset($cart->product->image)) {
-                                $image_first = isset($cart->product->image[0]) ? $cart->product->image[0]->getUrl() :
-                            asset('assets/images/blank.jpg');
-                            }else{
-                                $image_first = asset('assets/images/blank.jpg');
-                            }
-                        @endphp
-                        <li id="cart-item-{{$cart->id}}">
-                            <a href="" class="image"><img src="{{ $image_first }}" alt="Cart product Image"></a>
-                            <div class="content">
-                                <a href="" class="title" style="font-size: 20px;">{{ $cart->product->name ?? '' }}</a>
-                                <div class="d-flex justify-content-around">
-                                    <span class="quantity" style="font-size: 25px; "> x{{$cart->quantity}}</span>
-                                    <span class="price" style="font-size: 20px;"><strong>{{ $cart->price_with_discount}}</strong></span>
-                                </div>
+                    @php
+                    if (isset($cart->product->image)) {
+                    $image_first = isset($cart->product->image[0]) ? $cart->product->image[0]->getUrl() :
+                    asset('assets/images/blank.jpg');
+                    }else{
+                    $image_first = asset('assets/images/blank.jpg');
+                    }
+                    @endphp
+                    <li id="cart-item-{{$cart->id}}">
+                        <a href="" class="image"><img src="{{ $image_first }}" alt="Cart product Image"></a>
+                        <div class="content">
+                            <a href="" class="title" style="font-size: 20px;">{{ $cart->product->name ?? '' }}</a>
+                            <div class="d-flex justify-content-around">
+                                <span class="quantity" style="font-size: 25px; "> x{{$cart->quantity}}</span>
+                                <span class="price" style="font-size: 20px;"><strong>{{
+                                        $cart->price_with_discount}}</strong></span>
                             </div>
-                            <a class="remove" href="#" onclick="remove_from_cart('{{$cart->id}}')">×</a>
-                            
-                        </li>
-                        @endforeach
+                        </div>
+                        <a class="remove" href="#" onclick="remove_from_cart('{{$cart->id}}')">×</a>
+
+                    </li>
+                    @endforeach
                     @endauth
                 </ul>
             </div>
@@ -254,7 +267,7 @@
 
             <div class="offcanvas-menu mb-4">
                 <ul>
-                    <li><a href="#"><span class="menu-text">الرئيسية</span></a>
+                    <li><a href="{{route('frontend.home')}}"><span class="menu-text">الرئيسية</span></a>
                     </li>
 
                     <li><a href="#"><span class="menu-text">التسوق</span></a>
@@ -262,17 +275,33 @@
                             <li>
                                 <a href="#"><span class="menu-text">الفئات الرئيسية</span></a>
                                 <ul class="sub-menu">
-                                    <li><a href="shop.html">أقمشة</a></li>
-                                    <li><a href="shop.html">خزف</a></li>
+                                    @foreach (\App\Models\Category::all() as $category)
+                                    <li>
+                                        <a href="{{route('customer.marketshop',['category' => $category->id])}}">{{
+                                            $category->name }}</a>
+                                    </li>
+                                    @endforeach
                                 </ul>
                             </li>
                             <li>
                                 <a href="#"><span class="menu-text">المنتجات</span></a>
                                 <ul class="sub-menu">
-                                    <li><a href="shop.html">مكرميات</a></li>
-                                    <li><a href="shop.html">كروشية</a></li>
-
-
+                                    @foreach(\App\Models\Product::where('published',1)->orderBy('updated_at','desc')->take(5)->get()
+                                    as $product)
+                                    <li>
+                                        <a href="{{route('frontend.product',$product->id)}}">{{$product->name }}</a>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><span class="menu-text">المنتجات الاكثر مبيعا</span></a>
+                                <ul class="sub-menu">
+                                    @foreach (\App\Models\Product::where('published',1)->take(5)->get() as $product)
+                                    <li>
+                                        <a href="{{route('frontend.product',$product->id)}}">{{ $product->name }}</a>
+                                    </li>
+                                    @endforeach
                                 </ul>
                             </li>
 
@@ -281,7 +310,7 @@
 
                     <li><a href="{{ route('frontend.courses') }}"> ورش العمل</a></li>
                     <li>
-                    <li><a href="{{route('customer.marketshop')}}"> المتاجر</a></li>
+                    <li><a href="{{route('customer.shops')}}"> المتاجر</a></li>
                     <li>
                     <li><a href="{{route('frontend.forums')}}">ملتقى التجار</a></li>
                     <li>
@@ -312,7 +341,7 @@
             </div>
         </div>
     </div>
-    <!-- OffCanvas Menu End --> 
+    <!-- OffCanvas Menu End -->
     @yield('content')
 
     @php
@@ -333,7 +362,7 @@
                                 <div class="footer-about">
                                     <div class="footer-row">
 
-                                        <p>{{$about->vision}}</p> 
+                                        <p>{{$about->vision}}</p>
 
                                     </div>
                                 </div>
@@ -348,9 +377,15 @@
                                     <div class="footer-row">
                                         <ul class="align-items-center">
                                             @auth
-                                            <li class="li"><a class="single-link" href="{{route($route)}}"> حسابي
-                                                    الشخصي</a>
-                                            </li>
+                                                <li class="li"><a class="single-link" href="{{route($route)}}"> حسابي
+                                                        الشخصي</a>
+                                                </li>
+                                                <li class="li"><a class="single-link"
+                                                        href="{{route('frontend.cart')}}">طلباتي </a>
+                                                </li>
+                                                <li class="li"><a class="single-link"
+                                                        href="{{route('customer.whitelist.show')}}">قائمة
+                                                        الامنيات</a></li>
                                             @else
                                             <li class="li"><a class="single-link"
                                                     href="{{route('frontend.userlogin')}}"> تسجيل الدخول
@@ -361,12 +396,7 @@
                                                 </a>
                                             </li>
                                             @endauth
-                                            <li class="li"><a class="single-link"
-                                                    href="{{route('frontend.cart')}}">طلباتي </a>
-                                            </li>
-                                            <li class="li"><a class="single-link"
-                                                    href="{{route('customer.whitelist.show')}}">قائمة
-                                                    الامنيات</a></li>
+
                                             <li class="li"><a class="single-link"
                                                     href="{{route('customer.marketshop')}}">التسوق</a>
                                             </li>
@@ -385,11 +415,11 @@
                                 <div class="footer-links">
                                     <div class="footer-row">
                                         <ul class="align-items-center">
-                                                @foreach (\App\Models\Seller::get()->take(5) as $seller )
-                                                    <li class="li">
-                                                        <a class="single-link" href="#">{{$seller->store_name}} </a>
-                                                    </li>
-                                                @endforeach
+                                            @foreach (\App\Models\Seller::get()->take(5) as $seller )
+                                            <li class="li">
+                                                <a class="single-link" href="#">{{$seller->store_name}} </a>
+                                            </li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                 </div>
@@ -405,12 +435,12 @@
                                     <!-- News letter area -->
                                     <p class="mail">للتواصل السريع والاستفسارات <br>
                                         <a href="mailto:{{$about->email}}">{{$about->email}}</a>
-                                    </p> 
+                                    </p>
                                     <p class="phone m-0">
                                         <i class="pe-7s-phone"></i>
                                         <span>
-                                            <a href="tel:{{$about->phone_number_2}}">{{$about->phone_number_2}}</a> 
-                                            <br> 
+                                            <a href="tel:{{$about->phone_number_2}}">{{$about->phone_number_2}}</a>
+                                            <br>
                                             <a href="tel:{{$about->phone_number}}"> {{$about->phone_number}}</a>
                                         </span>
                                     </p>
@@ -450,7 +480,8 @@
                     <div class="modal-content">
                         <div class="modal-body">
                             <h2>بحث عن منتج او متجر</h2>
-                            <form class="navbar-form position-relative" action="{{ route('customer.marketshop')}}" role="search">
+                            <form class="navbar-form position-relative" action="{{ route('customer.marketshop')}}"
+                                role="search">
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="search" placeholder="بحث ...">
                                 </div>
@@ -466,7 +497,7 @@
         <div class="modal modal-2 fade" id="exampleModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    {{-- Ajax Code here  --}}
+                    {{-- Ajax Code here --}}
                 </div>
             </div>
         </div>
@@ -478,7 +509,7 @@
         <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
-        
+
         @include('sweetalert::alert')
 
         <!-- Vendor JS -->
@@ -501,7 +532,7 @@
         <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
-    
+
         <!-- Main Js -->
         <script src="{{ asset('assets/js/main.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
@@ -621,8 +652,8 @@
                     }
                 });
             }
-        </script> 
-        @yield('scripts')  
+        </script>
+        @yield('scripts')
 </body>
 
 </html>

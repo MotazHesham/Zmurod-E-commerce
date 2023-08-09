@@ -8,6 +8,7 @@ use App\Models\Seller;
 use Illuminate\Http\Request;
 use App\Models\User; 
 use App\Http\Controllers\Traits\MediaUploadingTrait;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -27,8 +28,12 @@ class RegisterController extends Controller
             'name' => 'required|string|max:50',
             'password' => 'required|string|min:6',
             'email' => 'required|string|email|unique:users',
-            'country' => 'required|string|max:255',
+            
+            'country' => ['required', 'in:' . implode(',', array_keys(User::CITY_SELECT))],
+            'region'  =>['required', 'in:' . implode(',', array_keys(User::AREA_SELECT))],
+            'complete-add'=>'required',
             'phone' => 'required|string|max:255',
+            
         ]);
         // Create a new user
         $user = User::create([
@@ -37,7 +42,8 @@ class RegisterController extends Controller
             'email' => $validatedData['email'],
             'country' => $validatedData['country'],
             'phone' => $validatedData['phone'],
-            'user_type' => 'customer',
+            'user_type' => 'customer' ,
+            'address' => $validatedData['region'] . $validatedData['complete-add'],
         ]);
 
         $customer = Customer::create([ 
@@ -58,7 +64,9 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|min:6',
-            'country' => 'required',
+            'country' => ['required', 'in:' . implode(',', array_keys(User::CITY_SELECT))],
+            'region'  =>['required', 'in:' . implode(',', array_keys(User::AREA_SELECT))],
+            'complete-add'=>'required',
             'phone' => 'required|string|max:255',
             'store_name' => 'required|string|max:255|unique:sellers,store_name|regex:/^[A-Za-z][A-Za-z0-9_-]{3,29}$/',
             'description' => 'required|string|max:255',
@@ -71,6 +79,7 @@ class RegisterController extends Controller
             'country' => $validatedData['country'],
             'phone' => $validatedData['phone'],
             'user_type' => 'seller',
+            'address' => $validatedData['region'] .'-'. $validatedData['complete-add'],
         ]);
         
         // Create a new seller
