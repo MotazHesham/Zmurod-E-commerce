@@ -16,15 +16,15 @@ class MyProductsController extends Controller
 
     public function index()
     {
-        $products = Product::where('user_id',Auth::user()->id)->get();
-        
+        $products = Product::where('user_id', Auth::user()->id)->get();
+
         return view('frontend.seller.products', compact('products'));
     }
 
     public function create()
     {
         $product_categories = Category::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-        return view('frontend.seller.addproduct',compact('product_categories'));
+        return view('frontend.seller.addproduct', compact('product_categories'));
     }
 
     public function store(Request $request)
@@ -42,7 +42,7 @@ class MyProductsController extends Controller
     }
 
     public function storeCKEditorImages(Request $request)
-    { 
+    {
         $model         = new Product();
         $model->id     = $request->input('crud_id', 0);
         $model->exists = true;
@@ -50,5 +50,4 @@ class MyProductsController extends Controller
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
-
 }
