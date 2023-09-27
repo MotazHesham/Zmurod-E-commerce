@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class ShopController extends Controller
 {
     function index() {
-        $sellers = Seller::with('media')->get();
+        $sellers = Seller::with('media')->where('featured_store',1)->get();
         return view('frontend.shops',compact('sellers'));
     }
 

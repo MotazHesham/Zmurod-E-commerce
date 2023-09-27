@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Seller;
 use Illuminate\Http\Request;
-use App\Models\User; 
+use App\Models\User;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -23,30 +23,31 @@ class RegisterController extends Controller
 
     public function register_customer(Request $request)
     {
+
         // Validate the input
         $validatedData = $request->validate([
-            'name' => 'required|string|max:50',
-            'password' => 'required|string|min:6',
+            'customer_name' => 'required|string|max:50',
             'email' => 'required|string|email|unique:users',
-            
-            'country' => ['required', 'in:' . implode(',', array_keys(User::CITY_SELECT))],
-            'region'  =>['required', 'in:' . implode(',', array_keys(User::AREA_SELECT))],
-            'complete-add'=>'required',
-            'phone' => 'required|string|max:255',
-            
-        ]);
-        // Create a new user
-        $user = User::create([
-            'name' => $validatedData['name'],
-            'password' => bcrypt($validatedData['password']),
-            'email' => $validatedData['email'],
-            'country' => $validatedData['country'],
-            'phone' => $validatedData['phone'],
-            'user_type' => 'customer' ,
-            'address' => $validatedData['region'] . $validatedData['complete-add'],
+            'customer_password' => 'required|string|min:6',
+            'customer_country' => ['required', 'in:' . implode(',', array_keys(User::CITY_SELECT))],
+            'customer_region'  => ['required', 'in:' . implode(',', array_keys(User::AREA_SELECT))],
+            'customer_complete-add' => 'required',
+            'customer_phone' => 'required|string|max:255',
+
         ]);
 
-        $customer = Customer::create([ 
+        // Create a new user
+        $user = User::create([
+            'name' => $validatedData['customer_name'],
+            'password' => bcrypt($validatedData['customer_password']),
+            'email' => $validatedData['email'],
+            'country' => $validatedData['customer_country'],
+            'phone' => $validatedData['customer_phone'],
+            'user_type' => 'customer',
+            'address' => $validatedData['customer_region'] . $validatedData['customer_complete-add'],
+        ]);
+
+        $customer = Customer::create([
             'user_id' => $user->id,
         ]);
 
@@ -65,10 +66,10 @@ class RegisterController extends Controller
             'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|min:6',
             'country' => ['required', 'in:' . implode(',', array_keys(User::CITY_SELECT))],
-            'region'  =>['required', 'in:' . implode(',', array_keys(User::AREA_SELECT))],
-            'complete-add'=>'required',
+            'region'  => ['required', 'in:' . implode(',', array_keys(User::AREA_SELECT))],
+            'complete-add' => 'required',
             'phone' => 'required|string|max:255',
-            'store_name' => 'required|string|max:255|unique:sellers,store_name|regex:/^[A-Za-z][A-Za-z0-9_-]{3,29}$/',
+            'store_name' => 'required|string|max:255|unique:sellers,store_name|regex:/^[A-Za-z][A-Za-z0-9_ -]{2,28}$/',
             'description' => 'required|string|max:255',
         ]);
         // Create a new seller user
@@ -79,11 +80,11 @@ class RegisterController extends Controller
             'country' => $validatedData['country'],
             'phone' => $validatedData['phone'],
             'user_type' => 'seller',
-            'address' => $validatedData['region'] .'-'. $validatedData['complete-add'],
+            'address' => $validatedData['region'] . '-' . $validatedData['complete-add'],
         ]);
-        
+
         // Create a new seller
-        $seller = Seller::create([  
+        $seller = Seller::create([
             'store_name' => $validatedData['store_name'],
             'description' => $validatedData['description'],
             'user_id' => $user->id,
