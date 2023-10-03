@@ -1,15 +1,8 @@
 @extends('layouts.seller')
 @section('content')
     <div class="bg-gray-100 flex-1 p-6 md:mt-16" style="direction: rtl;">
-
-
-
-
         <!-- start numbers -->
         <div class="grid grid-cols-1 gap-6 mt-6 xl:grid-cols-1">
-
-
-
             <!-- Start Recent Sales -->
             <div class="card col-span-2 xl:col-span-1">
                 <div class="card-header"> منتجاتي</div>

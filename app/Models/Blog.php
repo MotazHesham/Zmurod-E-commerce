@@ -40,6 +40,7 @@ class Blog extends Model implements HasMedia
         'user_id',
         'media_url',
         'type',
+        'tags_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -81,5 +82,9 @@ class Blog extends Model implements HasMedia
     public function blog_comments()
     {
         return $this->belongsToMany(Comment::class);
+    }
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 }

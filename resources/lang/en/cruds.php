@@ -243,6 +243,10 @@ return [
             'media_url_helper'         => ' ',
             'type'                     => 'Type',
             'type_helper'              => ' ',
+            'blog_comments'            => 'Comments',
+            'blog_comments_helper'     => ' ',
+            'tags'  => '',
+            'tags_helper'  => ''
         ],
     ],
     'customerService' => [
