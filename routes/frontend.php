@@ -36,6 +36,7 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     // forums
     Route::get('forums', 'ForumController@index')->name('forums');
     Route::get('forum/{id}', 'ForumController@show')->name('post');
+    Route::post('forum/post/comment', 'ForumController@comment')->name('post.comment');
 
     // cart & whhitelist
     Route::get('cart', 'CartController@index')->name('cart');

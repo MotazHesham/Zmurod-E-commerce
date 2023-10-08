@@ -6,13 +6,10 @@ use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Froum extends Model implements HasMedia
+class Froum extends Model
 {
-    use SoftDeletes, InteractsWithMedia, HasFactory;
+    use SoftDeletes, HasFactory;
 
     public $table = 'froums';
 
@@ -22,15 +19,8 @@ class Froum extends Model implements HasMedia
         'deleted_at',
     ];
 
-    public const CATEGORY_SELECT = [
-        'الموضوعات العامة'  => 'الموضوعات العامة',
-        'موضوعات اخرى'   => 'موضوعات اخرى'
-    ];
-
     protected $fillable = [
         'name',
-        'description',
-        'category',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -41,9 +31,8 @@ class Froum extends Model implements HasMedia
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function registerMediaConversions(Media $media = null): void
+    public function postForumPosts()
     {
-        $this->addMediaConversion('thumb')->fit('crop', 50, 50);
-        $this->addMediaConversion('preview')->fit('crop', 120, 120);
+        return $this->hasMany(Post::class, 'post_forum_id', 'id');
     }
 }

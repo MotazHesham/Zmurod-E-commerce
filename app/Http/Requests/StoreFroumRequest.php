@@ -22,12 +22,6 @@ class StoreFroumRequest extends FormRequest
                 'min:3',
                 'nullable',
             ],
-            'description' => [
-                'required',
-            ],
-            'category' => [
-                'required',
-            ],
         ];
     }
 }

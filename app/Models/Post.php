@@ -29,8 +29,8 @@ class Post extends Model implements HasMedia
     protected $fillable = [
         'title',
         'content',
-        'post_forum_id',
         'author_id',
+        'post_forum_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -45,11 +45,6 @@ class Post extends Model implements HasMedia
     {
         $this->addMediaConversion('thumb')->fit('crop', 50, 50);
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
-    }
-
-    public function post_forum()
-    {
-        return $this->belongsTo(Froum::class, 'post_forum_id');
     }
 
     public function author()
@@ -77,5 +72,10 @@ class Post extends Model implements HasMedia
     public function post_tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function post_forum()
+    {
+        return $this->belongsTo(Froum::class, 'post_forum_id');
     }
 }

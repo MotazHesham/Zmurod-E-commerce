@@ -26,10 +26,6 @@ class StorePostRequest extends FormRequest
             'content' => [
                 'required',
             ],
-            'post_forum_id' => [
-                'required',
-                'integer',
-            ],
             'author_id' => [
                 'required',
                 'integer',
@@ -48,6 +44,10 @@ class StorePostRequest extends FormRequest
             ],
             'post_tags' => [
                 'array',
+            ],
+            'post_forum_id' => [
+                'required',
+                'integer',
             ],
         ];
     }

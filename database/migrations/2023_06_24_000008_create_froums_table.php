@@ -11,8 +11,6 @@ class CreateFroumsTable extends Migration
         Schema::create('froums', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->nullable();
-            $table->longText('description');
-            $table->string('category');
             $table->timestamps();
             $table->softDeletes();
         });

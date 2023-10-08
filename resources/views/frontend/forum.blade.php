@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 @section('content')
-     <!-- breadcrumb-area start -->
+    <!-- breadcrumb-area start -->
     <div class="breadcrumb-area">
         <div class="container">
             <div class="row align-items-center justify-content-center">
@@ -16,67 +16,63 @@
             </div>
         </div>
     </div>
-    <div>
-        <h1 class="text-center">
-            comming soon
-        </h1>
-    </div>
+
     <!-- breadcrumb-area end -->
-    {{--
+
     <!-- Blog Area Start -->
     <div class="blog-grid pb-100px pt-100px main-blog-page single-blog-page">
         <div class="container">
             <div class="ibox-content forum-container">
-                @foreach (\App\Models\Froum::CATEGORY_SELECT as $key => $value )
+                @foreach ($forums as $forum)
                     <div class="forum-title ">
                         <div class="pull-left forum-desc">
-                            <small>عدد الموضوعات:  50</small>
+                            <small>عدد الموضوعات: {{ $forum->postForumPosts->count() }}</small>
                         </div>
-                        <h3>{{$value }}</h3>
+                        <h3>{{ $forum->name }}</h3>
                     </div>
-                    @foreach ($posts as $post )
-                        @if ($post->post_forum->category == $value )
-                        <div class="forum-item active">
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <div class="forum-icon">
-                                        <i class="fa fa-shield"></i>
+                    @foreach ($posts as $post)
+                        @if ($post->post_forum->name == $forum->name)
+                            <div class="forum-item active">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="forum-icon">
+                                            <i class="fa fa-shield"></i>
+                                        </div>
+                                        <a href="{{ route('frontend.post', $post->id) }}"
+                                            class="forum-item-title">{{ $post->title }}</a>
+                                        <div class="forum-sub-title">{{ $post->content }}</div>
                                     </div>
-                                    <a href="{{route('frontend.post',$post->id)}}" class="forum-item-title">{{$post->title}}</a>
-                                    <div class="forum-sub-title">{{$post->content}}</div>
-                                </div>
-                                <div class="col-md-1 forum-info">
-                                    <span class="views-number">
-                                        {{rand(1,100)}}
-                                    </span>
-                                    <div>
-                                        <small>المشاهدات</small>
+                                    <div class="col-md-1 forum-info">
+                                        <span class="views-number">
+                                            {{ rand(1, 100) }}
+                                        </span>
+                                        <div>
+                                            <small>المشاهدات</small>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-1 forum-info">
-                                    <span class="views-number">
-                                        5
-                                    </span>
-                                    <div>
-                                        <small>الموضوعات</small>
+                                    <div class="col-md-1 forum-info">
+                                        <span class="views-number">
+                                            {{ $post->post_forum->postForumPosts->count() }}
+                                        </span>
+                                        <div>
+                                            <small>الموضوعات</small>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-1 forum-info">
-                                    <span class="views-number">
-                                        {{$post->post_comments->count()}}
-                                    </span>
-                                    <div>
-                                        <small>التعليقات</small>
+                                    <div class="col-md-1 forum-info">
+                                        <span class="views-number">
+                                            {{ $post->post_comments->count() }}
+                                        </span>
+                                        <div>
+                                            <small>التعليقات</small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @endif
                     @endforeach
                 @endforeach
-                
             </div>
         </div>
-    </div> --}} 
+    </div>
     <!-- Blag Area End -->
 @endsection

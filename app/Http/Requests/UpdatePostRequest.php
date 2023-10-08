@@ -26,7 +26,7 @@ class UpdatePostRequest extends FormRequest
             'content' => [
                 'required',
             ],
-            'post_forum_id' => [
+            'author_id' => [
                 'required',
                 'integer',
             ],
@@ -44,6 +44,10 @@ class UpdatePostRequest extends FormRequest
             ],
             'post_tags' => [
                 'array',
+            ],
+            'post_forum_id' => [
+                'required',
+                'integer',
             ],
         ];
     }
