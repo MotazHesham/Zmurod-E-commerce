@@ -14,14 +14,14 @@ class BlogController extends Controller
     {
         $blogs = Blog::with('media', 'user', 'tags')->paginate(9);
 
-        return view('frontend.blogs.blog', compact('blogs'));
+        return view('frontend.blogs.index', compact('blogs'));
     }
     public function show($id)
     {
         $blog = Blog::find($id);
         $blog->load('media', 'user', 'tags', 'blog_comments.user_comments');
 
-        return view('frontend.blogs.singleblog', compact('blog'));
+        return view('frontend.blogs.show', compact('blog'));
     }
     public function storeBlogComment(Request $request)
     {

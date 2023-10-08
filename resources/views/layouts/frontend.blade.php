@@ -94,10 +94,10 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li><a href="{{ route('frontend.courses') }}">ورش العمل</a></li>
+                                <li><a href="{{ route('frontend.courses.index') }}">ورش العمل</a></li>
                                 <li><a href="{{ route('customer.shops') }}">المتاجر</a></li>
                                 <li><a href="{{ route('frontend.forums') }}">ملتقى التجار</a></li>
-                                <li><a href="{{ route('frontend.blogs') }}">البلوج</a></li>
+                                <li><a href="{{ route('frontend.blogs.index') }}">البلوج</a></li>
                                 <li><a href="{{ route('customer.contact-us') }}">تواصل معنا</a></li>
                             </ul>
                         </div>
@@ -316,13 +316,13 @@
                         </ul>
                     </li>
 
-                    <li><a href="{{ route('frontend.courses') }}"> ورش العمل</a></li>
+                    <li><a href="{{ route('frontend.courses.index') }}"> ورش العمل</a></li>
                     <li>
                     <li><a href="{{ route('customer.shops') }}"> المتاجر</a></li>
                     <li>
                     <li><a href="{{ route('frontend.forums') }}">ملتقى التجار</a></li>
                     <li>
-                    <li><a href="{{ route('frontend.blogs') }}">البلوج</a></li>
+                    <li><a href="{{ route('frontend.blogs.index') }}">البلوج</a></li>
                     <li>
                     <li><a href="{{ route('customer.contact-us') }}"> تواصل معنا</a></li>
                 </ul>

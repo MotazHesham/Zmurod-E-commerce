@@ -20,15 +20,17 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
 
 
     //course
-    Route::get('course', 'HomeController@course')->name('courses');
-    Route::get('courses/{id}', 'HomeController@singlecourse')->name('singlecourse');
+    Route::get('courses', 'CourseController@index')->name('courses.index');
+    Route::get('courses/{id}', 'CourseController@show')->name('courses.show');
+    Route::post('courses/search', 'CourseController@search')->name('courses.search');
+
 
     // about and Contact
     Route::get('about', 'AboutController@index')->name('about-us');
 
     // blogs    
-    Route::get('blogs', 'BlogController@index')->name('blogs');
-    Route::get('blogs/{id}', 'BlogController@show')->name('blogbyid');
+    Route::get('blogs', 'BlogController@index')->name('blogs.index');
+    Route::get('blogs/{id}', 'BlogController@show')->name('blogs.show');
     Route::post('storeBlogComment/{id}', 'BlogController@storeBlogComment')->name('storeBlogComment');
 
     // forums

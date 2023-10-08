@@ -41,12 +41,12 @@
                                         href="#">{{ date('d-M-Y', strtotime($blog->created_at)) }}</span>
                                 </div>
                                 <h5 class="blog-heading"><a class="blog-heading-link"
-                                        href="{{ route('frontend.blogbyid', $blog->id) }}">{{ $blog->title }}
+                                        href="{{ route('frontend.blogs.show', $blog->id) }}">{{ $blog->title }}
                                     </a></h5>
 
                                 <p>{{ $blog->short_description }}</p>
 
-                                <a href="{{ route('frontend.blogbyid', $blog->id) }}" class="btn btn-primary blog-btn">
+                                <a href="{{ route('frontend.blogs.show', $blog->id) }}" class="btn btn-primary blog-btn">
                                     المزيد</a>
                             </div>
                         </div>
@@ -68,10 +68,10 @@
                                 </div>
                                 <h5 class="blog-heading">
                                     <a class="blog-heading-link"
-                                        href="{{ route('frontend.blogbyid', $blog->id) }}">{{ $blog->title }}</a>
+                                        href="{{ route('frontend.blogs.show', $blog->id) }}">{{ $blog->title }}</a>
                                 </h5>
                                 <p>{{ $blog->short_description }}</p>
-                                <a href="{{ route('frontend.blogbyid', $blog->id) }}"
+                                <a href="{{ route('frontend.blogs.show', $blog->id) }}"
                                     class="btn btn-primary blog-btn">المزيد</a>
                             </div>
                         </div>
@@ -228,17 +228,7 @@
                 <div class="col-lg-4 col-xl-3  order-lg-first col-md-12 order-md-last mt-md-50px mt-lm-50px"
                     data-aos="fade-up" data-aos-delay="200">
                     <div class="blog-sidebar mr-20px">
-                        <!-- Sidebar single item -->
-                        <div class="sidebar-widget">
-                            <h3 class="sidebar-title">بحث</h3>
-                            <div class="search-widget">
-                                <form action="#">
-                                    <input placeholder="البحث" type="text" />
-                                    <button type="submit"><i class="fa fa-search"></i></button>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- Sidebar single item -->
+
                         <!-- Sidebar single item -->
                         <div class="sidebar-widget">
                             @php
@@ -251,7 +241,7 @@
                                     <li><a href="#" class="selected m-0"><i class="fa fa-angle-right"></i> الكل
                                             <span>({{ $blogs->count() }})</span> </a></li>
                                     @foreach ($blogs as $blog)
-                                        <li><a href="{{ route('frontend.blogbyid', $blog->id) }}" class=""><i
+                                        <li><a href="{{ route('frontend.blogs.show', $blog->id) }}" class=""><i
                                                     class="fa fa-angle-right"></i>
                                                 {{ $blog->title }}
                                             </a></li>
@@ -273,26 +263,26 @@
                                     <div class="recent-single-post d-flex">
                                         @if ($blog->type == 'Video')
                                             <div class="thumb-side">
-                                                <a href="{{ route('frontend.blogbyid', $blog->id) }}"><img
+                                                <a href="{{ route('frontend.blogs.show', $blog->id) }}"><img
                                                         src="{{ asset('assets/images/404/404.jpg') }}"
                                                         alt="" /></a>
                                             </div>
                                         @elseif ($blog->type == 'Media')
                                             <div class="thumb-side">
-                                                <a href="{{ route('frontend.blogbyid', $blog->id) }}"><img
+                                                <a href="{{ route('frontend.blogs.show', $blog->id) }}"><img
                                                         src="{{ asset('assets/images/404/404.jpg') }}"
                                                         alt="" /></a>
                                             </div>
                                         @else
                                             <div class="thumb-side">
-                                                <a href="{{ route('frontend.blogbyid', $blog->id) }}"><img
+                                                <a href="{{ route('frontend.blogs.show', $blog->id) }}"><img
                                                         src="{{ $blog->photo->getUrl() }}" alt="" /></a>
                                             </div>
                                         @endif
 
                                         <div class="media-side">
                                             <span class="date">{{ date('d-M-Y', strtotime($blog->created_at)) }}</span>
-                                            <h5><a href="{{ route('frontend.blogbyid', $blog->id) }}">
+                                            <h5><a href="{{ route('frontend.blogs.show', $blog->id) }}">
                                                     {{ $blog->title }}
                                                 </a>
                                             </h5>

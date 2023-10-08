@@ -39,12 +39,13 @@
                                             href="#">{{ date('d-M-Y', strtotime($blog->created_at)) }}</span>
                                     </div>
                                     <h5 class="blog-heading"><a class="blog-heading-link"
-                                            href="{{ route('frontend.blogbyid', $blog->id) }}">{{ $blog->title }}
+                                            href="{{ route('frontend.blogs.show', $blog->id) }}">{{ $blog->title }}
                                         </a></h5>
 
                                     <p>{{ $blog->short_description }}</p>
 
-                                    <a href="{{ route('frontend.blogbyid', $blog->id) }}" class="btn btn-primary blog-btn">
+                                    <a href="{{ route('frontend.blogs.show', $blog->id) }}"
+                                        class="btn btn-primary blog-btn">
                                         المزيد</a>
                                 </div>
                             </div>
@@ -68,10 +69,10 @@
                                     </div>
                                     <h5 class="blog-heading">
                                         <a class="blog-heading-link"
-                                            href="{{ route('frontend.blogbyid', $blog->id) }}">{{ $blog->title }}</a>
+                                            href="{{ route('frontend.blogs.show', $blog->id) }}">{{ $blog->title }}</a>
                                     </h5>
                                     <p>{{ $blog->short_description }}</p>
-                                    <a href="{{ route('frontend.blogbyid', $blog->id) }}"
+                                    <a href="{{ route('frontend.blogs.show', $blog->id) }}"
                                         class="btn btn-primary blog-btn">المزيد</a>
                                 </div>
                             </div>
@@ -82,7 +83,7 @@
                         <div class="col-lg-6 col-md-6 col-xl-4 mb-50px">
                             <div class="single-blog">
                                 <div class="blog-image">
-                                    <a href="{{ route('frontend.blogbyid', $blog->id) }}"><img
+                                    <a href="{{ route('frontend.blogs.show', $blog->id) }}"><img
                                             src="{{ isset($blog->photo) ? $blog->photo->getUrl() : 'null' }}"
                                             class="img-responsive w-100" alt=""></a>
                                 </div>
@@ -94,12 +95,13 @@
                                             {{ date('d-M-Y', strtotime($blog->created_at)) }} </span>
                                     </div>
                                     <h5 class="blog-heading"><a class="blog-heading-link"
-                                            href="{{ route('frontend.blogbyid', $blog->id) }}">{{ $blog->title }}
+                                            href="{{ route('frontend.blogs.show', $blog->id) }}">{{ $blog->title }}
                                         </a></h5>
 
                                     <p>{{ $blog->short_description }}</p>
 
-                                    <a href="{{ route('frontend.blogbyid', $blog->id) }}" class="btn btn-primary blog-btn">
+                                    <a href="{{ route('frontend.blogs.show', $blog->id) }}"
+                                        class="btn btn-primary blog-btn">
                                         المزيد</a>
                                 </div>
                             </div>
