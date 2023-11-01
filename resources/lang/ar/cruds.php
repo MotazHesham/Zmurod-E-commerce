@@ -57,6 +57,8 @@ return [
             'country_helper' => ' ',
             'roles' => 'الأدوار',
             'roles_helper' => ' ',
+            'approved'                => 'تم الموافقه',
+            'approved_helper'          => ' ',
             'remember_token' => 'رمز التذكير',
             'remember_token_helper' => ' ',
             'created_at' => 'تاريخ الإنشاء',
@@ -137,6 +139,10 @@ return [
             'updated_at_helper' => ' ',
             'deleted_at' => 'تاريخ الحذف',
             'deleted_at_helper' => ' ',
+            'type'               => 'النوع',
+            'type_helper'        => ' ',
+            'approved'               => 'نشر ',
+            'approved_helper'        => ' ',
         ],
     ],
     'tradersForum' => [
@@ -189,6 +195,8 @@ return [
             'photos_helper'        => ' ',
             'post_tags'            => ' الكلمات الداله',
             'post_tags_helper'     => ' ',
+            'publish'              => 'نشر ',
+            'publish_helper'       => '',
         ],
     ],
     'comment' => [

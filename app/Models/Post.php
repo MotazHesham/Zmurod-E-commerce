@@ -31,6 +31,7 @@ class Post extends Model implements HasMedia
         'content',
         'author_id',
         'post_forum_id',
+        'publish',
         'created_at',
         'updated_at',
         'deleted_at',

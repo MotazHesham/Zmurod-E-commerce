@@ -16,6 +16,8 @@ class CreateCoursesTable extends Migration
             $table->date('start_at');
             $table->integer('courses_hours');
             $table->decimal('price', 15, 2)->nullable();
+            $table->string('type');
+            $table->boolean('approved')->default(0)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

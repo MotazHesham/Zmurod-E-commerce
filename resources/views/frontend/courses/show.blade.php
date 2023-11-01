@@ -45,14 +45,17 @@
                             <h3 class="sidebar-title">الاشتراك والدفع</h3>
 
                             <div class="instructor_pricing_widget csv2">
+                                <h2> بواسطة - {{ $course->trainer }}</h2>
                                 <h3 class="new-price"> {{ $course->price }}ر.س</h3>
                                 <h5 class="subtitle text-right">يشمل</h5>
+
                                 <ul class="price_quere_list text-right">
                                     <li><a href="#"> {{ $course->courses_hours }} ساعة تدريبية </a></li>
                                     <li><a href="#"> الفيدوهات المسجلة </a></li>
                                     <li><a href="#">إتاحة طوال الوقت</a></li>
                                     <li><a href="#"> تابع الدورة من اي لابتوب او موبايل </a></li>
                                 </ul>
+                                <h5> الشهاده :- {{ App\Models\Course::TYPE_SELECT[$course->type] }}</h5>
                             </div>
                             <br />
                             <button class="btn btn-primary btn-hover-dark border-0  blog-btn btn-center mt-30px"

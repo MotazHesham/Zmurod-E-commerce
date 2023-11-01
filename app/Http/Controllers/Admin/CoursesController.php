@@ -18,6 +18,14 @@ class CoursesController extends Controller
 {
     use MediaUploadingTrait;
 
+    function update_statuses(Request $request)
+    {
+        $column_name = $request->column_name;
+        $user = Course::find($request->id);
+        $user->$column_name = $request->approved;
+        $user->save();
+        return 1;
+    }
     public function index(Request $request)
     {
         abort_if(Gate::denies('course_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -71,8 +79,21 @@ class CoursesController extends Controller
             $table->editColumn('price', function ($row) {
                 return $row->price ? $row->price : '';
             });
+            
+            $table->editColumn('approved', function ($row) {
+                return  '<label class="c-switch c-switch-pill c-switch-success">
+                            <input onchange="update_statuses(this,\'approved\')" value="' . $row->id . '" 
+                                type="checkbox" class="c-switch-input" ' . ($row->approved ? "checked" : null) . '>
+                            <span class="c-switch-slider"></span>
+                        </label>';
+            });
 
-            $table->rawColumns(['actions', 'placeholder', 'photo']);
+            $table->editColumn('type', function ($row) {
+                return $row->type ? Course::TYPE_SELECT[$row->type] : '';
+            });
+
+
+            $table->rawColumns(['actions', 'placeholder', 'photo', 'approved']);
 
             return $table->make(true);
         }
@@ -98,7 +119,7 @@ class CoursesController extends Controller
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $course->id]);
         }
-        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
+        alert()->success(trans('flash.store.title'), trans('flash.store.body'));
         return redirect()->route('admin.courses.index');
     }
 
@@ -114,7 +135,7 @@ class CoursesController extends Controller
         $course->update($request->all());
 
         if ($request->input('photo', false)) {
-            if (! $course->photo || $request->input('photo') !== $course->photo->file_name) {
+            if (!$course->photo || $request->input('photo') !== $course->photo->file_name) {
                 if ($course->photo) {
                     $course->photo->delete();
                 }
@@ -123,7 +144,7 @@ class CoursesController extends Controller
         } elseif ($course->photo) {
             $course->photo->delete();
         }
-        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
+        alert()->success(trans('flash.update.title'), trans('flash.update.body'));
         return redirect()->route('admin.courses.index');
     }
 
@@ -139,7 +160,7 @@ class CoursesController extends Controller
         abort_if(Gate::denies('course_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $course->delete();
-        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
+        alert()->success(trans('flash.destroy.title'), trans('flash.destroy.body'));
         return back();
     }
 

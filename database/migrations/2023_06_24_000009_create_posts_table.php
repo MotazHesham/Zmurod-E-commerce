@@ -12,6 +12,7 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->longText('content');
+            $table->boolean('publish')->default(0)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

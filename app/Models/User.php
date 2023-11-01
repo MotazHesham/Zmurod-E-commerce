@@ -45,6 +45,7 @@ class User extends Authenticatable
         'remember_token',
         'country',
         'phone',
+        'approved',
         'address',
         'created_at',
         'updated_at',

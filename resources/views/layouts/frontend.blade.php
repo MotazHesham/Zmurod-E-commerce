@@ -523,7 +523,6 @@
         </form>
 
         @include('sweetalert::alert')
-
         <!-- Vendor JS -->
         <script src="{{ asset('assets/js/vendor/jquery-3.5.1.min.js') }}"></script>
         <script src="{{ asset('assets/js/vendor/bootstrap.bundle.min.js') }}"></script>
@@ -543,8 +542,6 @@
         <!---dropzone--->
         <script src="{{ asset('dashboard_offline/js/dropzone.min.js') }}"></script>
         <!-- SweetAlert2 -->
-        <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
 
         <!-- Main Js -->

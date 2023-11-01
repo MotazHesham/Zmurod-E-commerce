@@ -45,6 +45,9 @@
                                 {{ trans('cruds.post.fields.post_forum') }}
                             </th>
                             <th>
+                                {{ trans('cruds.post.fields.publish') }}
+                            </th>
+                            <th>
                                 &nbsp;
                             </th>
                         </tr>
@@ -83,6 +86,13 @@
                                     {{ $post->post_forum->name ?? '' }}
                                 </td>
                                 <td>
+                                    <label class="c-switch c-switch-pill c-switch-success">
+                                        <input onchange="update_statuses(this,'publish')" value="{{ $post->id }}"
+                                            type="checkbox" class="c-switch-input" {{ $post->publish ? 'checked' : null }}>
+                                        <span class="c-switch-slider"></span>
+                                    </label>
+                                </td>
+                                <td>
                                     @can('post_show')
                                         <a class="btn btn-xs btn-primary" href="{{ route('admin.posts.show', $post->id) }}">
                                             {{ trans('global.view') }}
@@ -119,6 +129,25 @@
 @section('scripts')
     @parent
     <script>
+        function update_statuses(el, column_name) {
+            if (el.checked) {
+                var status = 1;
+            } else {
+                var status = 0;
+            }
+            $.post('{{ route('admin.posts.update_statuses') }}', {
+                _token: '{{ csrf_token() }}',
+                id: el.value,
+                publish: status,
+                column_name: column_name
+            }, function(data) {
+                if (data == 1) {
+                    showAlert('success', 'Success', '');
+                } else {
+                    showAlert('danger', 'Something went wrong', '');
+                }
+            });
+        }
         $(function() {
             let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
             @can('post_delete')

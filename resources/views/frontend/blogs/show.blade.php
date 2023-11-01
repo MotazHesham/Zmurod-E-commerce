@@ -19,7 +19,6 @@
     <!-- breadcrumb-area end -->
 
 
-
     <!-- Blog Area Start -->
     <div class="blog-grid pb-100px pt-100px main-blog-page single-blog-page">
         <div class="container">
@@ -79,9 +78,11 @@
                         <!-- start single blog post -->
                         <div class="blog-posts">
                             <div class="single-blog-post blog-grid-post">
+                                @php
+                                    $img = isset($blog->photo) ? $blog->photo->getUrl() : asset('assets/images/404/404.jpg');
+                                @endphp
                                 <div class="blog-image single-blog" data-aos="fade-up" data-aos-delay="200">
-                                    <img class="img-fluid h-auto"
-                                        src="{{ isset($blog->photo) ? $blog->photo->getUrl() : null }}" alt="blog" />
+                                    <img class="img-fluid h-auto" src="{{ $img }}" alt="blog" />
                                 </div>
                                 <div class="blog-post-content-inner mt-30px" data-aos="fade-up" data-aos-delay="400">
                                     <div class="blog-athor-date">
@@ -131,14 +132,15 @@
                     {{-- end tags --}}
 
                     {{-- Comments Start --}}
-                    <div class="comment-area">
+                    <div id="comments-container" class="comment-area">
                         <h2 class="comment-heading" data-aos="fade-up" data-aos-delay="200">التعليقات
                             ({{ $blog->blog_comments->count() }})</h2>
                         <div class="review-wrapper">
                             @foreach ($blog->blog_comments as $comment)
                                 <div class="single-review" data-aos="fade-up" data-aos-delay="200">
-                                    <div class="review-img">
-                                        <img src="{{ asset('assets/images/comment-image/1.png') }}" alt="" />
+                                    <div class="review-img border text-center " style="height: 55px">
+                                        <img class="ms-auto" src="{{ asset('assets/images/comment-image/user.png') }}"
+                                            alt="" width="50" height="50" />
                                     </div>
                                     <div class="review-content">
                                         <div class="review-top-wrap">
@@ -167,15 +169,14 @@
                         </div>
                     </div>
                     {{-- End Comments area  --}}
+
                     {{-- Start  Comment form  --}}
                     <div class="blog-comment-form">
                         <h2 class="comment-heading" data-aos="fade-up" data-aos-delay="200">ترك تعليقك</h2>
                         <div class="form-inner">
                             <div class="row">
-                                <form method="POST" action="{{ route('frontend.storeBlogComment', $blog->id) }}"
-                                    enctype="multipart/form-data">
+                                <form id="comment_form" method="POST" enctype="multipart/form-data">
                                     @csrf
-
                                     <div class="col-md-12" data-aos="fade-up" data-aos-delay="300">
                                         <div class="single-form mb-lm-15px">
                                             @auth
@@ -188,7 +189,6 @@
 
                                         </div>
                                     </div>
-
                                     <div class="col-md-12" data-aos="fade-up" data-aos-delay="200">
                                         <div class="single-form m-0">
                                             <div class="form-group">
@@ -260,23 +260,24 @@
 
                             <div class="recent-post-widget">
                                 @foreach ($blogs as $blog)
+                                    @php
+                                        $img = isset($blog->photo) ? $blog->photo->getUrl() : asset('assets/images/404/404.jpg');
+                                    @endphp
                                     <div class="recent-single-post d-flex">
                                         @if ($blog->type == 'Video')
                                             <div class="thumb-side">
                                                 <a href="{{ route('frontend.blogs.show', $blog->id) }}"><img
-                                                        src="{{ asset('assets/images/404/404.jpg') }}"
-                                                        alt="" /></a>
+                                                        src="{{ $img }}" alt="" /></a>
                                             </div>
                                         @elseif ($blog->type == 'Media')
                                             <div class="thumb-side">
                                                 <a href="{{ route('frontend.blogs.show', $blog->id) }}"><img
-                                                        src="{{ asset('assets/images/404/404.jpg') }}"
-                                                        alt="" /></a>
+                                                        src="{{ $img }}" alt="" /></a>
                                             </div>
                                         @else
                                             <div class="thumb-side">
                                                 <a href="{{ route('frontend.blogs.show', $blog->id) }}"><img
-                                                        src="{{ $blog->photo->getUrl() }}" alt="" /></a>
+                                                        src="{{ $img }}" alt="" /></a>
                                             </div>
                                         @endif
 
@@ -302,4 +303,37 @@
         </div>
     </div>
     <!-- Blag Area End -->
+@endsection
+@section('scripts')
+    @parent
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('319a00d97b6070ad0f1a', {
+            cluster: 'mt1'
+        });
+
+        var channel = pusher.subscribe('comments');
+        channel.bind('App\\Events\\CommentAdded', function(data) {
+            alert(JSON.stringify(data));
+        });
+    </script>
+    <script>
+        $('#comment_form').on('submit', function(e) {
+            e.preventDefault();
+            let user_id = $('#user_comment').val();
+            let comment = $('#comment').val();
+            $('#comment').val('');
+            $.post('{{ route('frontend.storeComment') }}', {
+                _token: '{{ @csrf_token() }}',
+                user_id: 1,
+                comment: "comment",
+                id: '{{ $blog->id }}'
+            }, function(data) {
+                console.log(data)
+            });
+        });
+    </script>
 @endsection

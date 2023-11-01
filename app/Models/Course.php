@@ -29,12 +29,18 @@ class Course extends Model implements HasMedia
         'deleted_at',
     ];
 
+    public const TYPE_SELECT = [
+        'C-paid' => 'شهاده مدفوعه',
+        'C'      => 'شهادة مجانيه',
+        'No-C'   => 'بدون شهاده',
+    ];
     protected $fillable = [
         'name',
         'description',
         'trainer',
         'start_at',
         'price',
+        'type',
         'courses_hours',
         'created_at',
         'updated_at',

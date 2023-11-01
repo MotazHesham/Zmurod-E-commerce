@@ -21,6 +21,14 @@ class PostsController extends Controller
 {
     use MediaUploadingTrait;
 
+    function update_statuses(Request $request)
+    {
+        $column_name = $request->column_name;
+        $user = Post::find($request->id);
+        $user->$column_name = $request->publish;
+        $user->save();
+        return 1;
+    }
     public function index()
     {
         abort_if(Gate::denies('post_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

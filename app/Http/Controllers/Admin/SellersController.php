@@ -28,6 +28,7 @@ class SellersController extends Controller
         $seller->save();
         return 1;
     }
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('seller_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -91,8 +92,17 @@ class SellersController extends Controller
                         </label>';
             });
 
+            $table->editColumn('user_approved', function ($row) {
+                return  '<label class="c-switch c-switch-pill c-switch-success">
+                            <input onchange="update_approved_statuses(this,\'approved\')" value="' . $row->user->id . '" 
+                                type="checkbox" class="c-switch-input" ' . ($row->user->approved ? "checked" : null) . '>
+                            <span class="c-switch-slider"></span>
+                        </label>';
+            });
 
-            $table->rawColumns(['actions', 'placeholder', 'photo', 'user', 'featured_store', 'brand_name']);
+
+
+            $table->rawColumns(['actions', 'placeholder', 'photo', 'user', 'featured_store', 'brand_name', 'user_approved']);
 
             return $table->make(true);
         }

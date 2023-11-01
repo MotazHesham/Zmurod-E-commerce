@@ -31,7 +31,8 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     // blogs    
     Route::get('blogs', 'BlogController@index')->name('blogs.index');
     Route::get('blogs/{id}', 'BlogController@show')->name('blogs.show');
-    Route::post('storeBlogComment/{id}', 'BlogController@storeBlogComment')->name('storeBlogComment');
+
+    Route::post('storeComment', 'BlogController@storeComment')->name('storeComment');
 
     // forums
     Route::get('forums', 'ForumController@index')->name('forums');

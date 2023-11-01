@@ -16,8 +16,8 @@ class ForumController extends Controller
       // get all forums 
       $forums = Froum::with('postForumPosts')->get();
       // get latest post from each forum
-      $posts = Post::with('author', 'post_comments', 'post_tags', 'post_forum.postForumPosts')->get();
-      return view('frontend.forum', compact('forums', 'posts'));
+      $posts = Post::where('publish', true)->with('author', 'post_comments', 'post_tags', 'post_forum.postForumPosts')->get();
+      return view('frontend.forums.forum', compact('forums', 'posts'));
    }
 
    public function show($id)
@@ -25,7 +25,7 @@ class ForumController extends Controller
       // single post
       $post = Post::with('author', 'post_comments.user_comments', 'post_tags', 'post_forum.postForumPosts')->find($id);
       $forums = Froum::with('postForumPosts')->get();
-      return view('frontend.post', compact('post', 'forums'));
+      return view('frontend.forums.post', compact('post', 'forums'));
    }
 
    public function comment(Request $request)

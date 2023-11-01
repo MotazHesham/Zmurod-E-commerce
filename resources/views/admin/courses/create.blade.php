@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <div class="row justify-content-between">
-                    <div class="form-group col-6">
+                    <div class="form-group col-4">
                         <label for="price">{{ trans('cruds.course.fields.price') }}</label>
                         <input class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}" type="number"
                             name="price" id="price" value="{{ old('price', '') }}" step="0.01">
@@ -80,7 +80,7 @@
                         @endif
                         <span class="help-block">{{ trans('cruds.course.fields.price_helper') }}</span>
                     </div>
-                    <div class="form-group col-6">
+                    <div class="form-group col-4">
                         <label for="courses_hours">{{ trans('cruds.course.fields.courses_hours') }}</label>
                         <input class="form-control {{ $errors->has('courses_hours') ? 'is-invalid' : '' }}" type="number"
                             name="courses_hours" id="courses_hours" value="{{ old('courses_hours', '') }}" step="0.01">
@@ -90,6 +90,24 @@
                             </div>
                         @endif
                         <span class="help-block">{{ trans('cruds.course.fields.courses_hours_helper') }}</span>
+                    </div>
+                    <div class="form-group col-4">
+                        <label class="required">{{ trans('cruds.course.fields.type') }}</label>
+                        <select class="form-control {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type"
+                            id="type" required>
+                            <option value disabled {{ old('type', null) === null ? 'selected' : '' }}>
+                                {{ trans('global.pleaseSelect') }}</option>
+                            @foreach (App\Models\Course::TYPE_SELECT as $key => $label)
+                                <option value="{{ $key }}"
+                                    {{ old('type', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                        @if ($errors->has('type'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('type') }}
+                            </div>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.course.fields.type_helper') }}</span>
                     </div>
                 </div>
 

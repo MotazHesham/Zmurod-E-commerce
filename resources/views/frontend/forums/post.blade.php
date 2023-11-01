@@ -86,7 +86,8 @@
                             @foreach ($post->post_comments as $comment)
                                 <div class="single-review" data-aos="fade-up" data-aos-delay="200">
                                     <div class="review-img">
-                                        <img src="{{ asset('assets/images/comment-image/1.png') }}" alt="" />
+                                        <img src="{{ asset('assets/images/comment-image/user.png') }}" alt=""
+                                            width="50" height="50" />
                                     </div>
                                     <div class="review-content">
                                         <div class="review-top-wrap">
@@ -121,7 +122,7 @@
                             <form class="row" action="{{ route('frontend.post.comment') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="post_id" value="{{ $post->id }}">
-                                <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
+                                {{-- <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
                                     <div class="single-form mb-lm-15px">
                                         <input name='user_name' type="text" placeholder="الاسم *"
                                             value="{{ auth()->user()->name ?? '' }}" readonly />
@@ -133,14 +134,14 @@
                                         <input name="post" type="text" placeholder="الموضوع (اختياري)"
                                             value="{{ $post->title }}" readonly />
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-12" data-aos="fade-up" data-aos-delay="200">
                                     <div class="single-form m-0">
                                         <div class="form-group">
                                             <label class="required"
                                                 for="comment">{{ trans('cruds.comment.fields.comment') }}</label>
-                                            <textarea placeholder="الرساله" class="form-control {{ $errors->has('comment') ? 'is-invalid' : '' }}"
-                                                name="comment" id="comment" required>{{ old('comment') }}</textarea>
+                                            <textarea placeholder="الرساله" class="form-control {{ $errors->has('comment') ? 'is-invalid' : '' }}" name="comment"
+                                                id="comment" required>{{ old('comment') }}</textarea>
                                             @if ($errors->has('comment'))
                                                 <div class="invalid-feedback">
                                                     {{ $errors->first('comment') }}
@@ -194,7 +195,7 @@
                                 $posts = \App\Models\Post::with('author', 'post_comments', 'post_tags', 'post_forum.postForumPosts')
                                     ->latest()
                                     ->get();
-                                
+
                             @endphp
                             <div class="recent-post-widget">
                                 @foreach ($posts as $post)

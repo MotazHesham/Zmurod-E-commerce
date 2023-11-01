@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Events\CommentAdded;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\Comment;
 use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\View;
+use Pusher\Pusher;
 
 class BlogController extends Controller
 {
@@ -23,16 +25,12 @@ class BlogController extends Controller
 
         return view('frontend.blogs.show', compact('blog'));
     }
-    public function storeBlogComment(Request $request)
+    public function storeComment(Request $request)
     {
-        $data = $request->validate([
-            'user_comment' => 'required',
-            'comment' => 'required',
-        ]);
 
         // Create a comment
         $comment = Comment::create([
-            'comment' => $data['comment'],
+            'comment' => $request->comment,
             'comment_for' => 'Blog-comment',
         ]);
 
@@ -41,15 +39,24 @@ class BlogController extends Controller
             auth()->user()->id => ['comment_id' => $comment->id],
         ]);
 
-        // Save the comment
-        $comment->save();
+        // Construct the data to be sent in the Pusher event
+        $data = [
+            'from' => auth()->user()->id,
+            'comment' => [
+                'user_comment' => $request->user_comment,
+                'comment' => $request->comment,
+            ],
 
-        // Find the blog
-        $blog = Blog::find($request->id);
+        ];
+
+        // Dispatch the Pusher event
+        event(new CommentAdded($comment, $data));
 
         // Attach the comment to the blog
+        $blog = Blog::with('blog_comments.user_comments')->find($request->id);
         $blog->blog_comments()->attach($comment);
-        Alert::success('You commented successfully to this blog');
-        return redirect()->back();
+
+        // Return the same page with the new comment
+        return response()->json(['message' => 'Comment added successfully', 'data' => $data]);
     }
 }

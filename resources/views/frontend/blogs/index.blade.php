@@ -55,10 +55,12 @@
                             <div class="single-blog">
                                 <div class="blog-post-media">
                                     <div class="blog-post-video position-relative">
-                                        <video controls>
-                                            <source src="{{ $blog->video->getUrl() }}" type="{{ $blog->video->mime_type }}">
-                                            Your browser does not support the video tag.
-                                        </video>
+                                        {{-- Iframe value --}}
+                                        <iframe width="560" height="315"
+                                            src="https://www.youtube.com/embed/7E76PPoIVW4?si=jP1JXHi2t-wVLZ_A"
+                                            title="YouTube video player" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen></iframe>
                                     </div>
                                 </div>
                                 <div class="blog-text">
@@ -82,11 +84,20 @@
                         <!-- Start single blog -->
                         <div class="col-lg-6 col-md-6 col-xl-4 mb-50px">
                             <div class="single-blog">
-                                <div class="blog-image">
-                                    <a href="{{ route('frontend.blogs.show', $blog->id) }}"><img
-                                            src="{{ isset($blog->photo) ? $blog->photo->getUrl() : 'null' }}"
-                                            class="img-responsive w-100" alt=""></a>
-                                </div>
+                                @if (isset($blog->photo))
+                                    <div class="blog-image">
+                                        <a href="{{ route('frontend.blogs.show', $blog->id) }}"><img
+                                                src="{{ $blog->photo->getUrl() }}" class="img-responsive w-100"
+                                                alt=""></a>
+                                    </div>
+                                @else
+                                    <div class="blog-image">
+                                        <a href="{{ route('frontend.blogs.show', $blog->id) }}"><img
+                                                src="{{ asset('assets/images/blank.jpg') }}" class="img-responsive w-100"
+                                                alt=""></a>
+                                    </div>
+                                @endif
+
                                 <div class="blog-text">
                                     <div class="blog-athor-date">
                                         <span> بواسطة<a class="blog-author cercle-shape" href="#">
