@@ -27,9 +27,15 @@ class BlogController extends Controller
     }
     public function storeComment(Request $request)
     {
+
+        // Validate the comment
+        $Blogcomment = $request->validate([
+            'comment' => 'required|regex:/^[\p{Arabic}\p{L}\d\s]{3,200}$/u',
+            'user_name' => 'required',
+        ]);
         // Create a comment
         $comment = Comment::create([
-            'comment' => $request->comment,
+            'comment' => $Blogcomment['comment'],
             'comment_for' => 'Blog-comment',
         ]);
 

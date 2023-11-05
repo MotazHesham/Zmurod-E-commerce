@@ -79,7 +79,7 @@
                     </div>
                     {{-- Tags  --}}
 
-                    <div class="comment-area">
+                    <div id="comments-container" class="comment-area">
                         <h2 class="comment-heading" data-aos="fade-up" data-aos-delay="200">التعليقات
                             {{ $post->post_comments->count() }}</h2>
                         <div class="review-wrapper">
@@ -96,7 +96,8 @@
                                                     @foreach ($comment->user_comments as $user)
                                                         <h4 class="title">{{ $user->name }}</h4>
                                                     @endforeach
-                                                    <span class="date">{{ $post->created_at->format('  j F    ') }}</span>
+                                                    <span
+                                                        class="date">{{ date('d-M-Y', strtotime($post->created_at)) }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -119,29 +120,27 @@
                         <h2 class="comment-heading" data-aos="fade-up" data-aos-delay="200">ترك تعليقك</h2>
                         <div class="form-inner">
 
-                            <form class="row" action="{{ route('frontend.post.comment') }}" method="post">
+                            <form id="comment_form" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                <input type="hidden" name="post_id" value="{{ $post->id }}">
-                                {{-- <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
+                                <div class="col-md-12" data-aos="fade-up" data-aos-delay="300">
                                     <div class="single-form mb-lm-15px">
-                                        <input name='user_name' type="text" placeholder="الاسم *"
-                                            value="{{ auth()->user()->name ?? '' }}" readonly />
+                                        @auth
+                                            <input name="user_comment" id="user_comment" type="text" placeholder="الاسم *"
+                                                value="{{ auth()->user()->name }}" readonly />
+                                        @else
+                                            <input name="user_comment" id="user_comment" type="text" placeholder="الاسم *"
+                                                value="" />
+                                        @endauth
+
                                     </div>
                                 </div>
-                                <div class="col-md-12" data-aos="fade-up" data-aos-delay="500">
-                                    <div class="single-form mb-lm-15px">
-
-                                        <input name="post" type="text" placeholder="الموضوع (اختياري)"
-                                            value="{{ $post->title }}" readonly />
-                                    </div>
-                                </div> --}}
                                 <div class="col-md-12" data-aos="fade-up" data-aos-delay="200">
                                     <div class="single-form m-0">
                                         <div class="form-group">
                                             <label class="required"
                                                 for="comment">{{ trans('cruds.comment.fields.comment') }}</label>
-                                            <textarea placeholder="الرساله" class="form-control {{ $errors->has('comment') ? 'is-invalid' : '' }}" name="comment"
-                                                id="comment" required>{{ old('comment') }}</textarea>
+                                            <textarea class="form-control {{ $errors->has('comment') ? 'is-invalid' : '' }}" name="comment" id="comment"
+                                                required>{{ old('comment') }}</textarea>
                                             @if ($errors->has('comment'))
                                                 <div class="invalid-feedback">
                                                     {{ $errors->first('comment') }}
@@ -157,9 +156,8 @@
                                         <button class="btn btn-primary btn-hover-dark border-0 mt-30px" type="submit">اترك
                                             تعليقك</button>
                                     @else
-                                        <a href="{{ route('frontend.userlogin') }}"
-                                            class="btn btn-primary btn-hover-dark border-0 mt-30px" type="submit">اترك
-                                            تعليقك</a>
+                                        <a class="btn btn-primary btn-hover-dark border-0 mt-30px"
+                                            href="{{ route('frontend.userlogin') }}">اترك تعليقك</a>
                                     @endauth
 
                                 </div>
@@ -228,4 +226,63 @@
         </div>
     </div>
     <!-- Blag Area End -->
+@endsection
+@section('scripts')
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('319a00d97b6070ad0f1a', {
+            cluster: 'mt1'
+        });
+
+        var channel = pusher.subscribe('comments');
+        channel.bind('App\\Events\\CommentAdded', function(data) {
+            var userComment = data.data.comment.user_comment; // Get the user's comment
+            var commentText = data.data.comment.comment; // Get the comment text
+            var commentCreatedAt = data.data.comment.created_at; // Get the comment creation date and time
+
+            // Create a new comment element with the received data
+            var newComment = '<div class="single-review" data-aos="fade-up" data-aos-delay="200">' +
+                '<div class="review-img border text-center" style="height: 55px">' +
+                '<img class="ms-auto" src="{{ asset('assets/images/comment-image/user.png') }}" alt="" width="50" height="50" />' +
+                '</div>' +
+                '<div class="review-content">' +
+                '<div class="review-top-wrap">' +
+                '<div class="review-left">' +
+                '<div class="review-name">' +
+                '<h4 class="title">' + userComment + '</h4>' +
+                '<span class="date">' + commentCreatedAt + '</span>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="review-bottom">' +
+                '<p>' + commentText + '</p>' +
+                '<div class="review-left">' +
+                '<a href="#"><i class="fa fa-reply-all"></i> رد</a>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+
+            // Append the new comment to the comments container
+            $('#comments-container').append(newComment);
+        });
+    </script>
+    <script>
+        $('#comment_form').on('submit', function(e) {
+            e.preventDefault();
+            let user_name = $('#user_comment').val();
+            let comment = $('#comment').val();
+            $('#comment').val('');
+            $.post('{{ route('frontend.post.comment') }}', {
+                _token: '{{ @csrf_token() }}',
+                user_name: user_name,
+                comment: comment,
+                post_id: '{{ $post->id }}'
+            }, function(data) {
+                console.log(data)
+            });
+        });
+    </script>
 @endsection

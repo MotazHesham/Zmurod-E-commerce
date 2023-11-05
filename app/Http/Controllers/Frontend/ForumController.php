@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Events\CommentAdded;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Froum;
@@ -30,6 +31,7 @@ class ForumController extends Controller
 
    public function comment(Request $request)
    {
+
       // Validate the comment
       $data = $request->validate([
          'comment' => 'required|regex:/^[\p{Arabic}\p{L}\d\s]{3,200}$/u',
@@ -37,21 +39,34 @@ class ForumController extends Controller
          'user_name' => 'required',
       ]);
 
-
       // Create Comment
       $comment = Comment::create([
          'comment' => $data['comment'],
          'comment_for' => 'Forum-comment',
       ]);
       // Associate the comment with the authenticated user
-      $comment->user_comments()->attach(auth()->user()->id);
+      $comment->user_comments()->attach([
+         auth()->user()->id => ['comment_id' => $comment->id],
+      ]);
+      // Construct the data to be sent in the Pusher event
+      $data = [
+         'from' => auth()->user()->id,
+         'comment' => [
+            'user_comment' => $data['user_name'],
+            'comment' => $data['comment'],
+            'created_at' => $comment->created_at->format(config('panel.date_format')),
+         ],
+
+      ];
+      // Dispatch the Pusher event
+      event(new CommentAdded($comment, $data));
 
       // Associate the comment with the post
       $post = Post::with('post_comments')->findOrFail($request->post_id);
       $post->post_comments()->attach($comment);
 
-      Alert::success('تم التعليق من خلالك على هذا الموضوع');
 
-      return back();
+      // Return the same page with the new comment
+      return response()->json(['message' => 'Comment added successfully', 'data' => $data]);
    }
 }

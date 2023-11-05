@@ -17,8 +17,6 @@
         </div>
     </div>
     <!-- breadcrumb-area end -->
-
-
     <!-- Blog Area Start -->
     <div class="blog-grid pb-100px pt-100px main-blog-page single-blog-page">
         <div class="container">
@@ -306,7 +304,7 @@
 @endsection
 @section('scripts')
     @parent
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    
     <script>
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
