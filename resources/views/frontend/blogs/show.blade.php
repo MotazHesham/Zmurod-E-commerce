@@ -317,19 +317,47 @@
 
         var channel = pusher.subscribe('comments');
         channel.bind('App\\Events\\CommentAdded', function(data) {
-            alert(JSON.stringify(data));
+            var userComment = data.data.comment.user_comment; // Get the user's comment
+            var commentText = data.data.comment.comment; // Get the comment text
+            var commentCreatedAt = data.data.comment.created_at; // Get the comment creation date and time
+
+            // Create a new comment element with the received data
+            var newComment = '<div class="single-review" data-aos="fade-up" data-aos-delay="200">' +
+                '<div class="review-img border text-center" style="height: 55px">' +
+                '<img class="ms-auto" src="{{ asset('assets/images/comment-image/user.png') }}" alt="" width="50" height="50" />' +
+                '</div>' +
+                '<div class="review-content">' +
+                '<div class="review-top-wrap">' +
+                '<div class="review-left">' +
+                '<div class="review-name">' +
+                '<h4 class="title">' + userComment + '</h4>' +
+                '<span class="date">' + commentCreatedAt + '</span>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="review-bottom">' +
+                '<p>' + commentText + '</p>' +
+                '<div class="review-left">' +
+                '<a href="#"><i class="fa fa-reply-all"></i> رد</a>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+
+            // Append the new comment to the comments container
+            $('#comments-container').append(newComment);
         });
     </script>
     <script>
         $('#comment_form').on('submit', function(e) {
             e.preventDefault();
-            let user_id = $('#user_comment').val();
+            let user_name = $('#user_comment').val();
             let comment = $('#comment').val();
             $('#comment').val('');
             $.post('{{ route('frontend.storeComment') }}', {
                 _token: '{{ @csrf_token() }}',
-                user_id: 1,
-                comment: "comment",
+                user_name: user_name,
+                comment: comment,
                 id: '{{ $blog->id }}'
             }, function(data) {
                 console.log(data)

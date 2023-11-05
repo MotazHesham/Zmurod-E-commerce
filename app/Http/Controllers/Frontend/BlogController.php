@@ -27,7 +27,6 @@ class BlogController extends Controller
     }
     public function storeComment(Request $request)
     {
-
         // Create a comment
         $comment = Comment::create([
             'comment' => $request->comment,
@@ -43,8 +42,9 @@ class BlogController extends Controller
         $data = [
             'from' => auth()->user()->id,
             'comment' => [
-                'user_comment' => $request->user_comment,
+                'user_comment' => $request->user_name,
                 'comment' => $request->comment,
+                'created_at' => $comment->created_at->format(config('panel.date_format')),
             ],
 
         ];
