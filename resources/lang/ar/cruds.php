@@ -114,8 +114,8 @@ return [
         ],
     ],
     'course' => [
-        'title' => 'الدورات',
-        'title_singular' => 'دورة',
+        'title' => 'ورش العمل',
+        'title_singular' => 'ورشة عمل',
         'fields' => [
             'id' => 'id',
             'id_helper' => ' ',

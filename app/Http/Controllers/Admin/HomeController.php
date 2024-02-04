@@ -27,16 +27,22 @@ class HomeController
         if (class_exists($settings1['model'])) {
             $settings1['total_number'] = $settings1['model']::when(isset($settings1['filter_field']), function ($query) use ($settings1) {
                 if (isset($settings1['filter_days'])) {
-                    return $query->where($settings1['filter_field'], '>=',
-                        now()->subDays($settings1['filter_days'])->format('Y-m-d'));
+                    return $query->where(
+                        $settings1['filter_field'],
+                        '>=',
+                        now()->subDays($settings1['filter_days'])->format('Y-m-d')
+                    );
                 } elseif (isset($settings1['filter_period'])) {
                     switch ($settings1['filter_period']) {
-                        case 'week': $start = date('Y-m-d', strtotime('last Monday'));
-                        break;
-                        case 'month': $start = date('Y-m') . '-01';
-                        break;
-                        case 'year': $start = date('Y') . '-01-01';
-                        break;
+                        case 'week':
+                            $start = date('Y-m-d', strtotime('last Monday'));
+                            break;
+                        case 'month':
+                            $start = date('Y-m') . '-01';
+                            break;
+                        case 'year':
+                            $start = date('Y') . '-01-01';
+                            break;
                     }
                     if (isset($start)) {
                         return $query->where($settings1['filter_field'], '>=', $start);
@@ -65,16 +71,22 @@ class HomeController
         if (class_exists($settings2['model'])) {
             $settings2['total_number'] = $settings2['model']::when(isset($settings2['filter_field']), function ($query) use ($settings2) {
                 if (isset($settings2['filter_days'])) {
-                    return $query->where($settings2['filter_field'], '>=',
-                        now()->subDays($settings2['filter_days'])->format('Y-m-d'));
+                    return $query->where(
+                        $settings2['filter_field'],
+                        '>=',
+                        now()->subDays($settings2['filter_days'])->format('Y-m-d')
+                    );
                 } elseif (isset($settings2['filter_period'])) {
                     switch ($settings2['filter_period']) {
-                        case 'week': $start = date('Y-m-d', strtotime('last Monday'));
-                        break;
-                        case 'month': $start = date('Y-m') . '-01';
-                        break;
-                        case 'year': $start = date('Y') . '-01-01';
-                        break;
+                        case 'week':
+                            $start = date('Y-m-d', strtotime('last Monday'));
+                            break;
+                        case 'month':
+                            $start = date('Y-m') . '-01';
+                            break;
+                        case 'year':
+                            $start = date('Y') . '-01-01';
+                            break;
                     }
                     if (isset($start)) {
                         return $query->where($settings2['filter_field'], '>=', $start);
@@ -103,16 +115,22 @@ class HomeController
         if (class_exists($settings3['model'])) {
             $settings3['total_number'] = $settings3['model']::when(isset($settings3['filter_field']), function ($query) use ($settings3) {
                 if (isset($settings3['filter_days'])) {
-                    return $query->where($settings3['filter_field'], '>=',
-                        now()->subDays($settings3['filter_days'])->format('Y-m-d'));
+                    return $query->where(
+                        $settings3['filter_field'],
+                        '>=',
+                        now()->subDays($settings3['filter_days'])->format('Y-m-d')
+                    );
                 } elseif (isset($settings3['filter_period'])) {
                     switch ($settings3['filter_period']) {
-                        case 'week': $start = date('Y-m-d', strtotime('last Monday'));
-                        break;
-                        case 'month': $start = date('Y-m') . '-01';
-                        break;
-                        case 'year': $start = date('Y') . '-01-01';
-                        break;
+                        case 'week':
+                            $start = date('Y-m-d', strtotime('last Monday'));
+                            break;
+                        case 'month':
+                            $start = date('Y-m') . '-01';
+                            break;
+                        case 'year':
+                            $start = date('Y') . '-01-01';
+                            break;
                     }
                     if (isset($start)) {
                         return $query->where($settings3['filter_field'], '>=', $start);
@@ -130,7 +148,7 @@ class HomeController
             'group_by_field'     => 'name',
             'aggregate_function' => 'count',
             'filter_field'       => 'created_at',
-            'column_class'       => 'col-md-6',
+            'column_class'       => 'col-md-4',
             'entries_number'     => '5',
             'relationship_name'  => 'user',
             'translation_key'    => 'product',
@@ -148,7 +166,7 @@ class HomeController
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
             'group_by_field_format' => 'Y-m-d H:i:s',
-            'column_class'          => 'col-md-6',
+            'column_class'          => 'col-md-4',
             'entries_number'        => '5',
             'fields'                => [
                 'rating'         => '',
@@ -161,12 +179,12 @@ class HomeController
 
         $settings5['data'] = [];
         if (class_exists($settings5['model'])) {
-            $settings5['data'] = $settings5['model']::with('user_review','product_review')->latest()
+            $settings5['data'] = $settings5['model']::with('user_review', 'product_review')->latest()
                 ->take($settings5['entries_number'])
                 ->get();
         }
 
-        if (! array_key_exists('fields', $settings5)) {
+        if (!array_key_exists('fields', $settings5)) {
             $settings5['fields'] = [];
         }
 
@@ -180,7 +198,7 @@ class HomeController
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
             'group_by_field_format' => 'Y-m-d H:i:s',
-            'column_class'          => 'col-md-12',
+            'column_class'          => 'col-md-4',
             'entries_number'        => '5',
             'translation_key'       => 'order',
         ];
