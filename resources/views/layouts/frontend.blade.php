@@ -85,7 +85,7 @@
                                             <ul
                                                 class="d-flex align-items-center p-0 border-0 flex-column justify-content-center">
                                                 <li>
-                                                    <a class="p-0" href="shop-left-sidebar.html">
+                                                    <a class="p-0" href="{{route('frontend.home')}}">
                                                         <img class="img-responsive w-100"
                                                             src="{{ asset('assets/images/logo.png') }}" alt="">
                                                     </a>
@@ -445,7 +445,7 @@
                                 <div class="footer-links">
                                     <!-- News letter area -->
                                     <p class="mail">للتواصل السريع والاستفسارات <br>
-                                        <a href="mailto:{{ $about->email }}">{{ $about->email }}</a>
+                                        <a href="mailto:{{ $about->email }}" style="color:#ea9300;">{{ $about->email }}</a>
                                     </p>
                                     <p class="phone m-0">
                                         <i class="pe-7s-phone"></i>

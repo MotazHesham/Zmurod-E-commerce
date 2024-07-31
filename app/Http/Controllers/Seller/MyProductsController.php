@@ -39,7 +39,33 @@ class MyProductsController extends Controller
         }
 
         return redirect()->route('seller.products.index');
+    
     }
+
+    public function edit($id)
+    {
+        $product_categories = Category::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $product = Product::find($id);
+        return view('frontend.seller.edit_product', compact('product_categories','product'));
+    }
+
+    public function update(Request $request ,$id)
+    {
+        $product = Product::find($id);
+        $product->update($request->all());
+
+        foreach ($request->input('image', []) as $file) {
+            $product->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('image');
+        }
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $product->id]);
+        }
+
+        return redirect()->route('seller.products.index');
+    
+    }
+
+    
 
     public function storeCKEditorImages(Request $request)
     {

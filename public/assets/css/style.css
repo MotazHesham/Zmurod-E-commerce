@@ -6191,6 +6191,7 @@ Pages - My Account
   font-weight: 500;
   -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
+  margin-right: 15px;
 }
 @media only screen and (max-width: 479px) {
   .nav-center .product-tab-nav .nav-item {
@@ -6206,8 +6207,9 @@ Pages - My Account
 }
 .nav-center .product-tab-nav .nav-item .nav-link span {
   width: 131px;
-  height: 44px;
+  height: 55px;
   margin: 0;
+  text-align: center;
 }
 @media only screen and (max-width: 575px) {
   .nav-center .product-tab-nav .nav-item .nav-link span {
@@ -6334,7 +6336,7 @@ Pages - My Account
   color: #fff;
 }
 .product-tab-nav .nav-item .nav-link:hover, .product-tab-nav .nav-item .nav-link.active .fav-span{
-  color: #795548;
+  color: #fff;
 }
 .product-tab-nav .nav-item .nav-link:hover span::after, .product-tab-nav .nav-item .nav-link.active span::after {
   opacity: 1;

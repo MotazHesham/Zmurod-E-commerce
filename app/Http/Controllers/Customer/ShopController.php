@@ -30,7 +30,7 @@ class ShopController extends Controller
 
         $category = $sort_by = $search = null;
 
-        $products = Product::with('user', 'product_offers', 'media');
+        $products = Product::with('user', 'product_offers', 'media')->where('published',1);
 
         if ($request->category != null) {
             $category = $request->category;

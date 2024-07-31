@@ -6,7 +6,7 @@
     <!-- start numbers -->
     <div class="grid grid-cols-1 gap-6 mt-6 xl:grid-cols-1">
         <!-- Start Recent Sales -->
-        <div class="card col-span-2 xl:col-span-1">
+        <div class="card col-span-2 xl:col-span-1 overflow-auto">
             <div class="card-header">المبيعات</div>
 
             <table class="table-auto w-full text-right">

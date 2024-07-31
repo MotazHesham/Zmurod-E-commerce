@@ -322,5 +322,12 @@ return [
     'leave'                          => 'Leave',
     'calendar'                       => 'Calendar',
     'messenger'                      => 'Messenger',
+    'ProductsBasedOnSellers'=>'Products Based On Sellers',
+    'LatestReviews'=>'Latest Reviews',
+    'OrderStats'=>'Orders Stats',
+    'users'=>'Users',
+    'orders'=>'orders',
+    'sellers'=>'Sellers',
+
 
 ];

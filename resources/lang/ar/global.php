@@ -322,5 +322,11 @@ return [
     'leave'                          => 'مغادرة',
     'calendar'                       => 'التقويم',
     'messenger'                      => 'مراسل',
+    'ProductsBasedOnSellers' =>'المنتجات على أساس البائعين',
+    'LatestReviews'=>'أحدث الأراء',
+    'OrderStats'=>'إحصائيات الطلبات',
+    'users'=>'المستخدمين',
+    'orders'=>'الطلبات',
+    'sellers'=>'البائعين',
 
 ];

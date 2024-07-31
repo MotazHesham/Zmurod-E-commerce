@@ -39,14 +39,14 @@
                             {{ $message->email }}
                         </td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <th>
                             {{ trans('cruds.message.fields.subject') }}
                         </th>
                         <td>
                             {{ App\Models\Message::SUBJECT_SELECT[$message->subject] ?? '' }}
                         </td>
-                    </tr>
+                    </tr> --}}
                     <tr>
                         <th>
                             {{ trans('cruds.message.fields.message') }}

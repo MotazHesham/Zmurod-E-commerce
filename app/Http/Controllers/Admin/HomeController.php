@@ -9,7 +9,7 @@ class HomeController
     public function index()
     {
         $settings1 = [
-            'chart_title'           => 'Users',
+            'chart_title'           => __('global.users'),
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\User',
@@ -53,7 +53,7 @@ class HomeController
         }
 
         $settings2 = [
-            'chart_title'           => 'orders',
+            'chart_title'           => __('global.orders'),
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\Order',
@@ -97,7 +97,7 @@ class HomeController
         }
 
         $settings3 = [
-            'chart_title'           => 'sellers',
+            'chart_title'           => __('global.sellers'),
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\Seller',
@@ -141,14 +141,14 @@ class HomeController
         }
 
         $settings4 = [
-            'chart_title'        => 'Products Based On Sellers',
+            'chart_title'        => __('global.ProductsBasedOnSellers'),
             'chart_type'         => 'pie',
             'report_type'        => 'group_by_relationship',
             'model'              => 'App\Models\Product',
             'group_by_field'     => 'name',
             'aggregate_function' => 'count',
             'filter_field'       => 'created_at',
-            'column_class'       => 'col-md-4',
+            'column_class'       => 'col-xl-4 col-md-6',
             'entries_number'     => '5',
             'relationship_name'  => 'user',
             'translation_key'    => 'product',
@@ -157,7 +157,7 @@ class HomeController
         $chart4 = new LaravelChart($settings4);
 
         $settings5 = [
-            'chart_title'           => 'Latest Reviews',
+            'chart_title'           => __('global.LatestReviews'),
             'chart_type'            => 'latest_entries',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\Review',
@@ -166,7 +166,7 @@ class HomeController
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
             'group_by_field_format' => 'Y-m-d H:i:s',
-            'column_class'          => 'col-md-4',
+            'column_class'          => 'col-xl-4 col-md-6',
             'entries_number'        => '5',
             'fields'                => [
                 'rating'         => '',
@@ -189,7 +189,7 @@ class HomeController
         }
 
         $settings6 = [
-            'chart_title'           => 'Orders Stats',
+            'chart_title'           => __('global.OrderStats'),
             'chart_type'            => 'bar',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\Order',
@@ -198,7 +198,7 @@ class HomeController
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
             'group_by_field_format' => 'Y-m-d H:i:s',
-            'column_class'          => 'col-md-4',
+            'column_class'          => 'col-xl-4 col-md-6',
             'entries_number'        => '5',
             'translation_key'       => 'order',
         ];
