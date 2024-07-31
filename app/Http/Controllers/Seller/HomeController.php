@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -31,5 +32,12 @@ class HomeController extends Controller
         $totalSoldOrders = $orders->count();
         $totalProducts = Product::where('user_id',auth()->user()->id)->count();
         return view('frontend.seller.dashboard' ,compact('totalSoldProducts' ,'totalSoldOrders' , 'totalProducts', 'order_products'));
+    }
+
+    public function updateProfile(Request $request){
+
+        $user = Auth::user();
+        $user->update($request->all());
+        return redirect()->route('seller.profile');
     }
 }

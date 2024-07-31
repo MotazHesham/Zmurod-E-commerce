@@ -59,7 +59,7 @@
                                         <select name="city">
                                             <option value="">اختر المنطقة</option>
                                             @foreach (\App\Models\User::CITY_SELECT as $key => $value)
-                                                <option value="{{ $key }}">{{ $value }}</option>
+                                                <option value="{{ $key }}" @if (auth()->user()->country == $key ) selected @endif>{{ $value }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -68,15 +68,15 @@
                                     <div class="billing-info mb-4">
                                         <label>العنوان بالتفصيل</label>
                                         <input class="billing-address" placeholder="الشارع ، اسم المنطقة" type="text"
-                                            name="shipping_address" value="" />
-                                        <input placeholder="الوحدة ، الشقة." type="text" name="address_area" />
+                                            name="shipping_address" value="{{auth()->user()->address}}" />
+                                        <input placeholder="الوحدة ، الشقة." type="text" name="address_area"  />
                                     </div>
                                 </div>
                                 {{-- phone_number --}}
                                 <div class="col-lg-6 col-md-6">
                                     <div class="billing-info mb-4">
                                         <label>رقم الهاتف الاساسي </label>
-                                        <input type="text" name="phone" />
+                                        <input type="text" name="phone" value="{{auth()->user()->phone}}" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
@@ -125,12 +125,12 @@
                                     <div class="your-order-bottom">
                                         <ul>
                                             <li>
-                                                <input name="shipment_type" type="radio" value="normal"
+                                                <input name="shipment_type" class="shipment_type" type="radio" value="normal"
                                                     style="height: 25px;" /> الشحن العادي
                                                 <span>{{ $normal }}</span>
                                             </li>
                                             <li>
-                                                <input name="shipment_type" type="radio" value="fast"
+                                                <input name="shipment_type"  class="shipment_type" type="radio" value="fast"
                                                     style="height: 25px;" /> الشحن السريع
                                                 <span>{{ $fast }}</span>
                                             </li>
@@ -140,7 +140,7 @@
                                         <ul>
                                             <li class="order-total">الإجمالي</li>
                                             <li style="font-size: 20px; color: red;">
-                                                {{ auth()->user()->cart()->sum('total_cost') }}رس </li>
+                                                <span  id="order-total" >{{ auth()->user()->cart()->sum('total_cost') }} </span>رس </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -148,7 +148,7 @@
                             </div>
                             <div class="Place-order mt-25">
                                 <button type="submit" class="btn-danger" style="height: 60px; width:100%">تاكيد
-                                    الاوردر</button>
+                                    الطلب</button>
                             </div>
                         </div>
                     </div>
@@ -158,6 +158,22 @@
     </div>
     <!-- checkout area end -->
 @endsection
-@section('script')
+@section('scripts')
     @parent
+    <script>
+        $(document).ready(function () {
+               $('.shipment_type').on('click' ,function(){
+                let total = parseInt($('#order-total').text());
+                if ($(this).val() == 'normal'){
+                  let final = total + 50;
+                  $('#order-total').text(final);
+                }
+                else{
+                    let final = total +100;
+                    $('#order-total').text(final);
+                }
+                
+               });
+         });
+    </script>
 @endsection

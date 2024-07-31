@@ -8,5 +8,10 @@ Route::group(['prefix' => 'seller', 'as' => 'seller.', 'namespace' => 'Seller', 
     Route::post('products/add', 'MyProductsController@store')->name('products.store');
     Route::post('products/media', 'MyProductsController@storeMedia')->name('products.storeMedia');
     Route::post('products/ckmedia', 'MyProductsController@storeCKEditorImages')->name('products.storeCKEditorImages');
+    Route::get('products/edit/{id}', 'MyProductsController@edit')->name('products.edit');
+    Route::post('products/update/{id}', 'MyProductsController@update')->name('products.update');
+    Route::view('profile', 'frontend.seller.edit_profile')->name('profile');
+    Route::post('profile', 'HomeController@updateProfile')->name('profile.update');
+
     
 });

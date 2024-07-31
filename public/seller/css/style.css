@@ -7025,11 +7025,11 @@ div.code-toolbar .toolbar button:hover {
 }
 
 .text-xs{
-  font-size: 0.75rem;
+  font-size: 1rem;
 }
 
 .text-sm{
-  font-size: 0.875rem;
+  font-size: 1.25rem;
 }
 
 .text-base{
@@ -101191,7 +101191,34 @@ input, select, textarea {
     border: 1px solid #c1c1c1;
     margin-bottom: 10px;
     color: #474747;
-    font-size: 14px;
+    font-size: 20px;
 }
 
 .pro-img img   { width: 50px;  }
+
+.header-action-num {
+  font-size: 11px;
+  font-weight: 700;
+  position: absolute;
+  z-index: 2;
+  top: -10px;
+  right: -7px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #fff;
+  border-radius: 50%;
+  background-color: #393939;
+  width: 21px;
+  height: 21px;
+}

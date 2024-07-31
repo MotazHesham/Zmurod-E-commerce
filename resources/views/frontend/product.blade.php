@@ -51,8 +51,12 @@
                     <h2>{{$product->name}}</h2>
                     <div class="pricing-meta">
                         <ul class="d-flex">
-                            <li class="new-price">{{$product->price}}</li>
-                            <li class="old-price"><del>{{($product->price)+($product->price)*0.25}}</del></li>
+                            @if ($product->discount > 0) 
+                                <li class="new-price">{{$product->calc_product_price()}}</li>
+                                <li class="old-price"><del>{{$product->price}}</del></li>
+                            @else
+                             <li class="new-price">{{$product->price}}</li>
+                            @endif
                         </ul>
                     </div>
                     <div class="pro-details-rating-wrap">
@@ -72,7 +76,7 @@
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                         
                             <div class="cart-plus-minus">
-                                <input class="cart-plus-minus-box" type="text" name="quantity" value="1" />
+                                <input class="cart-plus-minus-box" type="text" name="quantity" value="1"/>
                             </div>
                             <div class="pro-details-cart">
                                 @auth

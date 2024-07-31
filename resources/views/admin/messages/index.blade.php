@@ -55,7 +55,7 @@
                                 {{ $message->email ?? '' }}
                             </td>
                             <td>
-                                {{ App\Models\Message::SUBJECT_SELECT[$message->subject] ?? '' }}
+                                {{ Str::limit($message->message , 30 )}}
                             </td>
                             <td>
                                 @can('message_show')

@@ -49,7 +49,9 @@
             @endif
         </span>
     </div>
-    <button title="أضف الى السلة" class=" add-to-cart" onclick="add_to_cart('{{ $product->id }}')">أضف الى السلة
+    @if($product->user_id != Auth::id())
+     <button title="أضف الى السلة" class=" add-to-cart" onclick="add_to_cart('{{ $product->id }}')">أضف الى السلة
     </button>
+    @endif
 
 </div>

@@ -65,7 +65,8 @@ class OrdersController extends Controller
                 return $row->delivery_status ? Order::DELIVERY_STATUS_SELECT[$row->delivery_status] : '';
             });
             $table->editColumn('total_cost', function ($row) {
-                return $row->total_cost ? $row->total_cost : '';
+                 $ship = $row->shipment_type == 'normal' ? 50 : 100;
+                return $row->total_cost ? $row->total_cost + $ship  : '';
             });
             $table->editColumn('discount', function ($row) {
                 return $row->discount ? $row->discount : '';
@@ -113,7 +114,7 @@ class OrdersController extends Controller
 
         $products = Product::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $order->load('user', 'product');
+        $order->load('user', 'orderProduct');
 
         return view('admin.orders.edit', compact('order', 'products', 'users'));
     }

@@ -25,10 +25,12 @@
           <!-- end top -->
 
           <!-- bottom -->
+       <a href="{{route('seller.sales')}}">
           <div class="mt-8">
             <h3 class="h3 "> {{$totalSoldProducts}}</h3>
             <p> منتج تم طلبه</p>
           </div>
+        </a>
           <!-- end bottom -->
 
         </div>
@@ -52,7 +54,7 @@
           <!-- bottom -->
           <div class="mt-8">
             <h1 class="h5 ">{{$totalSoldOrders}}</h1>
-            <p>اوردر </p>
+            <p>طلبات تم تسليمها</p>
           </div>
           <!-- end bottom -->
 
@@ -75,10 +77,12 @@
           </div>
           <!-- end top -->
           <!-- bottom -->
-          <div class="mt-8">
-            <h1 class="h5 ">{{$totalProducts}}</h1>
-            <p>اجمالي المنتجات</p>
-          </div>
+          <a href="{{route('seller.products.index')}}">  
+            <div class="mt-8">
+              <h1 class="h5 ">{{$totalProducts}}</h1>
+              <p>اجمالي المنتجات</p>
+            </div>
+          </a>
           <!-- end bottom -->
 
         </div>

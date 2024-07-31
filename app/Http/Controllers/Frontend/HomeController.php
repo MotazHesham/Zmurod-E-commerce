@@ -22,11 +22,11 @@ class HomeController extends Controller
         // get the  most recent categories to use it in view
         $Resent_categories = Category::with(['products' => function ($query) {
             $query->with('product_offers')->where('most_recent', 1)->where('published', 1)->orderby('updated_at', 'desc');
-        }])->where('most_recent', 1)->orderBy('updated_at', 'desc')->get()->take(6);
+        }])->where('most_recent', 1)->orderBy('updated_at', 'desc')->get();
         // get the  Fav categories to use it in view
         $Favs_categories = Category::where('fav', 1)->with(['products' => function ($query) {
             $query->with('product_offers')->where('fav', 1)->where('published', 1)->orderby('updated_at', 'desc');
-        }])->orderby('updated_at', 'desc')->get()->take(5);
+        }])->orderby('updated_at', 'desc')->get();
 
         // get all banners
         $banners = Banner::all();

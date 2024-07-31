@@ -4,7 +4,7 @@
         <!-- start numbers -->
         <div class="grid grid-cols-1 gap-6 mt-6 xl:grid-cols-1">
             <!-- Start Recent Sales -->
-            <div class="card col-span-2 xl:col-span-1">
+            <div class="card col-span-2 xl:col-span-1 overflow-auto">
                 <div class="card-header"> منتجاتي</div>
 
                 <table class="table-auto w-full text-right">
@@ -37,8 +37,9 @@
                                 <td class="border border-l-0 border-b-0 px-4 py-2">{{ $product->price }}</td>
                                 <td class="border border-l-0 border-b-0 px-4 py-2">
                                     {{ $product->published ? 'accepted' : 'pending' }}</td>
-                                <td class="border border-l-0 border-b-0 border-r-0 px-4 py-2"> <button
-                                        class="btn btn-danger">تعديل</button></td>
+                                <td class="border border-l-0 border-b-0 border-r-0 px-4 py-2"> <a
+                                        href="{{ route('seller.products.edit', $product->id) }}"><button
+                                            class="btn btn-danger"> تعديل </button></a></td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -56,7 +56,7 @@
                             <span class="title"><i class="fa fa-tags" aria-hidden="true"></i></span>
                             <ul class="tag-list">
                                 @foreach ($post->post_tags as $tag)
-                                    <li><a href="#">{{ $tag->name }}</a></li>
+                                    <li><a>{{ $tag->name }}</a></li>
                                 @endforeach
                             </ul>
                         </div>
