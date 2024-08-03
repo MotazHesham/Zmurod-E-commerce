@@ -13,7 +13,7 @@ class CourseController extends Controller
     public function index()
     {
         //courses
-        $courses = Course::where('approved', true)->    paginate(4);
+        $courses = Course::paginate(4);
         return view('frontend.courses.index', compact('courses'));
     }
 

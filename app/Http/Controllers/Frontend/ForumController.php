@@ -17,7 +17,7 @@ class ForumController extends Controller
       // get all forums 
       $forums = Froum::with('postForumPosts')->get();
       // get latest post from each forum
-      $posts = Post::where('publish', true)->with('author', 'post_comments', 'post_tags', 'post_forum.postForumPosts')->get();
+      $posts = Post::with('author', 'post_comments', 'post_tags', 'post_forum.postForumPosts')->get();
       return view('frontend.forums.forum', compact('forums', 'posts'));
    }
 

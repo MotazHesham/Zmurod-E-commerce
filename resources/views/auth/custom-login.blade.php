@@ -26,7 +26,7 @@
         <div class="row">
             <div class="col-lg-7 col-md-12 ml-auto mr-auto">
                 <div class="login-register-wrapper">
-                    <div class="login-register-tab-list nav">
+                    <div class="login-register-tab-list-login nav">
                             <div class="login-form-container">
                             <div class="login-register-form">
                                 <a class="active" data-bs-toggle="tab" href="#lg1">

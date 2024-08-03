@@ -72,27 +72,29 @@
                     <p class="mt-30px mb-0"> {!! $product->information !!} </p>
                     <form action="{{route("customer.cart.store")}}" method="POST">
                         @csrf 
-                        <div class="pro-details-quality">
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        
-                            <div class="cart-plus-minus">
-                                <input class="cart-plus-minus-box" type="text" name="quantity" value="1"/>
+                        @if($product->user_id != Auth::id())   
+                            <div class="pro-details-quality">
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            
+                                <div class="cart-plus-minus">
+                                    <input class="cart-plus-minus-box" type="text" name="quantity" value="1"/>
+                                </div>
+                                <div class="pro-details-cart">
+                                    @auth
+                                        <button class="add-cart" type="submit"> اضف الى السلة</button>
+                                    @else
+                                        <a class="add-cart" href="{{ route('frontend.userlogin') }}"> اضف الى السلة</a>
+                                    @endauth
+                                </div> 
+                                <div class="pro-details-compare-wishlist pro-details-wishlist ">
+                                    @auth
+                                        <a @auth onclick="add_to_whitelist('{{ $product->id }}')" href="#"   @else href="{{ route('frontend.userlogin') }}" @endauth><i class="pe-7s-like"></i></a>
+                                    @else
+                                        <a  href="{{ route('frontend.userlogin') }}"><i class="pe-7s-like"></i></a>
+                                    @endauth 
+                                </div>
                             </div>
-                            <div class="pro-details-cart">
-                                @auth
-                                    <button class="add-cart" type="submit"> اضف الى السلة</button>
-                                @else
-                                    <a class="add-cart" href="{{ route('frontend.userlogin') }}"> اضف الى السلة</a>
-                                @endauth
-                            </div> 
-                            <div class="pro-details-compare-wishlist pro-details-wishlist ">
-                                @auth
-                                    <a @auth onclick="add_to_whitelist('{{ $product->id }}')" href="#"   @else href="{{ route('frontend.userlogin') }}" @endauth><i class="pe-7s-like"></i></a>
-                                @else
-                                    <a  href="{{ route('frontend.userlogin') }}"><i class="pe-7s-like"></i></a>
-                                @endauth 
-                            </div>
-                        </div>
+                        @endif    
                     </form>
                     <div class="pro-details-categories-info pro-details-same-style d-flex">
                         <span>الكلمات الدالة: </span>

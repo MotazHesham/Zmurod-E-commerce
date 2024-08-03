@@ -8,9 +8,11 @@ use App\Models\Seller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
-use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Validation\Rule;
+
+
 
 class CustomRegisterController extends Controller
 {
@@ -27,7 +29,14 @@ class CustomRegisterController extends Controller
         // Validate the input
         $validatedData = $request->validate([
             'customer_name' => 'required|string|max:50',
-            'email' => 'required|string|email|unique:users',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                Rule::unique('users')->where(function ($query) {
+                    return $query->whereNull('deleted_at');
+                })
+            ],
             'customer_password' => 'required|string|min:6',
             'customer_country' => ['required', 'in:' . implode(',', array_keys(User::CITY_SELECT))],
             'customer_region'  => ['required', 'in:' . implode(',', array_keys(User::AREA_SELECT))],
