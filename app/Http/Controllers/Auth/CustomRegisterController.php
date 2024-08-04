@@ -11,6 +11,7 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Validation\Rule;
+use App\Rules\UniqueEmailRule;
 
 
 
@@ -33,9 +34,7 @@ class CustomRegisterController extends Controller
                 'required',
                 'string',
                 'email',
-                Rule::unique('users')->where(function ($query) {
-                    return $query->whereNull('deleted_at');
-                })
+               new UniqueEmailRule
             ],
             'customer_password' => 'required|string|min:6',
             'customer_country' => ['required', 'in:' . implode(',', array_keys(User::CITY_SELECT))],
