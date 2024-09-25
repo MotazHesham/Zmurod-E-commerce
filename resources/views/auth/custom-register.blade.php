@@ -8,7 +8,7 @@
                     <h2 class="breadcrumb-title"> مستخدم جديد</h2>
                     <!-- breadcrumb-list start -->
                     <ul class="breadcrumb-list">
-                        <li class="breadcrumb-item"><a href="index.html">الرئيسية</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('frontend.home') }}">الرئيسية</a></li>
                         <li class="breadcrumb-item active">دخول</li>
                     </ul>
                     <!-- breadcrumb-list end -->
@@ -46,7 +46,7 @@
                                 </div>
                             @endif
 
-                            <div id="lg1" class="tab-pane @if (
+                            <div id="lg1" class="tab-pane active @if (
                                 $errors->hasAny([
                                     'customer_name',
                                     'customer_password',
@@ -57,8 +57,10 @@
                                 ])) ) active @endif">
 
                                 <div class="login-form-container">
+                                    <h4 class="text-center">بيانات العميل</h4>
                                     <div class="login-register-form">
-                                        <form action="{{ route('frontend.register_customer') }}" method="post">
+                                        <form action="{{ route('frontend.register_customer') }}" method="post"
+                                            id="custome-form">
                                             @csrf
                                             <input
                                                 class="form-control {{ $errors->has('customer_name') ? 'is-invalid' : '' }}"
@@ -70,7 +72,7 @@
                                                 </div>
                                             @endif
                                             <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
-                                                type="email" name="email" id="email" value="{{ old('email') }}"
+                                                type="email" name="email" value="{{ old('email') }}"
                                                 placeholder="البريد الالكتروني" required>
                                             @if ($errors->has('email'))
                                                 <div class="invalid-feedback">
@@ -79,8 +81,7 @@
                                             @endif
                                             <input
                                                 class="form-control {{ $errors->has('customer_password') ? 'is-invalid' : '' }}"
-                                                type="password" name="customer_password" id="customer_password"
-                                                placeholder="كلمة المرور" required>
+                                                type="password" name="customer_password" placeholder="كلمة المرور" required>
                                             @if ($errors->has('customer_password'))
                                                 <div class="invalid-feedback">
                                                     {{ $errors->first('customer_password') }}
@@ -105,8 +106,8 @@
                                             <input type="text" name="customer_complete-add" placeholder="اسم الشارع"
                                                 required />
                                             <input
-                                                class="form-control {{ $errors->has('customer_phone') ? 'is-invalid' : '' }}"
-                                                type="text" name="customer_phone" id="customer_phone"
+                                                class="form-control {{ $errors->has('customer_phone') ? 'is-invalid' : '' }} customer_phone"
+                                                type="tel" name="customer_phone" id="customer_phone"
                                                 placeholder="رقم الهاتف" value="{{ old('customer_phone', '') }}" required>
                                             @if ($errors->has('customer_phone'))
                                                 <div class="invalid-feedback">
@@ -135,8 +136,10 @@
                                 ])) ) active @endif">
 
                                 <div class="login-form-container">
+                                    <h4 class="text-center">بيانات التاجر</h4>
                                     <div class="login-register-form">
-                                        <form action="{{ route('frontend.register_seller') }}" method="post">
+                                        <form action="{{ route('frontend.register_seller') }}" id="seller-form"
+                                            method="post">
                                             @csrf
                                             <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
                                                 type="text" name="name" id="name" value="{{ old('name', '') }}"
@@ -147,7 +150,7 @@
                                                 </div>
                                             @endif
                                             <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
-                                                type="email" name="email" id="email" value="{{ old('email') }}"
+                                                type="email" name="email" value="{{ old('email') }}"
                                                 placeholder="البريد الالكتروني" required>
                                             @if ($errors->has('email'))
                                                 <div class="invalid-feedback">
@@ -162,6 +165,34 @@
                                                     {{ $errors->first('password') }}
                                                 </div>
                                             @endif
+                                            <input class="form-control {{ $errors->has('identity_number') ? 'is-invalid' : '' }}"
+                                                type="text" name="identity_number" id="identity_number" placeholder="رقم الهوية"
+                                                required>
+                                            @if ($errors->has('identity_number'))
+                                                <div class="invalid-feedback">
+                                                    {{ $errors->first('identity_number') }}
+                                                </div>
+                                            @endif
+                                            <input class="form-control {{ $errors->has('commercial_register') ? 'is-invalid' : '' }}"
+                                            type="text" name="commercial_register" id="commercial_register" placeholder="رقم السجل التجاري"
+                                            required>
+                                        @if ($errors->has('commercial_register'))
+                                            <div class="invalid-feedback">
+                                                {{ $errors->first('commercial_register') }}
+                                            </div>
+                                        @endif
+                                            <select name="type" id="type" >
+                                                <option>نوع الكيان</option>
+                                                <option value="individual">فرد</option>
+                                                <option value="oragainzation">مؤسسة</option>
+                                            </select>
+                                            <select name="organization_id" id="oragainzation-select" class="d-none">
+                                                <option value="">أختر المؤسسة التابع لها  </option>
+                                                @foreach ($organizations as $organization)
+                                                    <option value="{{ $organization->id }}">{{ $organization->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                             <select name="country" required>
                                                 <option value="">الدوله</option>
                                                 @foreach (\App\Models\User::CITY_SELECT as $key => $value)
@@ -183,9 +214,11 @@
                                                         {{ $value }}</option>
                                                 @endforeach
                                             </select>
-                                            <input type="text" name="complete-add" placeholder="اسم الشارع" required />
-                                            <input class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}"
-                                                type="text" name="phone" id="phone" placeholder="رقم الهاتف"
+                                            <input type="text" name="complete-add" placeholder="اسم الشارع"
+                                                required />
+                                            <input
+                                                class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }} customer_phone"
+                                                type="tel" name="phone" id="phone" placeholder="رقم الهاتف"
                                                 value="{{ old('phone', '') }}" required>
                                             @if ($errors->has('phone'))
                                                 <div class="invalid-feedback">
@@ -201,8 +234,6 @@
                                                     {{ $errors->first('store_name') }}
                                                 </div>
                                             @endif
-                                            <small>* يجب أن يبدأ بحروف الأبجدية <br> * يمكن أن تكون جميع الأحرف الأخرى حروف
-                                                أبجدية أو أرقام أو شرطة سفلية <br> * الطول 4-30 حرفًا </small>
 
                                             <label class="required"
                                                 for="photo">{{ trans('cruds.seller.fields.photo') }}</label>
@@ -365,8 +396,6 @@
             }
         });
     </script>
-@endsection
-@section('scripts')
     <script>
         $(document).ready(function() {
             var $sellerTab = $('#lg2'); // Use jQuery selector to select the seller tab
@@ -391,4 +420,208 @@
             @endif
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $.validator.addMethod("regex", function(value, element, regexpr) {
+                return this.optional(element) || regexpr.test(value);
+            }, "Invalid input.");
+            $("#seller-form").validate({
+                rules: {
+                    customer_name: {
+                        required: true,
+                        minlength: 3
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 6
+                    },
+                    phone: {
+                        required: true,
+                        digits: true,
+                        minlength: 10
+                    },
+                    country: {
+                        required: true
+                    },
+                    commercial_register:{
+                        required:true
+                    },
+                    identity:{
+                        required:true
+                    },
+                    region: {
+                        required: true
+                    },
+                    store_name: {
+                        required: true,
+                        minlength: 4,
+                        maxlength: 30,
+                        regex: /^[a-zA-Z][a-zA-Z0-9_]*$/ // تعبير منتظم للتحقق من الشرط المطلوب
+                    }
+                },
+                messages: {
+                    customer_name: {
+                        required: "الاسم مطلوب",
+                        minlength: "الاسم يجب أن يحتوي على 3 أحرف على الأقل"
+                    },
+                    email: {
+                        required: "البريد الالكتروني مطلوب",
+                        email: "يرجى إدخال بريد إلكتروني صحيح"
+                    },
+                    customer_password: {
+                        required: "كلمة المرور مطلوبة",
+                        minlength: "كلمة المرور يجب أن تكون 6 أحرف على الأقل"
+                    },
+                    customer_phone: {
+                        required: "رقم الهاتف مطلوب",
+                        digits: "يرجى إدخال أرقام فقط",
+                        minlength: "رقم الهاتف يجب أن يكون على الأقل 10 أرقام"
+                    },
+                    customer_country: {
+                        required: "يرجى اختيار الدولة"
+                    },
+                    customer_region: {
+                        required: "يرجى اختيار المنطقة"
+                    },
+                    store_name: {
+                        required: "اسم المتجر مطلوب",
+                        minlength: "الاسم يجب أن يحتوي على 4 أحرف على الأقل",
+                        maxlength: "الاسم يجب أن لا يزيد عن 30 حرفًا",
+                        regex: "يجب أن يبدأ الاسم بحرف أبجدي، ويمكن أن يحتوي على أحرف، أرقام، أو شرطة سفلية فقط"
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    error.addClass("invalid-feedback");
+                    element.closest(".form-control").addClass("is-invalid");
+                    error.insertAfter(element);
+                },
+                success: function(label, element) {
+                    $(element).removeClass("is-invalid");
+                    $(element).closest(".form-control").addClass("is-valid");
+                },
+                highlight: function(element) {
+                    $(element).closest(".form-control").addClass("is-invalid");
+                },
+                unhighlight: function(element) {
+                    $(element).removeClass("is-invalid");
+                    $(element).addClass("is-valid");
+                }
+            });
+
+            // الفاليديشن عند مغادرة الحقل
+            $("input, select").on("blur", function() {
+                $(this).valid();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#custome-form").validate({
+                rules: {
+                    customer_name: {
+                        required: true,
+                        minlength: 3
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    customer_password: {
+                        required: true,
+                        minlength: 6
+                    },
+                    customer_phone: {
+                        required: true,
+                        digits: true,
+                        minlength: 10
+                    },
+                    customer_country: {
+                        required: true
+                    },
+                    customer_region: {
+                        required: true
+                    },
+                },
+                messages: {
+                    customer_name: {
+                        required: "الاسم مطلوب",
+                        minlength: "الاسم يجب أن يحتوي على 3 أحرف على الأقل"
+                    },
+                    email: {
+                        required: "البريد الالكتروني مطلوب",
+                        email: "يرجى إدخال بريد إلكتروني صحيح"
+                    },
+                    customer_password: {
+                        required: "كلمة المرور مطلوبة",
+                        minlength: "كلمة المرور يجب أن تكون 6 أحرف على الأقل"
+                    },
+                    customer_phone: {
+                        required: "رقم الهاتف مطلوب",
+                        digits: "يرجى إدخال أرقام فقط",
+                        minlength: "رقم الهاتف يجب أن يكون على الأقل 10 أرقام"
+                    },
+                    customer_country: {
+                        required: "يرجى اختيار الدولة"
+                    },
+                    customer_region: {
+                        required: "يرجى اختيار المنطقة"
+                    },
+                },
+                errorPlacement: function(error, element) {
+                    error.addClass("invalid-feedback");
+                    element.closest(".form-control").addClass("is-invalid");
+                    error.insertAfter(element);
+                },
+                success: function(label, element) {
+                    $(element).removeClass("is-invalid");
+                    $(element).closest(".form-control").addClass("is-valid");
+                },
+                highlight: function(element) {
+                    $(element).closest(".form-control").addClass("is-invalid");
+                },
+                unhighlight: function(element) {
+                    $(element).removeClass("is-invalid");
+                    $(element).addClass("is-valid");
+                }
+            });
+
+            // الفاليديشن عند مغادرة الحقل
+            $("input, select").on("blur", function() {
+                $(this).valid();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            var inputs = document.querySelectorAll(".customer_phone");
+
+            inputs.forEach(function(input) {
+                window.intlTelInput(input, {
+                    initialCountry: "sa",
+                    preferredCountries: ["sa", "eg", "ae", "kw"],
+                    separateDialCode: true,
+                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('#type').on('change',function(){
+                if($(this).val() == 'oragainzation'){
+                    $('#oragainzation-select').removeClass('d-none');
+                }
+                else{
+                    $('#oragainzation-select').addClass('d-none');
+
+                }
+            });
+        })
+        </script>
 @endsection

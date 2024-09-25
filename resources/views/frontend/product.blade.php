@@ -69,7 +69,19 @@
                         <span class="avallabillty">الإتاحة: <span class="in-stock">
                             <i class="fa fa-check"></i>متاح</span></span>
                     </div>
+                    @if($product->weight)
+                    <div class="stock mt-30px">
+                        <span class="avallabillty">الوزن: <span class="in-stock">
+                            <i class="fa fa-weight"></i>{{$product->weight}} جرام</span></span>
+                    </div>
+                    @endif
                     <p class="mt-30px mb-0"> {!! $product->information !!} </p>
+                    @if($product->file)
+                    <div class="stock mt-30px">
+                        <span class="avallabillty">تفاصيل المنتج: <span class="in-stock">
+                         <a href="{{$product->file}}" target="blank">{{$product->file}}</a>
+                    </div>
+                    @endif
                     <form action="{{route("customer.cart.store")}}" method="POST">
                         @csrf 
                         @if($product->user_id != Auth::id())   

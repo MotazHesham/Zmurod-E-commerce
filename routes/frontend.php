@@ -2,6 +2,10 @@
 
 use App\Http\Livewire\Popup;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\VerificationController;
+
+
+Auth::routes(['verify' => true]);
 
 Route::group(['as' => 'frontend.', 'namespace' => 'Auth'], function () {
     // login
@@ -13,6 +17,12 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Auth'], function () {
     Route::post('sellers/media', 'CustomRegisterController@storeMedia')->name('sellers.storeMedia');
     Route::post('sellers/ckmedia', 'CustomRegisterController@storeCKEditorImages')->name('sellers.storeCKEditorImages');
 });
+
+// Routes for password reset
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
 Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     // Home
@@ -52,7 +62,7 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
 });
 
 
-Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Customer'], function () {
+Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Customer', 'middleware' => 'verified'], function () {
     // shops
     Route::get('shops', 'ShopController@index')->name('shops');
     Route::get('shop/{id}', 'ShopController@shop')->name('shop');
@@ -66,7 +76,7 @@ Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Custo
     Route::post('pop', 'PopupModalController@show')->name('popup.show');
 });
 
-Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Customer', 'middleware' => ['auth', 'customer']], function () {
+Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Customer', 'middleware' => ['auth', 'customer', 'verified']], function () {
     // account
     Route::get('dashboard', 'CustomersController@index')->name('home');
     Route::post('dashboard/media', 'CustomersController@storeMedia')->name('customers.storeMedia');

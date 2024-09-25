@@ -30,6 +30,7 @@
 
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('dashboard_offline/css/dropzone.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
 
 
 </head>
@@ -85,7 +86,7 @@
                                             <ul
                                                 class="d-flex align-items-center p-0 border-0 flex-column justify-content-center">
                                                 <li>
-                                                    <a class="p-0" href="{{route('frontend.home')}}">
+                                                    <a class="p-0" href="{{ route('frontend.home') }}">
                                                         <img class="img-responsive w-100"
                                                             src="{{ asset('assets/images/logo.png') }}" alt="">
                                                     </a>
@@ -120,7 +121,10 @@
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     @auth
                                         @php
-                                            $route = auth()->user()->user_type == 'customer' ? 'customer.home' : 'seller.home';
+                                            $route =
+                                                auth()->user()->user_type == 'customer'
+                                                    ? 'customer.home'
+                                                    : 'seller.home';
                                         @endphp
                                         <li><a class="dropdown-item" href="{{ route($route) }}">حسابي</a></li>
                                         <li>
@@ -181,7 +185,9 @@
                         @foreach (auth()->user()->whitelist()->with('product')->get() as $whitelist)
                             @php
                                 if (isset($whitelist->product->image)) {
-                                    $image_first = isset($whitelist->product->image[0]) ? $whitelist->product->image[0]->getUrl() : asset('assets/images/blank.jpg');
+                                    $image_first = isset($whitelist->product->image[0])
+                                        ? $whitelist->product->image[0]->getUrl()
+                                        : asset('assets/images/blank.jpg');
                                 } else {
                                     $image_first = asset('assets/images/blank.jpg');
                                 }
@@ -229,7 +235,9 @@
                         @foreach (auth()->user()->cart()->with('product')->get() as $cart)
                             @php
                                 if (isset($cart->product->image)) {
-                                    $image_first = isset($cart->product->image[0]) ? $cart->product->image[0]->getUrl() : asset('assets/images/blank.jpg');
+                                    $image_first = isset($cart->product->image[0])
+                                        ? $cart->product->image[0]->getUrl()
+                                        : asset('assets/images/blank.jpg');
                                 } else {
                                     $image_first = asset('assets/images/blank.jpg');
                                 }
@@ -445,7 +453,8 @@
                                 <div class="footer-links">
                                     <!-- News letter area -->
                                     <p class="mail">للتواصل السريع والاستفسارات <br>
-                                        <a href="mailto:{{ $about->email }}" style="color:#ea9300;">{{ $about->email }}</a>
+                                        <a href="mailto:{{ $about->email }}"
+                                            style="color:#ea9300;">{{ $about->email }}</a>
                                     </p>
                                     <p class="phone m-0">
                                         <i class="pe-7s-phone"></i>
@@ -545,6 +554,8 @@
         <script src="{{ asset('dashboard_offline/js/dropzone.min.js') }}"></script>
         <!-- SweetAlert2 -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 
         <!-- Main Js -->
         <script src="{{ asset('assets/js/main.js') }}"></script>

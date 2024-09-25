@@ -40,6 +40,7 @@ class StoreSellerRequest extends FormRequest
             ],
             'phone' => [
                 'required',
+                'unique:users',
             ],
             'country' => [
                 'required',

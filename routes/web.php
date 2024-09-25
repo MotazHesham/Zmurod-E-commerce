@@ -101,6 +101,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('sellers/ckmedia', 'SellersController@storeCKEditorImages')->name('sellers.storeCKEditorImages');
     Route::resource('sellers', 'SellersController');
 
+
+    // Organizations
+    Route::delete('organizations/destroy', 'OrganizationController@massDestroy')->name('organizations.massDestroy');
+    Route::post('organizations/media', 'OrganizationController@storeMedia')->name('organizations.storeMedia');
+    Route::post('organizations/ckmedia', 'OrganizationController@storeCKEditorImages')->name('organizations.storeCKEditorImages');
+    Route::resource('organizations', 'OrganizationController');
+
     // Tags
     Route::delete('tags/destroy', 'TagsController@massDestroy')->name('tags.massDestroy');
     Route::resource('tags', 'TagsController');

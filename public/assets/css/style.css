@@ -4676,7 +4676,6 @@ Pages - My Account
   -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   padding: 80px;
-  text-align: left;
 }
 .login-register-wrapper .login-form-container .login-register-form input {
   background-color: transparent;
@@ -9581,4 +9580,9 @@ padding: 10px 15px;
 div.cart-quantity-price span.quantity{
     color: black;
     font-size: 15px !important
+}
+
+.iti {
+  width: 100%;
+  margin-bottom: 20px;
 }

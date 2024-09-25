@@ -135,6 +135,14 @@
                             {{ App\Models\Product::SHIPPING_METHOD_SELECT[$product->shipping_method] ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.product.fields.weight') }}
+                        </th>
+                        <td>
+                            {{ $product->weight ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

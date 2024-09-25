@@ -83,6 +83,22 @@
                             {!! $seller->description !!}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.identity') }}
+                        </th>
+                        <td>
+                            {!! $seller->user?->identity_number !!}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.commercial_register') }}
+                        </th>
+                        <td>
+                            {!! $seller->user?->commercial_register !!}
+                        </td>
+                    </tr>
                     
                 </tbody>
             </table>

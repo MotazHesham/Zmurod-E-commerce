@@ -23,7 +23,8 @@ class ProductsController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function update_statuses(Request $request){
+    public function update_statuses(Request $request)
+    {
         $column_name = $request->column_name;
         $product = Product::find($request->id);
         $product->$column_name = $request->status;
@@ -43,9 +44,9 @@ class ProductsController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'product_show';
-                $editGate      = 'product_edit';
-                $deleteGate    = 'product_delete';
+                $viewGate = 'product_show';
+                $editGate = 'product_edit';
+                $deleteGate = 'product_delete';
                 $crudRoutePart = 'products';
 
                 return view('partials.datatablesActions', compact(
@@ -68,10 +69,10 @@ class ProductsController extends Controller
             });
             $table->editColumn('most_recent', function ($row) {
                 return ' <label class="c-switch c-switch-pill c-switch-success">
-                <input onchange="update_statuses(this,\'most_recent\')" value="'. $row->id .'" 
-                    type="checkbox" class="c-switch-input" '. ($row->most_recent ? "checked" : null) .'>
+                <input onchange="update_statuses(this,\'most_recent\')" value="' . $row->id . '" 
+                    type="checkbox" class="c-switch-input" ' . ($row->most_recent ? "checked" : null) . '>
                 <span class="c-switch-slider"></span>
-            </label>'; 
+            </label>';
             });
             $table->editColumn('discount', function ($row) {
                 return $row->discount ? $row->discount : '';
@@ -80,7 +81,7 @@ class ProductsController extends Controller
                 return $row->price ? $row->price : '';
             });
             $table->editColumn('image', function ($row) {
-                if (! $row->image) {
+                if (!$row->image) {
                     return '';
                 }
                 $links = [];
@@ -106,18 +107,18 @@ class ProductsController extends Controller
                 return $row->user ? $row->user->name : '';
             });
 
-            $table->editColumn('fav', function ($row) { 
+            $table->editColumn('fav', function ($row) {
                 return ' <label class="c-switch c-switch-pill c-switch-success">
-                    <input onchange="update_statuses(this,\'fav\')" value="'. $row->id .'" type="checkbox" class="c-switch-input" '. ($row->fav ? "checked" : null) .'>
+                    <input onchange="update_statuses(this,\'fav\')" value="' . $row->id . '" type="checkbox" class="c-switch-input" ' . ($row->fav ? "checked" : null) . '>
                     <span class="c-switch-slider"></span>
-                </label>'; 
+                </label>';
 
             });
-            $table->editColumn('published', function ($row) { 
+            $table->editColumn('published', function ($row) {
                 return ' <label class="c-switch c-switch-pill c-switch-success">
-                    <input onchange="update_statuses(this,\'published\')" value="'. $row->id .'" type="checkbox" class="c-switch-input" '. ($row->published ? "checked" : null) .'>
+                    <input onchange="update_statuses(this,\'published\')" value="' . $row->id . '" type="checkbox" class="c-switch-input" ' . ($row->published ? "checked" : null) . '>
                     <span class="c-switch-slider"></span>
-                </label>'; 
+                </label>';
 
             });
             $table->editColumn('product_offers', function ($row) {
@@ -132,8 +133,8 @@ class ProductsController extends Controller
             $table->editColumn('shipping_method', function ($row) {
                 return $row->shipping_method ? Product::SHIPPING_METHOD_SELECT[$row->shipping_method] : '';
             });
-    
-            $table->rawColumns(['actions', 'placeholder', 'most_recent', 'image', 'product_tags', 'product_category', 'user', 'fav', 'product_offers','published']);
+
+            $table->rawColumns(['actions', 'placeholder', 'most_recent', 'image', 'product_tags', 'product_category', 'user', 'fav', 'product_offers', 'published']);
 
             return $table->make(true);
         }
@@ -153,9 +154,9 @@ class ProductsController extends Controller
 
         $product_offers = Offer::pluck('name', 'id');
 
-        
 
-        return view('admin.products.create', compact( 'product_categories', 'product_offers', 'product_tags', 'users'));
+
+        return view('admin.products.create', compact('product_categories', 'product_offers', 'product_tags', 'users'));
     }
 
     public function store(StoreProductRequest $request)
@@ -167,10 +168,15 @@ class ProductsController extends Controller
             $product->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('image');
         }
 
+        if ($request->input('file', false)) {
+          
+                $product->addMedia(storage_path('tmp/uploads/' . basename($request->input('file'))))->toMediaCollection('file');
+            }
+       
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $product->id]);
         }
-        alert()->success(trans('flash.store.title'),trans('flash.store.body'));
+        alert()->success(trans('flash.store.title'), trans('flash.store.body'));
         return redirect()->route('admin.products.index');
     }
 
@@ -188,7 +194,7 @@ class ProductsController extends Controller
 
         $product->load('product_tags', 'product_category', 'user', 'product_offers');
 
-        return view('admin.products.edit', compact( 'product', 'product_categories', 'product_offers', 'product_tags', 'users'));
+        return view('admin.products.edit', compact('product', 'product_categories', 'product_offers', 'product_tags', 'users'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)
@@ -198,18 +204,18 @@ class ProductsController extends Controller
         $product->product_offers()->sync($request->input('product_offers', []));
         if (count($product->image) > 0) {
             foreach ($product->image as $media) {
-                if (! in_array($media->file_name, $request->input('image', []))) {
+                if (!in_array($media->file_name, $request->input('image', []))) {
                     $media->delete();
                 }
             }
         }
         $media = $product->image->pluck('file_name')->toArray();
         foreach ($request->input('image', []) as $file) {
-            if (count($media) === 0 || ! in_array($file, $media)) {
+            if (count($media) === 0 || !in_array($file, $media)) {
                 $product->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('image');
             }
         }
-        alert()->success(trans('flash.update.title'),trans('flash.update.body'));
+        alert()->success(trans('flash.update.title'), trans('flash.update.body'));
         return redirect()->route('admin.products.index');
     }
 
@@ -227,7 +233,7 @@ class ProductsController extends Controller
         abort_if(Gate::denies('product_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $product->delete();
-        alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
+        alert()->success(trans('flash.destroy.title'), trans('flash.destroy.body'));
         return back();
     }
 
@@ -246,10 +252,10 @@ class ProductsController extends Controller
     {
         abort_if(Gate::denies('product_create') && Gate::denies('product_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $model         = new Product();
-        $model->id     = $request->input('crud_id', 0);
+        $model = new Product();
+        $model->id = $request->input('crud_id', 0);
         $model->exists = true;
-        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+        $media = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }

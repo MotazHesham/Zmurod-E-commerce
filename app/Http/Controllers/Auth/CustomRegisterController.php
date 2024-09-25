@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Organization;
 use App\Models\Seller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -21,7 +22,8 @@ class CustomRegisterController extends Controller
 
     public function index()
     {
-        return view('auth.custom-register');
+        $organizations= Organization::all();
+        return view('auth.custom-register',compact('organizations'));
     }
 
     public function register_customer(Request $request)
@@ -40,7 +42,7 @@ class CustomRegisterController extends Controller
             'customer_country' => ['required', 'in:' . implode(',', array_keys(User::CITY_SELECT))],
             'customer_region'  => ['required', 'in:' . implode(',', array_keys(User::AREA_SELECT))],
             'customer_complete-add' => 'required',
-            'customer_phone' => 'required|string|max:255',
+            'customer_phone' => 'required|string|max:255|unique:customers,phone',
 
         ]);
 
@@ -63,7 +65,7 @@ class CustomRegisterController extends Controller
         Auth::login($user);
 
         // Redirect to the desired page after successful registration
-        return redirect()->route('customer.home');
+        return redirect()->route('customer.home')->with('status', 'تحقق من بريدك الإلكتروني.');;
     }
 
     public function register_seller(Request $request)
@@ -76,9 +78,11 @@ class CustomRegisterController extends Controller
             'country' => ['required', 'in:' . implode(',', array_keys(User::CITY_SELECT))],
             'region'  => ['required', 'in:' . implode(',', array_keys(User::AREA_SELECT))],
             'complete-add' => 'required',
-            'phone' => 'required|string|max:255',
+            'phone' => 'required|string|max:255|unique:users,phone',
             'store_name' => 'required|string|max:255|unique:sellers,store_name|regex:/^[A-Za-z][A-Za-z0-9_ -]{2,28}$/',
             'description' => 'required|string|max:255',
+            'identity_number'=>'required|string|max:255|unique:users,identity_number',
+            'commercial_register'=>'required|string|max:255|unique:users,commercial_register',
         ]);
         // Create a new seller user
         $user = User::create([
@@ -89,6 +93,8 @@ class CustomRegisterController extends Controller
             'phone' => $validatedData['phone'],
             'user_type' => 'seller',
             'address' => $validatedData['region'] . '-' . $validatedData['complete-add'],
+            'identity_number'=>$validatedData['identity_number'],
+            'commercial_register'=>$validatedData['commercial_register'],
         ]);
 
         // Create a new seller
@@ -96,6 +102,7 @@ class CustomRegisterController extends Controller
             'store_name' => $validatedData['store_name'],
             'description' => $validatedData['description'],
             'user_id' => $user->id,
+            'organization_id'=>$request->organization_id,
         ]);
 
         if ($request->input('photo', false)) {

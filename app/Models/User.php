@@ -13,8 +13,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
+  
     use SoftDeletes, Notifiable, Auditable, HasFactory;
 
     public $table = 'users';
@@ -45,6 +46,8 @@ class User extends Authenticatable
         'remember_token',
         'country',
         'phone',
+        'identity_number',
+        'commercial_register',
         'approved',
         'address',
         'created_at',
