@@ -83,14 +83,26 @@
                             {!! $seller->description !!}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.identity') }}
+                        </th>
+                        <td>
+                            {!! $seller->user?->identity_number !!}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.commercial_register') }}
+                        </th>
+                        <td>
+                            {!! $seller->user?->commercial_register !!}
+                        </td>
+                    </tr>
                     
                 </tbody>
             </table>
-            <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.sellers.index') }}">
-                    {{ trans('global.back_to_list') }}
-                </a>
-            </div>
+           
         </div>
     </div>
 </div>

@@ -166,6 +166,7 @@ class CustomersController extends Controller
         abort_if(Gate::denies('customer_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $customer->delete();
+        $customer->user->delete();
         alert()->success(trans('flash.destroy.title'),trans('flash.destroy.body'));
         return back();
     }

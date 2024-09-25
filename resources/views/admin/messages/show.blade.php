@@ -39,14 +39,14 @@
                             {{ $message->email }}
                         </td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <th>
                             {{ trans('cruds.message.fields.subject') }}
                         </th>
                         <td>
                             {{ App\Models\Message::SUBJECT_SELECT[$message->subject] ?? '' }}
                         </td>
-                    </tr>
+                    </tr> --}}
                     <tr>
                         <th>
                             {{ trans('cruds.message.fields.message') }}
@@ -57,11 +57,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.messages.index') }}">
-                    {{ trans('global.back_to_list') }}
-                </a>
-            </div>
+           
         </div>
     </div>
 </div>

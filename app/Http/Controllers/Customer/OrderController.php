@@ -19,7 +19,7 @@ class OrderController extends Controller
             'last_name' => 'required',
             'shipping_address' => 'required',
             'phone' => 'required',
-            'phone_2' => 'nullable',
+            'phone_2' => 'required',
             'shipment_type' => 'required|in:normal,fast',
             'message' => 'nullable',
         ]);

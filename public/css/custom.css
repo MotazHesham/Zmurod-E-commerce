@@ -130,3 +130,24 @@ table.dataTable thead .sorting_desc {
 .custom-select.form-control-sm {
     padding: 0.25rem 1.5rem;
 }
+
+
+a.btn.buttons-columnVisibility
+{
+    color: #e55353;
+}
+a.btn.buttons-columnVisibility.active {
+    display: block;
+    color: #2eb85c;
+}
+
+div.dt-button-collection{
+    width: fit-content;
+}
+
+@media screen and (max-width: 640px)
+{
+.dt-buttons a {
+    margin: 10px;
+}
+}

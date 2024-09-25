@@ -4632,6 +4632,18 @@ Pages - My Account
 .login-register-wrapper .login-register-tab-list a {
   position: relative;
 }
+.login-register-wrapper .login-register-tab-list-login {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+.login-register-wrapper .login-register-tab-list-login a {
+  position: relative;
+}
 .login-register-wrapper .login-register-tab-list a:before {
   background-color: #000;
   bottom: 5px;
@@ -4664,7 +4676,6 @@ Pages - My Account
   -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   padding: 80px;
-  text-align: left;
 }
 .login-register-wrapper .login-form-container .login-register-form input {
   background-color: transparent;
@@ -4832,6 +4843,10 @@ Pages - My Account
 @media only screen and (max-width: 479px) {
   .privacy_policy_main_area .privacy_content p a {
     font-size: 12px;
+  }
+  .header-logo a img {
+    width:50px;
+    height: 50px;
   }
 }
 .privacy_policy_main_area .privacy_content p a:hover {
@@ -6191,6 +6206,7 @@ Pages - My Account
   font-weight: 500;
   -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
+  margin-right: 15px;
 }
 @media only screen and (max-width: 479px) {
   .nav-center .product-tab-nav .nav-item {
@@ -6206,8 +6222,9 @@ Pages - My Account
 }
 .nav-center .product-tab-nav .nav-item .nav-link span {
   width: 131px;
-  height: 44px;
+  height: 55px;
   margin: 0;
+  text-align: center;
 }
 @media only screen and (max-width: 575px) {
   .nav-center .product-tab-nav .nav-item .nav-link span {
@@ -6334,7 +6351,7 @@ Pages - My Account
   color: #fff;
 }
 .product-tab-nav .nav-item .nav-link:hover, .product-tab-nav .nav-item .nav-link.active .fav-span{
-  color: #795548;
+  color: #fff;
 }
 .product-tab-nav .nav-item .nav-link:hover span::after, .product-tab-nav .nav-item .nav-link.active span::after {
   opacity: 1;
@@ -9563,4 +9580,9 @@ padding: 10px 15px;
 div.cart-quantity-price span.quantity{
     color: black;
     font-size: 15px !important
+}
+
+.iti {
+  width: 100%;
+  margin-bottom: 20px;
 }

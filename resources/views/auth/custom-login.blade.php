@@ -9,7 +9,7 @@
                 <h2 class="breadcrumb-title">تسجيل دخول  </h2>
                 <!-- breadcrumb-list start -->
                 <ul class="breadcrumb-list">
-                    <li class="breadcrumb-item"><a href="index.html">الرئيسية</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('frontend.home')}}">الرئيسية</a></li>
                     <li class="breadcrumb-item active">دخول</li>
                 </ul>
                 <!-- breadcrumb-list end -->
@@ -26,7 +26,7 @@
         <div class="row">
             <div class="col-lg-7 col-md-12 ml-auto mr-auto">
                 <div class="login-register-wrapper">
-                    <div class="login-register-tab-list nav">
+                    <div class="login-register-tab-list-login nav">
                             <div class="login-form-container">
                             <div class="login-register-form">
                                 <a class="active" data-bs-toggle="tab" href="#lg1">
@@ -58,11 +58,11 @@
                                     @endif
                                     <div class="button-box">
                                         <div class="login-toggle-btn">
-                                            <input type="checkbox" name="remember"/>
-                                            <a class="flote-none" href="javascript:void(0)">تذكرني</a>
-                                            <a href="#">نسيت كلمة المرور</a>
+                                            {{-- <input type="checkbox" name="remember"/>
+                                            <a class="flote-none" href="javascript:void(0)">تذكرني</a> --}}
+                                            <a href="{{route('password.update')}}">نسيت كلمة المرور</a>
                                         </div>
-                                        <button type="submit"><span>دخول</span></button>
+                                        <button type="submit" style="margin-top: 20px"><span>دخول</span></button>
                                     </div>
                                 </form>
                             </div>
