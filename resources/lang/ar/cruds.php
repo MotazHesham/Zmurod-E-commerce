@@ -151,6 +151,7 @@ return [
             'shipping_method_helper' => ' ',
             'weight'=>'وزن المنتج  بالجرامات (إن وجد)',
             'weight_helper'=>'',
+            'file'=>'ملف وصف المنتج',
         ],
     ],
     'course' => [

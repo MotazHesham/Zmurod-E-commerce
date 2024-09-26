@@ -171,6 +171,7 @@ class ProductsController extends Controller
         if ($request->input('file', false)) {
           
                 $product->addMedia(storage_path('tmp/uploads/' . basename($request->input('file'))))->toMediaCollection('file');
+
             }
        
         if ($media = $request->input('ck-media', false)) {

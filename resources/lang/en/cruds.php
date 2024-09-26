@@ -146,6 +146,10 @@ return [
             'product_offers_helper'   => ' ',
             'shipping_method'         => 'Shipping Method',
             'shipping_method_helper'  => ' ',
+            'weight'=>'product weight in grams (if available)',
+            'weight_helper'=>'',
+            'file'=>'File',
+
         ],
     ],
     'course' => [

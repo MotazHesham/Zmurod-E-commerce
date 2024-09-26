@@ -143,6 +143,14 @@
                             {{ $product->weight ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.product.fields.file') }}
+                        </th>
+                        <td>
+                            <a href={{$product->getFirstMediaUrl('file')}}>{{$product->file?->file_name}}</a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
