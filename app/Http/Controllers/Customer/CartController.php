@@ -51,10 +51,15 @@ class CartController extends Controller
                 'price' => $product->price,
                 'price_with_discount' => $product->calc_product_price(),
                 'quantity' =>  $que ,
-                'total_cost' =>  $product->calc_product_price()
+                'total_cost' =>  $que * $product->calc_product_price()
             ]);
             $exist = 0;
         }
+
+        //update product quantity in store 
+          $product->update([
+            'current_stock' => $product->current_stock - $que,
+            ]);
 
         //return the <li> of product;
         if (isset($product->image)) {
@@ -93,6 +98,11 @@ class CartController extends Controller
         }
         $cart->delete();
 
+        // update product quantity in store 
+          $cart->product->update([
+            'current_stock' => $cart->product->current_stock  + $cart->quantity,
+            ]);
+
         // count of product in cart 
         $carts = Cart::all();
         $count = 0 ;
@@ -100,6 +110,8 @@ class CartController extends Controller
         {
             $count += $cart->quantity;
         }
+
+        
         return response()->json(['message' => 'Item removed from cart successfully' , 'count' =>$count]);
     }
 

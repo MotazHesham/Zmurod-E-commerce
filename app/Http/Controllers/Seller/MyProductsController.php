@@ -52,14 +52,22 @@ class MyProductsController extends Controller
     public function update(Request $request ,$id)
     {
         $product = Product::find($id);
+        
         $product->update($request->all());
-
+        if (count($product->image) > 0) {
+            foreach ($product->image as $media) {
+                if (! in_array($media->file_name, $request->input('image', []))) {
+                    $media->delete();
+                }
+            }
+        }
+        $media = $product->image->pluck('file_name')->toArray();
         foreach ($request->input('image', []) as $file) {
-            $product->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('image');
+            if (count($media) === 0 || ! in_array($file, $media)) {
+                $product->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('image');
+            }
         }
-        if ($media = $request->input('ck-media', false)) {
-            Media::whereIn('id', $media)->update(['model_id' => $product->id]);
-        }
+      
 
         return redirect()->route('seller.products.index');
     

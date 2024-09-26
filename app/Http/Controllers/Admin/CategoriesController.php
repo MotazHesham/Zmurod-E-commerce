@@ -17,13 +17,21 @@ class CategoriesController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function update_statuses(Request $request){
-        $column_name = $request->column_name;
+    public function update_status(Request $request){
         $category = Category::find($request->id);
-        $category->$column_name = $request->fav;
+        $category->fav =  $category->fav ? 0 : 1;
         $category->save();
         return 1;
     }
+
+      public function update_recent(Request $request){
+        $category = Category::find($request->id);
+        $category->most_recent =  $category->most_recent ? 0 : 1;
+        $category->save();
+        return 1;
+    }
+
+   
 
     public function index()
     {

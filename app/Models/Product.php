@@ -29,10 +29,10 @@ class Product extends Model implements HasMedia
 
     public const SHIPPING_METHOD_SELECT = [
         'seller' => 'الشحن من خلال البائع',
-        'hrayer'  => 'الشحن من خلال حرائر',
+        'hrayer' => 'الشحن من خلال حرائر',
     ];
 
-    
+
     protected $fillable = [
         'name',
         'current_stock',
@@ -49,6 +49,7 @@ class Product extends Model implements HasMedia
         'created_at',
         'updated_at',
         'deleted_at',
+        'weight',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
@@ -67,13 +68,18 @@ class Product extends Model implements HasMedia
     {
         $files = $this->getMedia('image');
         $files->each(function ($item) {
-            $item->url       = $item->getUrl();
+            $item->url = $item->getUrl();
             $item->thumbnail = $item->getUrl('thumb');
-            $item->preview   = $item->getUrl('preview');
-            $item->preview2   = $item->getUrl('preview2');
+            $item->preview = $item->getUrl('preview');
+            $item->preview2 = $item->getUrl('preview2');
         });
 
         return $files;
+    }
+
+    public function getFileAttribute()
+    {
+        return $this->getMedia('file')->last();
     }
 
     public function product_tags()
@@ -87,9 +93,9 @@ class Product extends Model implements HasMedia
     }
     public function carts()
     {
-        return $this->belongsToMany(Cart::class,'cart_product')
-                ->withPivot('quantity')
-                ->withTimestamps();
+        return $this->belongsToMany(Cart::class, 'cart_product')
+            ->withPivot('quantity')
+            ->withTimestamps();
     }
 
     public function user()
@@ -97,8 +103,9 @@ class Product extends Model implements HasMedia
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function reviews(){
-        return $this->hasMany(Review::class,'product_review_id');
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'product_review_id');
     }
 
     public function product_offers()
@@ -106,11 +113,13 @@ class Product extends Model implements HasMedia
         return $this->belongsToMany(Offer::class);
     }
 
-    public function calc_rating(){
-        return ;
+    public function calc_rating()
+    {
+        return;
     }
 
-    public function calc_product_price(){
+    public function calc_product_price()
+    {
         // get discount
         $discount = ($this->price * $this->discount) / 100;
         return $this->price - $discount;

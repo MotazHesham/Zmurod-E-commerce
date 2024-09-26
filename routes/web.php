@@ -91,7 +91,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('categories/media', 'CategoriesController@storeMedia')->name('categories.storeMedia');
     Route::post('categories/ckmedia', 'CategoriesController@storeCKEditorImages')->name('categories.storeCKEditorImages');
     Route::resource('categories', 'CategoriesController');
-    Route::post('categories/update_statuses', 'CategoriesController@update_statuses')->name('categories.update_statuses');
+    Route::post('categories/update_statuses', 'CategoriesController@update_status')->name('categories.update_status');
+    Route::post('categories/update_recent', 'CategoriesController@update_recent')->name('categories.update_recent');
 
     // Sellers
     Route::post('sellers/update_statuses', 'SellersController@update_statuses')->name('sellers.update_statuses');
@@ -99,6 +100,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('sellers/media', 'SellersController@storeMedia')->name('sellers.storeMedia');
     Route::post('sellers/ckmedia', 'SellersController@storeCKEditorImages')->name('sellers.storeCKEditorImages');
     Route::resource('sellers', 'SellersController');
+
+
+    // Organizations
+    Route::delete('organizations/destroy', 'OrganizationController@massDestroy')->name('organizations.massDestroy');
+    Route::post('organizations/media', 'OrganizationController@storeMedia')->name('organizations.storeMedia');
+    Route::post('organizations/ckmedia', 'OrganizationController@storeCKEditorImages')->name('organizations.storeCKEditorImages');
+    Route::resource('organizations', 'OrganizationController');
 
     // Tags
     Route::delete('tags/destroy', 'TagsController@massDestroy')->name('tags.massDestroy');

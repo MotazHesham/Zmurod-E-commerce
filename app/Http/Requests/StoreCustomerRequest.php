@@ -33,6 +33,7 @@ class StoreCustomerRequest extends FormRequest
             'phone' => [
                 'string',
                 'nullable',
+                'unique:users',
             ],
             'address' =>[
                 'required',
