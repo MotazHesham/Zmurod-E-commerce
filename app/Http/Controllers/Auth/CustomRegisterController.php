@@ -42,7 +42,7 @@ class CustomRegisterController extends Controller
             'customer_country' => ['required', 'in:' . implode(',', array_keys(User::CITY_SELECT))],
             'customer_region'  => ['required', 'in:' . implode(',', array_keys(User::AREA_SELECT))],
             'customer_complete-add' => 'required',
-            'customer_phone' => 'required|string|max:255|unique:customers,phone',
+            'customer_phone' => 'required|string|max:255|unique:users,phone',
 
         ]);
 
