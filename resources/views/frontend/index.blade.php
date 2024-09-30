@@ -103,7 +103,9 @@
                         <ul class="product-tab-nav nav swiper-wrapper ">
                             @foreach ($Favs_categories as $category)
                                 @php
-                                    $image = isset($category->icon) ? ($image = $category->icon->getUrl()) : asset('assets/images/blank.jpg');
+                                    $image = isset($category->icon)
+                                        ? ($image = $category->icon->getUrl())
+                                        : asset('assets/images/blank.jpg');
                                 @endphp
                                 <li class="nav-item swiper-slide">
                                     <a class="nav-link @if ($loop->first) active @endif "
@@ -152,22 +154,24 @@
     </div>
     <!-- Product Favourite End -->
     <!-- Brand area start -->
-    <div class="brand-area pt-100px">
-        <div class="container">
-            <div class="section-title text-center">
-                <h2 class="title">المتاجر المميزة</h2>
-            </div>
-            <div class="brand-slider swiper-container">
-                <div class="swiper-wrapper align-items-center">
-                    @foreach ($sellers as $seller)
-                        <div class="swiper-slide brand-slider-item text-center">
-                            <a href="#"><img class="img-fluid"
-                                    src="{{ $seller->photo ? $seller->photo->getUrl() : '' }}" alt="" /></a>
-                        </div>
-                    @endforeach
+    @if ($sellers->count() > 0)
+        <div class="brand-area pt-100px">
+            <div class="container">
+                <div class="section-title text-center">
+                    <h2 class="title">المتاجر المميزة</h2>
+                </div>
+                <div class="brand-slider swiper-container">
+                    <div class="swiper-wrapper align-items-center">
+                        @foreach ($sellers as $seller)
+                            <div class="swiper-slide brand-slider-item text-center">
+                                <a href="#"><img class="img-fluid"
+                                        src="{{ $seller->photo ? $seller->photo->getUrl() : '' }}" alt="" /></a>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
     <!-- Brand area end -->
 @endsection
