@@ -165,29 +165,39 @@
                                                     {{ $errors->first('password') }}
                                                 </div>
                                             @endif
-                                            <input class="form-control {{ $errors->has('identity_number') ? 'is-invalid' : '' }}"
-                                                type="text" name="identity_number" id="identity_number" placeholder="رقم الهوية"
-                                                required>
+                                            <div class="rs-select2 js-select-simple" style="width: 100%;">
+                                                <select id="identity" name="identity">
+                                                    <option value="">حدد الهوية</option>
+                                                    <option value="saudi">سعودي</option>
+                                                    <option value="resident">مقيم</option>
+                                                </select>
+                                                <div class="select-dropdown"></div>
+                                            </div>
+                                            <input
+                                                class="form-control {{ $errors->has('identity_number') ? 'is-invalid' : '' }}"
+                                                type="text" name="identity_number" id="identity_number"
+                                                placeholder="رقم الهوية" required>
                                             @if ($errors->has('identity_number'))
                                                 <div class="invalid-feedback">
                                                     {{ $errors->first('identity_number') }}
                                                 </div>
                                             @endif
-                                            <input class="form-control {{ $errors->has('commercial_register') ? 'is-invalid' : '' }}"
-                                            type="text" name="commercial_register" id="commercial_register" placeholder="رقم السجل التجاري"
-                                            required>
-                                        @if ($errors->has('commercial_register'))
-                                            <div class="invalid-feedback">
-                                                {{ $errors->first('commercial_register') }}
-                                            </div>
-                                        @endif
-                                            <select name="type" id="type" >
+                                            <input
+                                                class="form-control {{ $errors->has('commercial_register') ? 'is-invalid' : '' }}"
+                                                type="text" name="commercial_register" id="commercial_register"
+                                                placeholder="رقم السجل التجاري" required>
+                                            @if ($errors->has('commercial_register'))
+                                                <div class="invalid-feedback">
+                                                    {{ $errors->first('commercial_register') }}
+                                                </div>
+                                            @endif
+                                            <select name="type" id="type">
                                                 <option>نوع الكيان</option>
                                                 <option value="individual">فرد</option>
                                                 <option value="oragainzation">مؤسسة</option>
                                             </select>
                                             <select name="organization_id" id="oragainzation-select" class="d-none">
-                                                <option value="">أختر المؤسسة التابع لها  </option>
+                                                <option value="">أختر المؤسسة التابع لها </option>
                                                 @foreach ($organizations as $organization)
                                                     <option value="{{ $organization->id }}">{{ $organization->name }}
                                                     </option>
@@ -448,11 +458,11 @@
                     country: {
                         required: true
                     },
-                    commercial_register:{
-                        required:true
+                    commercial_register: {
+                        required: true
                     },
-                    identity:{
-                        required:true
+                    identity: {
+                        required: true
                     },
                     region: {
                         required: true
@@ -464,9 +474,10 @@
                         regex: /^[a-zA-Z][a-zA-Z0-9_]*$/ // تعبير منتظم للتحقق من الشرط المطلوب
                     },
                     identity_number: {
-                        required: true
+                        required: true,
+                        validateId: true
                     },
-                      commercial_register: {
+                    commercial_register: {
                         required: true
                     }
                 },
@@ -479,7 +490,7 @@
                         required: "البريد الالكتروني مطلوب",
                         email: "يرجى إدخال بريد إلكتروني صحيح"
                     },
-                    password:{
+                    password: {
                         required: "كلمة المرور مطلوبة",
                         minlength: "كلمة المرور يجب أن تكون  8 أحرف على الأقل"
                     },
@@ -501,9 +512,10 @@
                         regex: "يجب أن يبدأ الاسم بحرف أبجدي، ويمكن أن يحتوي على أحرف، أرقام، أو شرطة سفلية فقط"
                     },
                     identity_number: {
-                        required: " رقم الهوية مطلوب"
+                        required: " رقم الهوية مطلوب",
+                        validateId: "رقم الهوية يجب أن يبدأ برقم 1 للسعودي و 2 للمقيم",
                     },
-                     commercial_register: {
+                    commercial_register: {
                         required: " رقم السجل التجاري مطلوب"
                     }
                 },
@@ -525,10 +537,26 @@
                 }
             });
 
-            // الفاليديشن عند مغادرة الحقل
+            $.validator.addMethod("validateId", function(value, element) {
+                var identity = $("#identity").val(); // التحقق من قيمة قائمة الاختيار
+                if (identity === "saudi") {
+                    // إذا كانت الهوية سعودي، يجب أن يبدأ رقم الهوية بـ 1
+                    return /^1/.test(value);
+                } else if (identity === "resident") {
+                    // إذا كانت الهوية مقيم، يجب أن يبدأ رقم الهوية بـ 2
+                    return /^2/.test(value);
+                }
+                return false; // إذا لم يتم اختيار هوية صحيحة
+            }, "يرجى اختيار الهوية أولاً.");
+
             $("input, select").on("blur", function() {
                 $(this).valid();
             });
+        });
+
+        // الفاليديشن عند مغادرة الحقل
+        $("input, select").on("blur", function() {
+            $(this).valid();
         });
     </script>
     <script>
@@ -624,16 +652,15 @@
         });
     </script>
     <script>
-        $(document).ready(function(){
-            $('#type').on('change',function(){
-                if($(this).val() == 'oragainzation'){
+        $(document).ready(function() {
+            $('#type').on('change', function() {
+                if ($(this).val() == 'oragainzation') {
                     $('#oragainzation-select').removeClass('d-none');
-                }
-                else{
+                } else {
                     $('#oragainzation-select').addClass('d-none');
 
                 }
             });
         })
-        </script>
+    </script>
 @endsection

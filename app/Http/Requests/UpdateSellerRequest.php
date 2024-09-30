@@ -39,6 +39,14 @@ class UpdateSellerRequest extends FormRequest
                 'required',
                 'integer',
             ],
+            'identity_number' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:users,identity_number,' . request()->user_id,
+            ],
+            'commercial_register' =>
+                ['required', 'string', 'max:255',  'unique:users,commercial_register,' . request()->user_id],
         ];
     }
 }

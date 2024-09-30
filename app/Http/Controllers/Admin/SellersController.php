@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroySellerRequest;
 use App\Http\Requests\StoreSellerRequest;
 use App\Http\Requests\UpdateSellerRequest;
 use App\Models\Brand;
+use App\Models\Organization;
 use App\Models\Seller;
 use App\Models\User;
 use Gate;
@@ -116,7 +117,9 @@ class SellersController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.sellers.create', compact('users'));
+        $organizations = Organization::all();
+
+        return view('admin.sellers.create', compact('users','organizations'));
     }
 
     public function store(StoreSellerRequest $request)
@@ -127,10 +130,12 @@ class SellersController extends Controller
             'password' => bcrypt($request->password),
             'user_type' => 'seller',
             'country' => $request->country,
-            'phone' => $request->phone
+            'phone' => $request->phone,
+            'identity_number'=>$request->identity_number,
+            'commercial_register'=>$request->commercial_register,
         ]);
 
-        $validated_request = $request->all();
+        $validated_request = $request->except(['identity_number','commercial_register']);
         $validated_request['user_id'] = $user->id;
         $seller = Seller::create($validated_request);
 
@@ -153,12 +158,14 @@ class SellersController extends Controller
 
         $seller->load('user');
 
-        return view('admin.sellers.edit', compact('seller', 'users'));
+        $organizations = Organization::all();
+
+        return view('admin.sellers.edit', compact('seller', 'users','organizations'));
     }
 
     public function update(UpdateSellerRequest $request, Seller $seller)
     {
-        $seller->update($request->all());
+        $seller->update($request->except(['identity_number','commercial_register']));
 
         $user = User::find($seller->user_id);
         $user->update([
@@ -166,7 +173,9 @@ class SellersController extends Controller
             'email' => $request->email,
             'password' => $request->password != null ? bcrypt($request->password) : $user->password,
             'country' => $request->country,
-            'phone' => $request->phone
+            'phone' => $request->phone,
+            'identity_number'=>$request->identity_number,
+            'commercial_register'=>$request->commercial_register,
         ]);
 
         if ($request->input('photo', false)) {
@@ -197,6 +206,7 @@ class SellersController extends Controller
         abort_if(Gate::denies('seller_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $seller->delete();
+        $seller->user->delete();
         alert()->success(trans('flash.destroy.title'), trans('flash.destroy.body'));
         return back();
     }

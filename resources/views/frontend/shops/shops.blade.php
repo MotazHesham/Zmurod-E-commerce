@@ -26,17 +26,12 @@
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center">
             @foreach ($sellers as $seller)
-                @if (isset($seller->photo))
                 <div class="col-md-2 col-4" >
                     <div class="shops">
-                        <a href="{{ route('customer.shop', ['id' => $seller->id]) }}"><img class=" img-fluid border-" src="{{$seller->photo->getUrl()}}" alt="" />
+                        <a href="{{ route('customer.shop', ['id' => $seller->id]) }}"><img class=" img-fluid border-" src="{{$seller->photo?->getUrl()}}" alt="{{$seller->user?->name}}" />
                         </a>
                     </div>
                 </div>
-
-                @endif
-
-
             @endforeach
         </div>
     </div>
