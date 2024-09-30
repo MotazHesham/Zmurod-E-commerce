@@ -20,8 +20,7 @@ class Organizations extends Migration
             $table->longText('description')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id', 'user_fk_8703437')->references('id')->on('users');
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
+          $table->timestamps();
             
         });
     }

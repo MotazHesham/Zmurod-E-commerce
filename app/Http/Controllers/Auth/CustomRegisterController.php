@@ -38,7 +38,7 @@ class CustomRegisterController extends Controller
                 'email',
                new UniqueEmailRule
             ],
-            'customer_password' => 'required|string|min:6',
+            'customer_password' => 'required|string|min:8',
             'customer_country' => ['required', 'in:' . implode(',', array_keys(User::CITY_SELECT))],
             'customer_region'  => ['required', 'in:' . implode(',', array_keys(User::AREA_SELECT))],
             'customer_complete-add' => 'required',
@@ -73,8 +73,13 @@ class CustomRegisterController extends Controller
         // Validate the input
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users,email',
-            'password' => 'required|string|min:6',
+           'email' => [
+                'required',
+                'string',
+                'email',
+               new UniqueEmailRule
+            ],
+            'password' => 'required|string|min:8',
             'country' => ['required', 'in:' . implode(',', array_keys(User::CITY_SELECT))],
             'region'  => ['required', 'in:' . implode(',', array_keys(User::AREA_SELECT))],
             'complete-add' => 'required',
@@ -117,7 +122,8 @@ class CustomRegisterController extends Controller
         Auth::login($user);
 
         // Redirect to the desired page after successful registration
-        return redirect()->route('seller.home');
+        return redirect()->route('seller.home')->with('status', 'تحقق من بريدك الإلكتروني.');
+
     }
 
     public function storeCKEditorImages(Request $request)

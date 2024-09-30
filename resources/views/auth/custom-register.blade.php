@@ -428,7 +428,7 @@
             }, "Invalid input.");
             $("#seller-form").validate({
                 rules: {
-                    customer_name: {
+                    name: {
                         required: true,
                         minlength: 3
                     },
@@ -438,7 +438,7 @@
                     },
                     password: {
                         required: true,
-                        minlength: 6
+                        minlength: 8
                     },
                     phone: {
                         required: true,
@@ -462,10 +462,16 @@
                         minlength: 4,
                         maxlength: 30,
                         regex: /^[a-zA-Z][a-zA-Z0-9_]*$/ // تعبير منتظم للتحقق من الشرط المطلوب
+                    },
+                    identity_number: {
+                        required: true
+                    },
+                      commercial_register: {
+                        required: true
                     }
                 },
                 messages: {
-                    customer_name: {
+                    name: {
                         required: "الاسم مطلوب",
                         minlength: "الاسم يجب أن يحتوي على 3 أحرف على الأقل"
                     },
@@ -473,19 +479,19 @@
                         required: "البريد الالكتروني مطلوب",
                         email: "يرجى إدخال بريد إلكتروني صحيح"
                     },
-                    customer_password: {
+                    password:{
                         required: "كلمة المرور مطلوبة",
-                        minlength: "كلمة المرور يجب أن تكون 6 أحرف على الأقل"
+                        minlength: "كلمة المرور يجب أن تكون  8 أحرف على الأقل"
                     },
-                    customer_phone: {
+                    phone: {
                         required: "رقم الهاتف مطلوب",
                         digits: "يرجى إدخال أرقام فقط",
                         minlength: "رقم الهاتف يجب أن يكون على الأقل 10 أرقام"
                     },
-                    customer_country: {
+                    country: {
                         required: "يرجى اختيار الدولة"
                     },
-                    customer_region: {
+                    region: {
                         required: "يرجى اختيار المنطقة"
                     },
                     store_name: {
@@ -493,6 +499,12 @@
                         minlength: "الاسم يجب أن يحتوي على 4 أحرف على الأقل",
                         maxlength: "الاسم يجب أن لا يزيد عن 30 حرفًا",
                         regex: "يجب أن يبدأ الاسم بحرف أبجدي، ويمكن أن يحتوي على أحرف، أرقام، أو شرطة سفلية فقط"
+                    },
+                    identity_number: {
+                        required: " رقم الهوية مطلوب"
+                    },
+                     commercial_register: {
+                        required: " رقم السجل التجاري مطلوب"
                     }
                 },
                 errorPlacement: function(error, element) {
@@ -533,7 +545,7 @@
                     },
                     customer_password: {
                         required: true,
-                        minlength: 6
+                        minlength: 8
                     },
                     customer_phone: {
                         required: true,
@@ -558,7 +570,7 @@
                     },
                     customer_password: {
                         required: "كلمة المرور مطلوبة",
-                        minlength: "كلمة المرور يجب أن تكون 6 أحرف على الأقل"
+                        minlength: "كلمة المرور يجب أن تكون  8 أحرف على الأقل"
                     },
                     customer_phone: {
                         required: "رقم الهاتف مطلوب",
