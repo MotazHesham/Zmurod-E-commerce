@@ -154,6 +154,9 @@
     <!-- Brand area start -->
     <div class="brand-area pt-100px">
         <div class="container">
+            <div class="section-title text-center">
+                <h2 class="title">المتاجر المميزة</h2>
+            </div>
             <div class="brand-slider swiper-container">
                 <div class="swiper-wrapper align-items-center">
                     @foreach ($sellers as $seller)

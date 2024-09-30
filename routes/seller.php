@@ -1,5 +1,5 @@
 <?php
-Route::group(['prefix' => 'seller', 'as' => 'seller.', 'namespace' => 'Seller', 'middleware' => ['auth', 'seller']], function () {
+Route::group(['prefix' => 'seller', 'as' => 'seller.', 'namespace' => 'Seller', 'middleware' => ['auth', 'seller','verified']], function () {
     // account
     Route::get('dashboard', 'HomeController@index')->name('home');
     Route::get('sales', 'SalesController@index')->name('sales');

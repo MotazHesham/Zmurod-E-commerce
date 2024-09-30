@@ -60,7 +60,7 @@
                                         <div class="login-toggle-btn">
                                             {{-- <input type="checkbox" name="remember"/>
                                             <a class="flote-none" href="javascript:void(0)">تذكرني</a> --}}
-                                            <a href="{{route('password.update')}}">نسيت كلمة المرور</a>
+                                            <a href="{{route('password.request')}}">نسيت كلمة المرور</a>
                                         </div>
                                         <button type="submit" style="margin-top: 20px"><span>دخول</span></button>
                                     </div>

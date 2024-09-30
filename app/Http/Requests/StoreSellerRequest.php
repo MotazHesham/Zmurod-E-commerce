@@ -45,6 +45,14 @@ class StoreSellerRequest extends FormRequest
             'country' => [
                 'required',
             ],
+            'identity_number' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:users',
+            ],
+            'commercial_register' =>
+                ['required', 'string', 'max:255', 'unique:users'],
         ];
     }
 }

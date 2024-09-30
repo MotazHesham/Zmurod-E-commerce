@@ -12,7 +12,9 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $sellers = Seller::with('media')->where('featured_store', 1)->get();
+        $sellers = Seller::with('media')->with(['user'=>function($query){
+            $query->where('approved',true);
+        }])->get();
         return view('frontend.shops.shops', compact('sellers'));
     }
 

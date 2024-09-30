@@ -32,7 +32,9 @@ class HomeController extends Controller
         $banners = Banner::all();
 
         // Sellers
-        $sellers = Seller::where('featured_store', true)->with('media')->get()->take(5);
+        $sellers = Seller::where('featured_store', true)->whereHas('user',function($query){
+            $query->where('approved',true);
+        })->with('media')->get()->take(5);
         return view('frontend.index', compact('sliders', 'Resent_categories', 'Favs_categories', 'sliders', 'banners', 'sellers'));
     }
 }

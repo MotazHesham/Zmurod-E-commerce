@@ -9586,3 +9586,7 @@ div.cart-quantity-price span.quantity{
   width: 100%;
   margin-bottom: 20px;
 }
+
+.iti__selected-flag {
+  max-height: 50px !important;
+}

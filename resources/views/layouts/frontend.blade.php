@@ -92,13 +92,13 @@
                                                     </a>
                                                 </li>
                                             </ul>
-                                        </li>
+                                        </lةi>
                                     </ul>
                                 </li>
                                 <li><a href="{{ route('frontend.courses.index') }}">ورش العمل</a></li>
                                 <li><a href="{{ route('customer.shops') }}">المتاجر</a></li>
                                 <li><a href="{{ route('frontend.forums') }}">ملتقى التجار</a></li>
-                                <li><a href="{{ route('frontend.blogs.index') }}">البلوج</a></li>
+                                <li><a href="{{ route('frontend.blogs.index') }}">المدونة</a></li>
                                 <li><a href="{{ route('customer.contact-us') }}">تواصل معنا</a></li>
                             </ul>
                         </div>
@@ -330,7 +330,7 @@
                     <li>
                     <li><a href="{{ route('frontend.forums') }}">ملتقى التجار</a></li>
                     <li>
-                    <li><a href="{{ route('frontend.blogs.index') }}">البلوج</a></li>
+                    <li><a href="{{ route('frontend.blogs.index') }}">المدونة</a></li>
                     <li>
                     <li><a href="{{ route('customer.contact-us') }}"> تواصل معنا</a></li>
                 </ul>
