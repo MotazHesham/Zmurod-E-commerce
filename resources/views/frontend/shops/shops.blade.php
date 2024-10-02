@@ -28,7 +28,7 @@
             @foreach ($sellers as $seller)
                 <div class="col-md-2 col-4" >
                     <div class="shops">
-                        <a href="{{ route('customer.shop', ['id' => $seller->id]) }}"><img class=" img-fluid border-" src="{{$seller->photo?->getUrl()}}" alt="{{$seller->user?->name}}" />
+                        <a href="{{ route('customer.shop', ['id' => $seller->id]) }}"><img class=" img-fluid border-" src="{{$seller->photo ? $seller->photo->getUrl() : ''}}" alt="{{$seller->user? $seller->user->name: ''}}" />
                         </a>
                     </div>
                 </div>

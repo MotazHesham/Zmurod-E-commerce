@@ -26,15 +26,19 @@ class UniqueEmailRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        //
-            $user = User::where('email',$value)->onlyTrashed()->first();
 
-            if ($user) {
+        $user = User::withTrashed()->where('email', $value)->first();
+
+        if ($user) {
+            if ($user->trashed()) {
+
                 $user->forceDelete();
+                return true;
             }
 
-            return true;
-
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -44,6 +48,6 @@ class UniqueEmailRule implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'البريد الإلكتروني مستخدم بالفعل.';
     }
 }

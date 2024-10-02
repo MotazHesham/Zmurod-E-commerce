@@ -12,9 +12,9 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $sellers = Seller::with('media')->with(['user'=>function($query){
+        $sellers = Seller::with('media')->whereHas('user',function($query){
             $query->where('approved',true);
-        }])->get();
+        })->get();
         return view('frontend.shops.shops', compact('sellers'));
     }
 

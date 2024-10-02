@@ -17,6 +17,9 @@ class Seller extends Model implements HasMedia
 
     public $table = 'sellers';
 
+    protected $with = ['user'];
+
+
     protected $appends = [
         'photo',
     ];

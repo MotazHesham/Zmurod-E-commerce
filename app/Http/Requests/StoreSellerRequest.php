@@ -6,6 +6,7 @@ use App\Models\Seller;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
+use App\Rules\UniqueEmailRule;
 
 class StoreSellerRequest extends FormRequest
 {
@@ -23,7 +24,7 @@ class StoreSellerRequest extends FormRequest
             ],
             'email' => [
                 'required',
-                'unique:users',
+              new UniqueEmailRule
             ],
             'password' => [
                 'required',

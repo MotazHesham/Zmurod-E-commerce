@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Customer;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\UniqueEmailRule;
 use Illuminate\Http\Response;
 
 class StoreCustomerRequest extends FormRequest
@@ -23,6 +24,7 @@ class StoreCustomerRequest extends FormRequest
             ],
             'email' => [
                 'required',
+                new UniqueEmailRule
             ],
             'password' => [
                 'required',
