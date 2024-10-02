@@ -513,7 +513,7 @@
                     },
                     identity_number: {
                         required: " رقم الهوية مطلوب",
-                        validateId: "رقم الهوية يجب أن يبدأ برقم 1 للسعودي و 2 للمقيم",
+                        validateId: "رقم الهوية يجب أن يكون 10 أرقام ويبدأ برقم 1 للسعودي و 2 للمقيم",
                     },
                     commercial_register: {
                         required: " رقم السجل التجاري مطلوب"
@@ -541,10 +541,10 @@
                 var identity = $("#identity").val(); // التحقق من قيمة قائمة الاختيار
                 if (identity === "saudi") {
                     // إذا كانت الهوية سعودي، يجب أن يبدأ رقم الهوية بـ 1
-                    return /^1/.test(value);
+                    return /^1[0-9]{9}$/.test(value);
                 } else if (identity === "resident") {
                     // إذا كانت الهوية مقيم، يجب أن يبدأ رقم الهوية بـ 2
-                    return /^2/.test(value);
+                    return /^2[0-9]{9}$/.test(value);
                 }
                 return false; // إذا لم يتم اختيار هوية صحيحة
             }, "يرجى اختيار الهوية أولاً.");

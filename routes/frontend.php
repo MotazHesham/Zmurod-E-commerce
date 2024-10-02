@@ -62,7 +62,7 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
 });
 
 
-Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Customer', 'middleware' => 'verified'], function () {
+Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Customer'], function () {
     // shops
     Route::get('shops', 'ShopController@index')->name('shops');
     Route::get('shop/{id}', 'ShopController@shop')->name('shop');
