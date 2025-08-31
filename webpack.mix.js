@@ -17,3 +17,21 @@ mix.js('resources/js/app.js', 'public/js')
     ]);
 
 mix.js('resources/js/bootstrap.js', 'public/js')
+    .postCss('resources/css/bootstrap.css', 'public/css');
+
+// Production optimizations
+if (mix.inProduction()) {
+    mix.version();
+    mix.sourceMaps();
+}
+
+// Copy vendor assets
+mix.copy('node_modules/bootstrap/dist/css/bootstrap.min.css', 'public/css');
+mix.copy('node_modules/bootstrap/dist/js/bootstrap.bundle.min.js', 'public/js');
+mix.copy('node_modules/jquery/dist/jquery.min.js', 'public/js');
+
+// Set public path
+mix.setPublicPath('public');
+
+// Disable notifications in production
+mix.disableNotifications();

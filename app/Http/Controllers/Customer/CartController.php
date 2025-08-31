@@ -32,15 +32,22 @@ class CartController extends Controller
             return response()->json(['message' => 'Product not found.'], 404);
         }
 
+        // Check if product has enough stock
+        $requestedQuantity = $request->input('quantity', 1);
+        if ($requestedQuantity > $product->current_stock) {
+            return response()->json(['message' => 'Insufficient stock available.'], 400);
+        }
+
         // Get the authenticated user
         $customerId = auth()->user()->id; // Auth::id()
 
         // Find or create the cart for the customer
         $cart = auth()->user()->cart()->where('product_id', $productId)->first();
         $exist = 0;
-        $request->quantity > $product->current_stock ? $que =  $product->current_stock : $que = $request->quantity ;
+        $quantity = min($requestedQuantity, $product->current_stock);
+        
         if ($cart) {
-            $cart->quantity =  $que ?? $cart->quantity + 1 ; 
+            $cart->quantity = $quantity; 
             $cart->total_cost = $cart->quantity * $cart->price_with_discount;
             $cart->save();
             $exist = 1;
@@ -50,16 +57,11 @@ class CartController extends Controller
                 'product_id' => $productId,
                 'price' => $product->price,
                 'price_with_discount' => $product->calc_product_price(),
-                'quantity' =>  $que ,
-                'total_cost' =>  $que * $product->calc_product_price()
+                'quantity' => $quantity,
+                'total_cost' => $quantity * $product->calc_product_price()
             ]);
             $exist = 0;
         }
-
-        //update product quantity in store 
-          $product->update([
-            'current_stock' => $product->current_stock - $que,
-            ]);
 
         //return the <li> of product;
         if (isset($product->image)) {
@@ -96,23 +98,16 @@ class CartController extends Controller
         if (!$cart) {
             return response()->json(['message' => 'Cart item not found'], 404);
         }
+        
+        // Store quantity before deletion for potential stock restoration
+        $removedQuantity = $cart->quantity;
+        
         $cart->delete();
 
-        // update product quantity in store 
-          $cart->product->update([
-            'current_stock' => $cart->product->current_stock  + $cart->quantity,
-            ]);
-
         // count of product in cart 
-        $carts = Cart::all();
-        $count = 0 ;
-        foreach($carts as $cart)
-        {
-            $count += $cart->quantity;
-        }
-
+        $count = Cart::where('user_id', auth()->user()->id)->count();
         
-        return response()->json(['message' => 'Item removed from cart successfully' , 'count' =>$count]);
+        return response()->json(['message' => 'Item removed from cart successfully' , 'count' => $count]);
     }
 
     

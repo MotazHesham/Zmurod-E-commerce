@@ -14,6 +14,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\SecurityHeaders::class,
     ];
 
     protected $routeMiddleware = [
@@ -29,6 +30,8 @@ class Kernel extends HttpKernel
         'staff'             => \App\Http\Middleware\Staff::class,
         'customer'             => \App\Http\Middleware\Customer::class,
         'seller'             => \App\Http\Middleware\Seller::class,
+        'throttle.auth'    => \App\Http\Middleware\ThrottleAuthRequests::class,
+        'throttle.cart'    => \App\Http\Middleware\ThrottleCartRequests::class,
     ];
 
     protected $middlewareGroups = [

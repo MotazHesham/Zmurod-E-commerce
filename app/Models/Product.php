@@ -124,4 +124,86 @@ class Product extends Model implements HasMedia
         $discount = ($this->price * $this->discount) / 100;
         return $this->price - $discount;
     }
+
+    /**
+     * Check if product has sufficient stock
+     */
+    public function hasStock($quantity = 1)
+    {
+        return $this->current_stock >= $quantity;
+    }
+
+    /**
+     * Reserve stock for cart (doesn't actually reduce inventory)
+     */
+    public function reserveStock($quantity)
+    {
+        if ($this->hasStock($quantity)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Reduce stock when order is placed
+     */
+    public function reduceStock($quantity)
+    {
+        if ($this->hasStock($quantity)) {
+            $this->current_stock -= $quantity;
+            $this->save();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Restore stock (for cancelled orders)
+     */
+    public function restoreStock($quantity)
+    {
+        $this->current_stock += $quantity;
+        $this->save();
+        return true;
+    }
+
+    /**
+     * Get formatted price with discount
+     */
+    public function getFormattedPriceAttribute()
+    {
+        return number_format($this->calc_product_price(), 2);
+    }
+
+    /**
+     * Get discount amount
+     */
+    public function getDiscountAmountAttribute()
+    {
+        return ($this->price * $this->discount) / 100;
+    }
+
+    /**
+     * Check if product is available for purchase
+     */
+    public function isAvailable()
+    {
+        return $this->published && $this->current_stock > 0;
+    }
+
+    /**
+     * Scope for available products
+     */
+    public function scopeAvailable($query)
+    {
+        return $query->where('published', true)->where('current_stock', '>', 0);
+    }
+
+    /**
+     * Scope for products with stock
+     */
+    public function scopeInStock($query)
+    {
+        return $query->where('current_stock', '>', 0);
+    }
 }

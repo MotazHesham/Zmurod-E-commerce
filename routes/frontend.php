@@ -18,22 +18,17 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Auth'], function () {
     Route::post('sellers/ckmedia', 'CustomRegisterController@storeCKEditorImages')->name('sellers.storeCKEditorImages');
 });
 
-// Routes for password reset
-Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-Route::post('password/update', 'Auth\ResetPasswordController@reset')->name('password.update');
+// Note: Password reset routes are already included in Auth::routes() above
+// No need to redefine them here
 
 Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     // Home
     Route::get('/', 'HomeController@index')->name('home');
 
-
     //course
     Route::get('courses', 'CourseController@index')->name('courses.index');
     Route::get('courses/{id}', 'CourseController@show')->name('courses.show');
     Route::post('courses/search', 'CourseController@search')->name('courses.search');
-
 
     // about and Contact
     Route::get('about', 'AboutController@index')->name('about-us');
@@ -49,7 +44,7 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     Route::get('forum/{id}', 'ForumController@show')->name('post');
     Route::post('forum/post/comment', 'ForumController@comment')->name('post.comment');
 
-    // cart & whhitelist
+    // cart & whitelist
     Route::get('cart', 'CartController@index')->name('cart');
 
     // product
@@ -60,7 +55,6 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     // checkout
     Route::get('checkout', 'CheckoutController@index')->name('checkout');
 });
-
 
 Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Customer'], function () {
     // shops
@@ -83,11 +77,13 @@ Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Custo
     Route::post('dashboard/ckmedia', 'CustomersController@storeCKEditorImages')->name('customers.storeCKEditorImages');
 
     Route::post('dashboard/update', 'CustomersController@update')->name('customers.update');
-    // cart
+    
+    // cart with rate limiting
     Route::get('cart/show', 'CartController@show')->name('cart.show');
-    Route::post('cart/store', 'CartController@cart_store_product')->name('cart.store');
-    Route::post('cart/update', 'CartController@updateCart')->name('cart.update');
-    Route::delete('cart/remove', 'CartController@cart_remove_product')->name('cart.remove');
+    Route::post('cart/store', 'CartController@cart_store_product')->name('cart.store')->middleware('throttle.cart');
+    Route::post('cart/update', 'CartController@updateCart')->name('cart.update')->middleware('throttle.cart');
+    Route::delete('cart/remove', 'CartController@cart_remove_product')->name('cart.remove')->middleware('throttle.cart');
+    
     //whitelist
     Route::get('whitelist/show', 'WhitelistController@show')->name('whitelist.show');
     Route::post('whitelist/store', 'WhitelistController@store')->name('whitelist.store');
