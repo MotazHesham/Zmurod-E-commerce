@@ -155,6 +155,19 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('customers/ckmedia', 'CustomersController@storeCKEditorImages')->name('customers.storeCKEditorImages');
     Route::resource('customers', 'CustomersController');
 
+    // Banks
+    Route::delete('banks/destroy', 'BanksController@massDestroy')->name('banks.massDestroy');
+    Route::post('banks/media', 'BanksController@storeMedia')->name('banks.storeMedia');
+    Route::post('banks/ckmedia', 'BanksController@storeCKEditorImages')->name('banks.storeCKEditorImages');
+    Route::resource('banks', 'BanksController');
+
+            // Entity Types
+            Route::delete('entity-types/destroy', 'EntityTypesController@massDestroy')->name('entity-types.massDestroy');
+            Route::resource('entity-types', 'EntityTypesController');
+            
+            // Entity Type Stats
+            Route::get('entity-type-stats', 'EntityTypeStatsController@index')->name('entity-type-stats.index');
+
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {

@@ -31,8 +31,19 @@ class ProductSeeder extends Seeder
                 'user_id' => null, // null means that product refer to the admin
                 'shipping_method' => $shippingMethods[array_rand($shippingMethods)],
             ]);
-            $product->addMediaFromUrl(asset('assets/images/product-image/'.$i.'.jpg'))
-            ->toMediaCollection('image');
+            // Upload the product image if file exists
+            $imagePath = public_path('assets/images/product-image/'.$i.'.jpg');
+            if (file_exists($imagePath)) {
+                // Copy file to tmp directory first
+                $tmpPath = storage_path('tmp/uploads/product_' . $i . '.jpg');
+                if (!file_exists(storage_path('tmp/uploads'))) {
+                    mkdir(storage_path('tmp/uploads'), 0755, true);
+                }
+                copy($imagePath, $tmpPath);
+                
+                $product->addMedia($tmpPath)
+                    ->toMediaCollection('image');
+            }
         
         }
     }

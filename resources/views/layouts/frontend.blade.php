@@ -30,8 +30,9 @@
 
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('dashboard_offline/css/dropzone.min.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
-
+    <!-- intl-tel-input local CSS (place file at public/vendor/intl-tel-input/css/intlTelInput.min.css) -->
+    <link rel="stylesheet" href="{{ asset('vendor/intl-tel-input/css/intlTelInput.min.css') }}" />
+   @yield('styles')
 
 </head>
 
@@ -538,8 +539,8 @@
         <script src="{{ asset('assets/js/vendor/jquery-migrate-3.3.0.min.js') }}"></script>
         <script src="{{ asset('assets/js/vendor/modernizr-3.11.2.min.js') }}"></script>
 
-        <!--Pusher JS-->
-        <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+        <!--Pusher JS (local copy: place at public/vendor/pusher/pusher.min.js) -->
+        {{-- <script src="{{ asset('vendor/pusher/pusher.min.js') }}"></script> --}}
         <!--Plugins JS-->
         <script src="{{ asset('assets/js/plugins/swiper-bundle.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/jquery-ui.min.js') }}"></script>
@@ -552,10 +553,14 @@
 
         <!---dropzone--->
         <script src="{{ asset('dashboard_offline/js/dropzone.min.js') }}"></script>
-        <!-- SweetAlert2 -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+        <!-- SweetAlert2 local (place at public/vendor/sweetalert2/sweetalert2.all.min.js) -->
+        <script src="{{ asset('vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>
+        <!-- jQuery Validate local (place at public/vendor/jquery-validate/jquery.validate.min.js) -->
+        <script src="{{ asset('vendor/jquery-validate/jquery.validate.min.js') }}"></script>
+        <!-- jQuery Validate Arabic messages (place at public/vendor/jquery-validate/localization/messages_ar.min.js) -->
+        <script src="{{ asset('vendor/jquery-validate/localization/messages_ar.min.js') }}"></script>
+        <!-- intl-tel-input local JS (place at public/vendor/intl-tel-input/js/intlTelInput.min.js) -->
+        <script src="{{ asset('vendor/intl-tel-input/js/intlTelInput.min.js') }}"></script>
 
         <!-- Main Js -->
         <script src="{{ asset('assets/js/main.js') }}"></script>

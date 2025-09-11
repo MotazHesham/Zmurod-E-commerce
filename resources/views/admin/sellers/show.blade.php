@@ -99,6 +99,85 @@
                             {!! $seller->user?->commercial_register !!}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            نوع الوثيقة
+                        </th>
+                        <td>
+                            @if($seller->document_type)
+                                @if($seller->document_type === 'commercial_register')
+                                    <span class="badge badge-success">سجل تجاري</span>
+                                @else
+                                    <span class="badge badge-info">وثيقة عمل حر</span>
+                                @endif
+                            @else
+                                <span class="badge badge-secondary">غير محدد</span>
+                            @endif
+                        </td>
+                    </tr>
+                    @if($seller->document_type === 'commercial_register')
+                        <tr>
+                            <th>
+                                صورة السجل التجاري
+                            </th>
+                            <td>
+                                @if($seller->commercial_register_document)
+                                    <a href="{{ $seller->commercial_register_document->getUrl() }}" target="_blank" style="display: inline-block">
+                                        <img src="{{ $seller->commercial_register_document->getUrl('thumb') }}" style="max-width: 200px;">
+                                    </a>
+                                @else
+                                    <span class="text-muted">لا توجد صورة</span>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                تاريخ انتهاء السجل التجاري
+                            </th>
+                            <td>
+                                {{ $seller->commercial_register_expiry ? $seller->commercial_register_expiry->format('Y-m-d') : '-' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                رقم السجل التجاري
+                            </th>
+                            <td>
+                                {{ $seller->commercial_register_number ?: '-' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                الرقم الضريبي
+                            </th>
+                            <td>
+                                {{ $seller->tax_number ?: '-' }}
+                            </td>
+                        </tr>
+                    @elseif($seller->document_type === 'freelance_work')
+                        <tr>
+                            <th>
+                                وثيقة العمل الحر
+                            </th>
+                            <td>
+                                @if($seller->freelance_work_document)
+                                    <a href="{{ $seller->freelance_work_document->getUrl() }}" target="_blank" style="display: inline-block">
+                                        <img src="{{ $seller->freelance_work_document->getUrl('thumb') }}" style="max-width: 200px;">
+                                    </a>
+                                @else
+                                    <span class="text-muted">لا توجد وثيقة</span>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                رقم المستند
+                            </th>
+                            <td>
+                                {{ $seller->freelance_work_number ?: '-' }}
+                            </td>
+                        </tr>
+                    @endif
                     
                 </tbody>
             </table>

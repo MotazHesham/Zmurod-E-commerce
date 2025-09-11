@@ -510,9 +510,54 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => 130,
                 'title' => 'customer_access',
             ],
+            [
+                'id'    => 131,
+                'title' => 'bank_create',
+            ],
+            [
+                'id'    => 132,
+                'title' => 'bank_edit',
+            ],
+            [
+                'id'    => 133,
+                'title' => 'bank_show',
+            ],
+            [
+                'id'    => 134,
+                'title' => 'bank_delete',
+            ],
+            [
+                'id'    => 135,
+                'title' => 'bank_access',
+            ],
+            [
+                'id'    => 136,
+                'title' => 'entity_type_create',
+            ],
+            [
+                'id'    => 137,
+                'title' => 'entity_type_edit',
+            ],
+            [
+                'id'    => 138,
+                'title' => 'entity_type_show',
+            ],
+            [
+                'id'    => 139,
+                'title' => 'entity_type_delete',
+            ],
+            [
+                'id'    => 140,
+                'title' => 'entity_type_access',
+            ],
         ];
 
-        Permission::insert($permissions);
+        foreach ($permissions as $permission) {
+            Permission::updateOrCreate(
+                ['id' => $permission['id']],
+                ['title' => $permission['title']]
+            );
+        }
     }
 }
     // from  119 to 123  are empty for use 

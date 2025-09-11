@@ -1,80 +1,57 @@
 @extends('layouts.frontend')
 @section('content')
-
- <!-- breadcrumb-area start -->
- <div class="breadcrumb-area">
-    <div class="container">
-        <div class="row align-items-center justify-content-center">
-            <div class="col-12 text-center">
-                <h2 class="breadcrumb-title">تسجيل دخول  </h2>
-                <!-- breadcrumb-list start -->
-                <ul class="breadcrumb-list">
-                    <li class="breadcrumb-item"><a href="{{route('frontend.home')}}">الرئيسية</a></li>
-                    <li class="breadcrumb-item active">دخول</li>
-                </ul>
-                <!-- breadcrumb-list end -->
-            </div>
-        </div>
-    </div>
-</div>
-<!-- breadcrumb-area end -->
-
-
-<!-- login area start -->
-<div class="login-register-area pt-100px pb-100px">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-7 col-md-12 ml-auto mr-auto">
-                <div class="login-register-wrapper">
-                    <div class="login-register-tab-list-login nav">
-                            <div class="login-form-container">
-                            <div class="login-register-form">
-                                <a class="active" data-bs-toggle="tab" href="#lg1">
-                                    <h4 class="text-center">دخول</h4>
-                                </a>
-                                <br>
-                                @if($errors->count() > 0)
-                                    <div class="alert alert-danger">
-                                        <ul class="list-unstyled">
-                                            @foreach($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
+    <div class="login-register-area pt-100px pb-100px">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-5">
+                    <div class="login-form-container" style="background:#fff;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.06);padding:24px;">
+                        <h3 class="text-center mb-3">تسجيل الدخول</h3>
+                        @if (session('message'))
+                            <div class="alert alert-info">{{ session('message') }}</div>
+                        @endif
+                        <form method="POST" action="{{ route('login') }}" id="custom-login-form">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="email" class="form-label">البريد الإلكتروني</label>
+                                <input id="email" type="email" name="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ old('email') }}" required autofocus />
+                                @if ($errors->has('email'))
+                                    <div class="invalid-feedback">{{ $errors->first('email') }}</div>
                                 @endif
-                                <form method="POST" action="{{ route('login') }}">
-                                    @csrf
-                                    <input type="email" name="email" value="{{ old('email') }}" placeholder="البريد الألكتروني" required autofocus autocomplete="email"/>
-                                        @if($errors->has('email'))
-                                            <div class="invalid-feedback">
-                                                {{ $errors->first('email') }}
-                                            </div>
-                                        @endif
-                                    <input type="password" name="password" placeholder="كلمة المرور" required/>
-                                    @if($errors->has('password'))
-                                        <div class="invalid-feedback">
-                                            {{ $errors->first('password') }}
-                                        </div>
-                                    @endif
-                                    <div class="button-box">
-                                        <div class="login-toggle-btn">
-                                            {{-- <input type="checkbox" name="remember"/>
-                                            <a class="flote-none" href="javascript:void(0)">تذكرني</a> --}}
-                                            <a href="{{route('password.request')}}">نسيت كلمة المرور</a>
-                                        </div>
-                                        <button type="submit" style="margin-top: 20px"><span>دخول</span></button>
-                                    </div>
-                                </form>
                             </div>
-                        </div>
+                            <div class="mb-3 position-relative">
+                                <label for="password" class="form-label">كلمة المرور</label>
+                                <input id="password" type="password" name="password" class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" required />
+                                <button type="button" class="toggle-password" data-target="#password" aria-label="عرض/إخفاء" style="position:absolute;top:36px;{{ app()->getLocale() === 'ar' ? 'left' : 'right' }}:12px;background:transparent;border:none;cursor:pointer;color:#666;">👁️</button>
+                                @if ($errors->has('password'))
+                                    <div class="invalid-feedback">{{ $errors->first('password') }}</div>
+                                @endif
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="remember" name="remember" />
+                                    <label class="form-check-label ms-1" for="remember">تذكرني</label>
+                                </div>
+                                @if (Route::has('password.request'))
+                                    <a href="{{ route('password.request') }}" class="text-muted" style="font-size: 0.9rem;">نسيت كلمة السر؟</a>
+                                @endif
+                            </div>
+                            <button type="submit" class="btn btn-cta w-100 py-2" style="background:#242424;border:1px solid #242424;color:#fff;">دخول</button>
+                        </form>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- login area end -->
-
-
+@endsection
+@section('scripts')
+    @parent
+    <script>
+        document.addEventListener('click', function(e){
+            var btn = e.target.closest('.toggle-password');
+            if(!btn) return;
+            var input = document.querySelector(btn.getAttribute('data-target'));
+            if(!input) return;
+            input.type = input.type === 'password' ? 'text' : 'password';
+        });
+    </script>
 @endsection

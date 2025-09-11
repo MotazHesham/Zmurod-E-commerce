@@ -268,7 +268,7 @@
         @endcan
         @can('general_setting_access')
             <li
-                class="c-sidebar-nav-dropdown {{ request()->is('admin/sliders*') ? 'c-show' : '' }} {{ request()->is('admin/banners*') ? 'c-show' : '' }} {{ request()->is('admin/about-uss*') ? 'c-show' : '' }} ">
+                class="c-sidebar-nav-dropdown {{ request()->is('admin/sliders*') ? 'c-show' : '' }} {{ request()->is('admin/banners*') ? 'c-show' : '' }} {{ request()->is('admin/about-uss*') ? 'c-show' : '' }} {{ request()->is('admin/banks*') ? 'c-show' : '' }} {{ request()->is('admin/entity-types*') ? 'c-show' : '' }} ">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
                     <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
 
@@ -309,6 +309,37 @@
                             </a>
                         </li>
                     @endcan
+                    @can('bank_access')
+                        <li class="c-sidebar-nav-item">
+                            <a href="{{ route('admin.banks.index') }}"
+                                class="c-sidebar-nav-link {{ request()->is('admin/banks') || request()->is('admin/banks/*') ? 'c-active' : '' }}">
+                                <i class="fa-fw fas fa-university c-sidebar-nav-icon">
+
+                                </i>
+                                {{ trans('cruds.bank.title') }}
+                            </a>
+                        </li>
+                    @endcan
+                        @can('entity_type_access')
+                            <li class="c-sidebar-nav-item">
+                                <a href="{{ route('admin.entity-types.index') }}"
+                                    class="c-sidebar-nav-link {{ request()->is('admin/entity-types') || request()->is('admin/entity-types/*') ? 'c-active' : '' }}">
+                                    <i class="fa-fw fas fa-building c-sidebar-nav-icon">
+
+                                    </i>
+                                    {{ trans('cruds.entityType.title') }}
+                                </a>
+                            </li>
+                            <li class="c-sidebar-nav-item">
+                                <a href="{{ route('admin.entity-type-stats.index') }}"
+                                    class="c-sidebar-nav-link {{ request()->is('admin/entity-type-stats') || request()->is('admin/entity-type-stats/*') ? 'c-active' : '' }}">
+                                    <i class="fa-fw fas fa-chart-bar c-sidebar-nav-icon">
+
+                                    </i>
+                                    إحصائيات التجار
+                                </a>
+                            </li>
+                        @endcan
                 </ul>
             </li>
         @endcan

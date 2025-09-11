@@ -42,6 +42,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'user_type',
+        'entity_type_id',
         'email_verified_at',
         'remember_token',
         'country',
@@ -95,6 +96,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function entityType()
+    {
+        return $this->belongsTo(EntityType::class);
     }
 
     public function cart()

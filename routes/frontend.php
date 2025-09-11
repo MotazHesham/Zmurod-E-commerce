@@ -12,7 +12,7 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Auth'], function () {
     Route::get('userlogin', 'CustomLoginController@index')->name('userlogin');
     // register
     Route::get('register', 'CustomRegisterController@index')->name('register');
-    Route::post('seller', 'CustomRegisterController@register_seller')->name('register_seller');
+    Route::post('seller-register', 'CustomRegisterController@register_seller')->name('register_seller');
     Route::post('customer', 'CustomRegisterController@register_customer')->name('register_customer');
     Route::post('sellers/media', 'CustomRegisterController@storeMedia')->name('sellers.storeMedia');
     Route::post('sellers/ckmedia', 'CustomRegisterController@storeCKEditorImages')->name('sellers.storeCKEditorImages');

@@ -1,0 +1,362 @@
+.login-register-area {
+    overflow-x: hidden;
+}
+
+.login-register-wrapper {
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 16px;
+    position: relative;
+}
+
+.login-register-form .form-control {
+    margin-bottom: 8px;
+}
+
+.login-register-form select.form-control {
+    width: 100%;
+}
+
+/* Loading overlay on tab switch */
+.tab-loading-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 15;
+}
+
+.tab-loading-overlay.show {
+    display: flex;
+}
+
+/* CTA button styling */
+.btn-cta {
+    background: #242424;
+    color: #fff;
+    border: 1px solid #242424;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    transition: transform .15s ease, box-shadow .15s ease, background .2s ease, border-color .2s ease;
+}
+
+.btn-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    background: #303030;
+    border-color: #ea9300;
+}
+
+.btn-cta:active {
+    transform: translateY(0);
+}
+
+/* Card + focus states */
+.login-form-container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    padding: 16px;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(234, 147, 0, 0.25);
+    border-color: #ea9300;
+}
+
+.invalid-feedback {
+    display: block;
+}
+
+/* jQuery Validate inline errors */
+label.error,
+.invalid-feedback {
+    color: #d93025 !important;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.is-invalid {
+    border-color: #d93025 !important;
+}
+
+/* Toggle password */
+.input-with-toggle {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 12px;
+    border: none;
+    background: transparent;
+    color: #666;
+    padding: 4px;
+    cursor: pointer;
+}
+
+[dir="rtl"] .toggle-password {
+    right: auto;
+    left: 12px;
+}
+
+/* Shake on invalid submit */
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translateX(-1px);
+    }
+
+    20%,
+    80% {
+        transform: translateX(2px);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translateX(-4px);
+    }
+
+    40%,
+    60% {
+        transform: translateX(4px);
+    }
+}
+
+.shake {
+    animation: shake .4s linear;
+}
+
+/* Description counter */
+.char-counter {
+    font-size: 12px;
+    color: #6c757d;
+    text-align: left;
+}
+
+[dir="rtl"] .char-counter {
+    text-align: right;
+}
+
+/* Tighter gutters for side-by-side fields */
+.login-register-form .row.g-3 {
+    --bs-gutter-x: 12px;
+    --bs-gutter-y: 8px;
+}
+
+/* Enhanced Document Section Styling */
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.card-header {
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.form-label {
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.form-control-lg {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.form-control-lg:focus {
+    border-color: #ea9300;
+    box-shadow: 0 0 0 0.2rem rgba(234, 147, 0, 0.25);
+}
+
+.dropzone-container {
+    margin-top: 0.5rem;
+}
+
+.dropzone {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.dropzone:hover {
+    border-color: #ea9300;
+    background: #fff8f0;
+}
+
+.dropzone.dz-drag-hover {
+    border-color: #ea9300;
+    background: #fff8f0;
+}
+
+/* Section Spacing */
+.document-section {
+    margin-bottom: 2rem;
+}
+
+/* Required field indicator */
+.text-danger {
+    font-weight: bold;
+}
+
+/* Enhanced button styling */
+.btn-cta {
+    font-size: 1.1rem;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+}
+
+/* Better spacing for form sections */
+.login-register-form .row {
+    margin-bottom: 1rem;
+}
+
+/* Icon styling */
+.fas {
+    font-size: 1.1em;
+}
+
+/* Wizard Styles */
+.wizard-progress {
+    margin-bottom: 2rem;
+}
+
+.wizard-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    position: relative;
+}
+
+.wizard-steps::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e9ecef;
+    z-index: 1;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    background: white;
+    padding: 0 1rem;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e9ecef;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.step.active .step-number {
+    background: #ea9300;
+    color: white;
+}
+
+.step.completed .step-number {
+    background: #28a745;
+    color: white;
+}
+
+.step-title {
+    font-size: 0.875rem;
+    text-align: center;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.step.active .step-title {
+    color: #ea9300;
+    font-weight: 600;
+}
+
+.wizard-step {
+    display: none;
+}
+
+.wizard-step.active {
+    display: block;
+}
+
+.wizard-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.wizard-btn {
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.wizard-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.wizard-btn-prev {
+    background: #6c757d;
+    color: white;
+    border: none;
+}
+
+.wizard-btn-prev:hover:not(:disabled) {
+    background: #5a6268;
+}
+
+.wizard-btn-next {
+    background: #ea9300;
+    color: white;
+    border: none;
+}
+
+.wizard-btn-next:hover:not(:disabled) {
+    background: #d4840a;
+}
+
+.wizard-btn-submit {
+    background: #28a745;
+    color: white;
+    border: none;
+}
+
+.wizard-btn-submit:hover {
+    background: #218838;
+}

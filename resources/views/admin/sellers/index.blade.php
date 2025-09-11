@@ -43,6 +43,9 @@
                             {{ trans('cruds.seller.fields.store_name') }}
                         </th>
                         <th>
+                            نوع الوثيقة
+                        </th>
+                        <th>
                             {{ trans('cruds.seller.fields.featured_store') }}
                         </th>
                         <th>
@@ -187,7 +190,10 @@
                         data: 'store_name',
                         name: 'store_name'
                     },
-
+                    {
+                        data: 'document_type_display',
+                        name: 'document_type'
+                    },
                     {
                         data: 'featured_store',
                         name: 'featured_store'

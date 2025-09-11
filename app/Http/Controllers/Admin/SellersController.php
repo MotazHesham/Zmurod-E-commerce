@@ -85,6 +85,14 @@ class SellersController extends Controller
             $table->editColumn('store_name', function ($row) {
                 return $row->store_name ? $row->store_name : '';
             });
+            $table->editColumn('document_type_display', function ($row) {
+                if ($row->document_type) {
+                    $badgeClass = $row->document_type === 'commercial_register' ? 'badge-success' : 'badge-info';
+                    $displayText = $row->document_type === 'commercial_register' ? 'سجل تجاري' : 'وثيقة عمل حر';
+                    return '<span class="badge ' . $badgeClass . '">' . $displayText . '</span>';
+                }
+                return '<span class="badge badge-secondary">غير محدد</span>';
+            });
             $table->editColumn('featured_store', function ($row) {
                 return  ' <label class="c-switch c-switch-pill c-switch-success">
                             <input onchange="update_statuses(this,\'featured_store\')" value="' . $row->id . '" 
@@ -103,7 +111,7 @@ class SellersController extends Controller
 
 
 
-            $table->rawColumns(['actions', 'placeholder', 'photo', 'user', 'featured_store', 'brand_name', 'user_approved']);
+            $table->rawColumns(['actions', 'placeholder', 'photo', 'user', 'featured_store', 'brand_name', 'user_approved', 'document_type_display']);
 
             return $table->make(true);
         }

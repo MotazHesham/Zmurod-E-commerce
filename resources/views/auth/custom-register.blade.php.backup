@@ -1,0 +1,1352 @@
+--نوع الوثيقة 
+1-سجل تجاري => يرفع صورة وتاريخ الانتهاء ورقم السجل والرقم الضريبي
+2-وثيقة عمل حر =.> يرفع وثقة العمل الحر ورقم المستند
+ي الحالتين بيانات البنك 
+اسم البنك - رقم الحساب - رقم iban (required) -> البنوك تبقي سلكت من db
+------------------------------------------------
+رقم الجوال بيكون 9 ارقام بعد كود الدوله ولا يبدأ 0 
+
+
+------------------>>>>>> 
+
+اضافة موردين للتجار كل مورد ليه فئة مرتبط بنوع الحرفة يعني هيظهرلي كل نوع المواردين في الرسم
+
+
+@extends('layouts.frontend')
+@section('content')
+    <!-- breadcrumb-area start -->
+    <div class="breadcrumb-area">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-12 text-center">
+                    <h2 class="breadcrumb-title"> مستخدم جديد</h2>
+                    <!-- breadcrumb-list start -->
+                    <ul class="breadcrumb-list">
+                        <li class="breadcrumb-item"><a href="{{ route('frontend.home') }}">الرئيسية</a></li>
+                        <li class="breadcrumb-item active">دخول</li>
+                    </ul>
+                    <!-- breadcrumb-list end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb-area end -->
+
+
+
+    <!-- login area start -->
+    <style>
+        .login-register-area { overflow-x: hidden; }
+        .login-register-wrapper { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 16px; position: relative; }
+        .login-register-form .form-control { margin-bottom: 8px; }
+        .login-register-form select.form-control { width: 100%; }
+        /* Loading overlay on tab switch */
+        .tab-loading-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.8); display: none; align-items: center; justify-content: center; z-index: 15; }
+        .tab-loading-overlay.show { display: flex; }
+        /* CTA button styling */
+        .btn-cta { background: #242424; color: #fff; border: 1px solid #242424; box-shadow: 0 6px 16px rgba(0,0,0,0.15); transition: transform .15s ease, box-shadow .15s ease, background .2s ease, border-color .2s ease; }
+        .btn-cta:hover { transform: translateY(-1px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); background: #303030; border-color: #ea9300; }
+        .btn-cta:active { transform: translateY(0); }
+        /* Card + focus states */
+        .login-form-container { background: #fff; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); padding: 16px; }
+        .form-control:focus { box-shadow: 0 0 0 0.2rem rgba(234,147,0,0.25); border-color: #ea9300; }
+        .invalid-feedback { display: block; }
+        /* jQuery Validate inline errors */
+        label.error, .invalid-feedback { color: #d93025 !important; font-weight: 600; margin-top: 4px; }
+        .is-invalid { border-color: #d93025 !important; }
+        /* Toggle password */
+        .input-with-toggle { position: relative; }
+        .toggle-password { position: absolute; top: 50%; transform: translateY(-50%); right: 12px; border: none; background: transparent; color: #666; padding: 4px; cursor: pointer; }
+        [dir="rtl"] .toggle-password { right: auto; left: 12px; }
+        /* Shake on invalid submit */
+        @keyframes shake { 10%, 90% { transform: translateX(-1px); } 20%, 80% { transform: translateX(2px);} 30%, 50%, 70% { transform: translateX(-4px);} 40%, 60% { transform: translateX(4px);} }
+        .shake { animation: shake .4s linear; }
+        /* Description counter */
+        .char-counter { font-size: 12px; color: #6c757d; text-align: left; }
+        [dir="rtl"] .char-counter { text-align: right; }
+        /* Tighter gutters for side-by-side fields */
+        .login-register-form .row.g-3 { --bs-gutter-x: 12px; --bs-gutter-y: 8px; }
+    </style>
+    <div class="login-register-area pt-100px pb-100px">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="login-register-wrapper">
+                        <div class="tab-loading-overlay">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="login-register-tab-list nav">
+                            <a data-bs-toggle="tab" href="#lg1">
+                                <h4>تسجيل عميل</h4>
+                            </a>
+                            <a data-bs-toggle="tab" href="#lg2">
+                                <h4>تسجيل تاجر</h4>
+                            </a>
+                        </div>
+
+                        <div class="tab-content">
+                            @if ($errors->count() > 0)
+                                <div class="alert alert-danger">
+                                    <ul class="list-unstyled">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            <div id="lg1" class="tab-pane active @if (
+                                $errors->hasAny([
+                                    'customer_name',
+                                    'customer_password',
+                                    'customer_country',
+                                    'customer_region',
+                                    'customer_complete-add',
+                                    'customer_phone',
+                                ])) ) active @endif">
+
+                                <div class="login-form-container">
+                                    <h4 class="text-center">بيانات العميل</h4>
+                                    <div class="login-register-form">
+                                        <form action="{{ route('frontend.register_customer') }}" method="post"
+                                            id="custome-form">
+                                            @csrf
+                                            <div class="row g-3">
+                                                <div class="col-12 col-md-6">
+                                                    <input
+                                                        class="form-control {{ $errors->has('customer_name') ? 'is-invalid' : '' }}"
+                                                        type="text" name="customer_name" id="customer_name"
+                                                        value="{{ old('customer_name', '') }}" placeholder="أسم المستخدم" required>
+                                                    @if ($errors->has('customer_name'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('customer_name') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
+                                                        type="email" name="email" value="{{ old('email') }}"
+                                                        placeholder="البريد الالكتروني" required>
+                                                    @if ($errors->has('email'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('email') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <div class="input-with-toggle">
+                                                        <input
+                                                            class="form-control {{ $errors->has('customer_password') ? 'is-invalid' : '' }}"
+                                                            type="password" name="customer_password" id="customer_password" placeholder="كلمة المرور" required>
+                                                        <button type="button" class="toggle-password" data-target="#customer_password" aria-label="عرض/إخفاء كلمة المرور">👁️</button>
+                                                    </div>
+                                                    @if ($errors->has('customer_password'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('customer_password') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <select name="customer_country" class="form-control">
+                                                        <option value=""> الدوله</option>
+                                                        @foreach (\App\Models\User::CITY_SELECT as $key => $value)
+                                                            <option value="{{ $key }}"
+                                                                @if (old('customer_country') == $key) selected @endif>
+                                                                {{ $value }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <select name="customer_region" class="form-control" required>
+                                                        <option value="">المحافظه / المنطقه </option>
+                                                        @foreach (\App\Models\User::AREA_SELECT as $key => $value)
+                                                            <option value="{{ $key }}"
+                                                                @if (old('customer_region') == $key) selected @endif>
+                                                                {{ $value }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <input type="text" name="customer_complete-add" class="form-control" placeholder="اسم الشارع"
+                                                        required />
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <input
+                                                        class="form-control {{ $errors->has('customer_phone') ? 'is-invalid' : '' }} customer_phone"
+                                                        type="tel" name="customer_phone" id="customer_phone"
+                                                        placeholder="رقم الجوال" value="{{ old('customer_phone', '') }}" required>
+                                                    @if ($errors->has('customer_phone'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('customer_phone') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="button-box">
+                                                        <div class="row">
+                                                            <div class="col-4 col-md-4 mx-auto">
+                                                                <button type="submit" class="btn btn-cta w-75 py-2 m-2"><span>تسجيل</span></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="lg2" class="tab-pane @if (
+                                $errors->hasAny([
+                                    'name',
+                                    'password',
+                                    'country',
+                                    'region',
+                                    'complete-add',
+                                    'phone',
+                                    'store_name',
+                                    'description',
+                                    'photo',
+                                ])) ) active @endif">
+
+                                <div class="login-form-container">
+                                    <h4 class="text-center">بيانات التاجر</h4>
+                                    <div class="login-register-form">
+                                        <form action="{{ route('frontend.register_seller') }}" id="seller-form"
+                                            method="post">
+                                            @csrf
+                                            <div class="row g-3">
+                                                <div class="col-12 col-md-6">
+                                                    <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
+                                                        type="text" name="name" id="name" value="{{ old('name', '') }}"
+                                                        placeholder="أسم المستخدم" required>
+                                                    @if ($errors->has('name'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('name') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
+                                                        type="email" name="email" value="{{ old('email') }}"
+                                                        placeholder="البريد الالكتروني" required>
+                                                    @if ($errors->has('email'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('email') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <div class="input-with-toggle">
+                                                        <input class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
+                                                            type="password" name="password" id="password" placeholder="كلمة المرور"
+                                                            required>
+                                                        <button type="button" class="toggle-password" data-target="#password" aria-label="عرض/إخفاء كلمة المرور">👁️</button>
+                                                    </div>
+                                                    @if ($errors->has('password'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('password') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <div class="rs-select2 js-select-simple" style="width: 100%;">
+                                                        <select id="identity" name="identity" class="form-control">
+                                                            <option value="">حدد الهوية</option>
+                                                            <option value="saudi">سعودي</option>
+                                                            <option value="resident">مقيم</option>
+                                                        </select>
+                                                        <div class="select-dropdown"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <input
+                                                        class="form-control {{ $errors->has('identity_number') ? 'is-invalid' : '' }}"
+                                                        type="text" name="identity_number" id="identity_number"
+                                                        placeholder="رقم الهوية" required>
+                                                    @if ($errors->has('identity_number'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('identity_number') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                 <div class="col-12 col-md-6">
+                                                    <input
+                                                        class="form-control {{ $errors->has('store_name') ? 'is-invalid' : '' }}"
+                                                        type="text" name="store_name" id="store_name"
+                                                        value="{{ old('store_name', '') }}" placeholder="اسم المتجر" required>
+                                                    @if ($errors->has('store_name'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('store_name') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12 col-md-6  d-none" id="org-container">
+                                                    <select name="organization_id" id="oragainzation-select" class="form-control">
+                                                        <option value="">أختر المؤسسة التابع لها </option>
+                                                        @foreach ($organizations as $organization)
+                                                            <option value="{{ $organization->id }}">{{ $organization->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <select name="country" class="form-control" required>
+                                                        <option value="">الدوله</option>
+                                                        @foreach (\App\Models\User::CITY_SELECT as $key => $value)
+                                                            <option value="{{ $key }}"
+                                                                @if (old('country') == $key) selected @endif>
+                                                                {{ $value }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @if ($errors->has('country'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('country') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <select name="region" class="form-control" required>
+                                                        <option value="">المحافظه / المنطقه </option>
+                                                        @foreach (\App\Models\User::AREA_SELECT as $key => $value)
+                                                            <option value="{{ $key }}"
+                                                                @if (old('region') == $key) selected @endif>
+                                                                {{ $value }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <input type="text" name="complete-add" class="form-control" placeholder="اسم الشارع"
+                                                        required />
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <input
+                                                        class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }} customer_phone"
+                                                        type="tel" name="phone" id="phone" placeholder="رقم الجوال"
+                                                        value="{{ old('phone', '') }}" required>
+                                                    @if ($errors->has('phone'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('phone') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <select name="seller_type" id="seller_type" class="form-control {{ $errors->has('seller_type') ? 'is-invalid' : '' }}" required>
+                                                        <option value="">نوع الكيان</option>
+                                                        <option value="individual" {{ old('seller_type') == 'individual' ? 'selected' : '' }}>فرد مستقل</option>
+                                                        <option value="organization" {{ old('seller_type') == 'organization' ? 'selected' : '' }}>جمعية/مؤسسة</option>
+                                                        <option value="affiliated" {{ old('seller_type') == 'affiliated' ? 'selected' : '' }}>تابع لمنظمة</option>
+                                                    </select>
+                                                    @if ($errors->has('seller_type'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('seller_type') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12 col-md-6" id="organization_name_field" style="display: none;">
+                                                    <input type="text" name="organization_name" id="organization_name" class="form-control {{ $errors->has('organization_name') ? 'is-invalid' : '' }}" placeholder="اسم المنظمة" value="{{ old('organization_name') }}">
+                                                    @if ($errors->has('organization_name'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('organization_name') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12 col-md-6" id="parent_organization_field" style="display: none;">
+                                                    <select name="organization_id" id="organization_id" class="form-control {{ $errors->has('organization_id') ? 'is-invalid' : '' }}">
+                                                        <option value="">اختر المنظمة</option>
+                                                        @foreach(\App\Models\Organization::all() as $org)
+                                                            <option value="{{ $org->id }}" {{ old('organization_id') == $org->id ? 'selected' : '' }}>
+                                                                {{ $org->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @if ($errors->has('organization_id'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('organization_id') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                
+                                                
+                                                
+                                                <!-- Bank Information -->
+                                                <div class="col-12">
+                                                    <h5 class="mt-3 mb-2">بيانات البنك</h5>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <select name="bank_id" id="bank_id" class="form-control {{ $errors->has('bank_id') ? 'is-invalid' : '' }}" required>
+                                                        <option value="">اختر البنك</option>
+                                                        @foreach(\App\Models\Bank::all() as $bank)
+                                                            <option value="{{ $bank->id }}" {{ old('bank_id') == $bank->id ? 'selected' : '' }}>
+                                                                {{ $bank->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @if ($errors->has('bank_id'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('bank_id') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <input type="text" name="account_number" id="account_number" class="form-control {{ $errors->has('account_number') ? 'is-invalid' : '' }}" placeholder="رقم الحساب" value="{{ old('account_number') }}" required>
+                                                    @if ($errors->has('account_number'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('account_number') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <input type="text" name="iban" id="iban" class="form-control {{ $errors->has('iban') ? 'is-invalid' : '' }}" placeholder="رقم IBAN" value="{{ old('iban') }}" required>
+                                                    @if ($errors->has('iban'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('iban') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                               
+                                                <!-- Document Type Selection -->
+                                                <div class="col-12">
+                                                    <h5 class="mt-3 mb-2">نوع الوثيقة</h5>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <select name="document_type" id="document_type" class="form-control {{ $errors->has('document_type') ? 'is-invalid' : '' }}" required>
+                                                        <option value="">اختر نوع الوثيقة</option>
+                                                        <option value="commercial_register" {{ old('document_type') == 'commercial_register' ? 'selected' : '' }}>سجل تجاري</option>
+                                                        <option value="freelance_work" {{ old('document_type') == 'freelance_work' ? 'selected' : '' }}>وثيقة عمل حر</option>
+                                                    </select>
+                                                    @if ($errors->has('document_type'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('document_type') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+
+                                                <!-- Commercial Register Fields -->
+                                                <div id="commercial_register_fields" style="display: none;">
+                                                    <div class="col-12">
+                                                        <h6 class="mt-2 mb-2">بيانات السجل التجاري</h6>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <label class="required" for="commercial_register_document">صورة السجل التجاري</label>
+                                                        <div class="needsclick dropzone style--three {{ $errors->has('commercial_register_document') ? 'is-invalid' : '' }}"
+                                                            id="commercial-register-dropzone">
+                                                        </div>
+                                                        @if ($errors->has('commercial_register_document'))
+                                                            <div class="invalid-feedback">
+                                                                {{ $errors->first('commercial_register_document') }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <input type="date" name="commercial_register_expiry" id="commercial_register_expiry" 
+                                                               class="form-control {{ $errors->has('commercial_register_expiry') ? 'is-invalid' : '' }}" 
+                                                               placeholder="تاريخ انتهاء السجل التجاري" 
+                                                               value="{{ old('commercial_register_expiry') }}">
+                                                        @if ($errors->has('commercial_register_expiry'))
+                                                            <div class="invalid-feedback">
+                                                                {{ $errors->first('commercial_register_expiry') }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <input type="text" name="commercial_register_number" id="commercial_register_number" 
+                                                               class="form-control {{ $errors->has('commercial_register_number') ? 'is-invalid' : '' }}" 
+                                                               placeholder="رقم السجل التجاري" 
+                                                               value="{{ old('commercial_register_number') }}">
+                                                        @if ($errors->has('commercial_register_number'))
+                                                            <div class="invalid-feedback">
+                                                                {{ $errors->first('commercial_register_number') }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <input type="text" name="tax_number" id="tax_number" 
+                                                               class="form-control {{ $errors->has('tax_number') ? 'is-invalid' : '' }}" 
+                                                               placeholder="الرقم الضريبي" 
+                                                               value="{{ old('tax_number') }}">
+                                                        @if ($errors->has('tax_number'))
+                                                            <div class="invalid-feedback">
+                                                                {{ $errors->first('tax_number') }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+
+                                                <!-- Freelance Work Document Fields -->
+                                                <div id="freelance_work_fields" style="display: none;">
+                                                    <div class="col-12">
+                                                        <h6 class="mt-2 mb-2">بيانات وثيقة العمل الحر</h6>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <label class="required" for="freelance_work_document">وثيقة العمل الحر</label>
+                                                        <div class="needsclick dropzone style--three {{ $errors->has('freelance_work_document') ? 'is-invalid' : '' }}"
+                                                            id="freelance-work-dropzone">
+                                                        </div>
+                                                        @if ($errors->has('freelance_work_document'))
+                                                            <div class="invalid-feedback">
+                                                                {{ $errors->first('freelance_work_document') }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <input type="text" name="freelance_work_number" id="freelance_work_number" 
+                                                               class="form-control {{ $errors->has('freelance_work_number') ? 'is-invalid' : '' }}" 
+                                                               placeholder="رقم المستند" 
+                                                               value="{{ old('freelance_work_number') }}">
+                                                        @if ($errors->has('freelance_work_number'))
+                                                            <div class="invalid-feedback">
+                                                                {{ $errors->first('freelance_work_number') }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <label class="required" for="photo">{{ trans('cruds.seller.fields.photo') }}</label>
+                                                    <div class="needsclick dropzone style--three {{ $errors->has('photo') ? 'is-invalid' : '' }}"
+                                                        id="photo-dropzone">
+                                                    </div>
+                                                    @if ($errors->has('photo'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('photo') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="required" for="description">التفاصيل</label>
+                                                    <textarea id="description" name="description" rows="4" cols="50" class="form-control" maxlength="600" required></textarea>
+                                                    <div class="char-counter"><span id="desc-count">0</span> / 600</div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="button-box">
+                                                        <div class="row">
+                                                            <div class="col-4 ol-md-4 mx-auto">
+                                                                <button type="submit" class="btn btn-cta w-75 py-2 m-2"><span>تسجيل</span></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- login area end -->
+@endsection
+@section('scripts')
+    <script>
+        Dropzone.options.documentDropzone = {
+            url: '{{ route('frontend.sellers.storeMedia') }}',
+            maxFilesize: 5, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.pdf',
+            maxFiles: 1,
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            params: {
+                size: 5,
+                width: 4096,
+                height: 4096
+            },
+            success: function(file, response) {
+                $('#document_file_input').val(response.name);
+            },
+            removedfile: function(file) {
+                file.previewElement.remove()
+                if (file.status !== 'error') {
+                    $('#document_file_input').val('');
+                    this.options.maxFiles = this.options.maxFiles + 1
+                }
+            },
+            init: function() {
+                @if (isset($seller) && $seller->document_file)
+                    var file = {!! json_encode($seller->document_file) !!}
+                    this.options.addedfile.call(this, file)
+                    this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="document_file" value="' + file.file_name + '">')
+                    this.options.maxFiles = this.options.maxFiles - 1
+                @endif
+            },
+            error: function(file, response) {
+                if ($.type(response) === 'string') {
+                    var message = response //dropzone sends it's own error messages in string
+                } else {
+                    var message = response.errors.file
+                }
+                file.previewElement.classList.add('dz-error')
+                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+                _results = []
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i]
+                    _results.push(node.textContent = message)
+                }
+
+                return _results
+            }
+        }
+
+        Dropzone.options.photoDropzone = {
+            url: '{{ route('frontend.sellers.storeMedia') }}',
+            maxFilesize: 2, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            maxFiles: 1,
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            params: {
+                size: 2,
+                width: 4096,
+                height: 4096
+            },
+            success: function(file, response) {
+                $('form').find('input[name="photo"]').remove()
+                $('form').append('<input type="hidden" name="photo" value="' + response.name + '">')
+            },
+            removedfile: function(file) {
+                file.previewElement.remove()
+                if (file.status !== 'error') {
+                    $('form').find('input[name="photo"]').remove()
+                    this.options.maxFiles = this.options.maxFiles + 1
+                }
+            },
+            init: function() {
+                @if (isset($seller) && $seller->photo)
+                    var file = {!! json_encode($seller->photo) !!}
+                    this.options.addedfile.call(this, file)
+                    this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="photo" value="' + file.file_name + '">')
+                    this.options.maxFiles = this.options.maxFiles - 1
+                @endif
+            },
+            error: function(file, response) {
+                if ($.type(response) === 'string') {
+                    var message = response //dropzone sends it's own error messages in string
+                } else {
+                    var message = response.errors.file
+                }
+                file.previewElement.classList.add('dz-error')
+                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+                _results = []
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i]
+                    _results.push(node.textContent = message)
+                }
+
+                return _results
+            }
+        }
+
+        // Commercial Register Document Dropzone
+        Dropzone.options.commercialRegisterDropzone = {
+            url: '{{ route('frontend.sellers.storeMedia') }}',
+            maxFilesize: 5, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.pdf',
+            maxFiles: 1,
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            params: {
+                size: 5,
+                width: 4096,
+                height: 4096
+            },
+            success: function(file, response) {
+                $('form').find('input[name="commercial_register_document"]').remove()
+                $('form').append('<input type="hidden" name="commercial_register_document" value="' + response.name + '">')
+            },
+            removedfile: function(file) {
+                file.previewElement.remove()
+                if (file.status !== 'error') {
+                    $('form').find('input[name="commercial_register_document"]').remove()
+                    this.options.maxFiles = this.options.maxFiles + 1
+                }
+            },
+            init: function() {
+                @if (isset($seller) && $seller->commercial_register_document)
+                    var file = {!! json_encode($seller->commercial_register_document) !!}
+                    this.options.addedfile.call(this, file)
+                    this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="commercial_register_document" value="' + file.file_name + '">')
+                    this.options.maxFiles = this.options.maxFiles - 1
+                @endif
+            },
+            error: function(file, response) {
+                if ($.type(response) === 'string') {
+                    var message = response
+                } else {
+                    var message = response.errors.file
+                }
+                file.previewElement.classList.add('dz-error')
+                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+                _results = []
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i]
+                    _results.push(node.textContent = message)
+                }
+                return _results
+            }
+        }
+
+        // Freelance Work Document Dropzone
+        Dropzone.options.freelanceWorkDropzone = {
+            url: '{{ route('frontend.sellers.storeMedia') }}',
+            maxFilesize: 5, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.pdf',
+            maxFiles: 1,
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            params: {
+                size: 5,
+                width: 4096,
+                height: 4096
+            },
+            success: function(file, response) {
+                $('form').find('input[name="freelance_work_document"]').remove()
+                $('form').append('<input type="hidden" name="freelance_work_document" value="' + response.name + '">')
+            },
+            removedfile: function(file) {
+                file.previewElement.remove()
+                if (file.status !== 'error') {
+                    $('form').find('input[name="freelance_work_document"]').remove()
+                    this.options.maxFiles = this.options.maxFiles + 1
+                }
+            },
+            init: function() {
+                @if (isset($seller) && $seller->freelance_work_document)
+                    var file = {!! json_encode($seller->freelance_work_document) !!}
+                    this.options.addedfile.call(this, file)
+                    this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="freelance_work_document" value="' + file.file_name + '">')
+                    this.options.maxFiles = this.options.maxFiles - 1
+                @endif
+            },
+            error: function(file, response) {
+                if ($.type(response) === 'string') {
+                    var message = response
+                } else {
+                    var message = response.errors.file
+                }
+                file.previewElement.classList.add('dz-error')
+                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+                _results = []
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i]
+                    _results.push(node.textContent = message)
+                }
+                return _results
+            }
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            function SimpleUploadAdapter(editor) {
+                editor.plugins.get('FileRepository').createUploadAdapter = function(loader) {
+                    return {
+                        upload: function() {
+                            return loader.file
+                                .then(function(file) {
+                                    return new Promise(function(resolve, reject) {
+                                        // Init request
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open('POST',
+                                            '{{ route('frontend.sellers.storeCKEditorImages') }}',
+                                            true);
+                                        xhr.setRequestHeader('x-csrf-token', window._token);
+                                        xhr.setRequestHeader('Accept', 'application/json');
+                                        xhr.responseType = 'json';
+
+                                        // Init listeners
+                                        var genericErrorText =
+                                            `Couldn't upload file: ${ file.name }.`;
+                                        xhr.addEventListener('error', function() {
+                                            reject(genericErrorText)
+                                        });
+                                        xhr.addEventListener('abort', function() {
+                                            reject()
+                                        });
+                                        xhr.addEventListener('load', function() {
+                                            var response = xhr.response;
+
+                                            if (!response || xhr.status !== 201) {
+                                                return reject(response && response
+                                                    .message ?
+                                                    `${genericErrorText}\n${xhr.status} ${response.message}` :
+                                                    `${genericErrorText}\n ${xhr.status} ${xhr.statusText}`
+                                                );
+                                            }
+
+                                            $('form').append(
+                                                '<input type="hidden" name="ck-media[]" value="' +
+                                                response.id + '">');
+
+                                            resolve({
+                                                default: response.url
+                                            });
+                                        });
+
+                                        if (xhr.upload) {
+                                            xhr.upload.addEventListener('progress', function(
+                                                e) {
+                                                if (e.lengthComputable) {
+                                                    loader.uploadTotal = e.total;
+                                                    loader.uploaded = e.loaded;
+                                                }
+                                            });
+                                        }
+
+                                        // Send request
+                                        var data = new FormData();
+                                        data.append('upload', file);
+                                        data.append('crud_id', '{{ $seller->id ?? 0 }}');
+                                        xhr.send(data);
+                                    });
+                                })
+                        }
+                    };
+                }
+            }
+
+            var allEditors = document.querySelectorAll('.ckeditor');
+            for (var i = 0; i < allEditors.length; ++i) {
+                ClassicEditor.create(
+                    allEditors[i], {
+                        extraPlugins: [SimpleUploadAdapter]
+                    }
+                );
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            var $sellerTab = $('#lg2'); // Use jQuery selector to select the seller tab
+            var $customerTab = $('#lg1'); // Use jQuery selector to select the customer tab
+
+            // Show loading overlay when switching tabs
+            var $overlay = $('.tab-loading-overlay');
+            $(document).on('show.bs.tab', '.login-register-tab-list a[data-bs-toggle="tab"]', function() {
+                $overlay.addClass('show');
+            });
+            $(document).on('shown.bs.tab', '.login-register-tab-list a[data-bs-toggle="tab"]', function() {
+                setTimeout(function() { $overlay.removeClass('show'); }, 300);
+            });
+
+            // Toggle password visibility
+            $(document).on('click', '.toggle-password', function() {
+                var target = $(this).data('target');
+                var $input = $(target);
+                if (!$input.length) return;
+                var type = $input.attr('type') === 'password' ? 'text' : 'password';
+                $input.attr('type', type);
+            });
+
+            @if (
+                $errors->hasAny([
+                    'name',
+                    'email',
+                    'password',
+                    'country',
+                    'region',
+                    'complete-add',
+                    'phone',
+                    'store_name',
+                    'description',
+                    'photo',
+                ]))
+                // If there are errors in seller registration fields, show the "تسجيل تاجر" tab
+                $sellerTab.addClass('active show');
+                $customerTab.removeClass('active show');
+            @endif
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Fallback: load jQuery Validate if missing
+            if (!$.validator || !$.fn.validate) {
+                var script = document.createElement('script');
+                script.src = '{{ asset('vendor/jquery-validate/jquery.validate.min.js') }}';
+                script.onload = function() {
+                    $(document).trigger('validator:ready');
+                };
+                document.head.appendChild(script);
+            } else {
+                $(document).trigger('validator:ready');
+            }
+
+            // Arabic default messages
+            if ($.validator) {
+                $.extend($.validator.messages, {
+                    required: "هذا الحقل مطلوب",
+                    email: "البريد الإلكتروني غير صالح",
+                    digits: "يرجى إدخال أرقام فقط",
+                    minlength: $.validator.format("يجب ألا يقل عن {0} أحرف"),
+                    maxlength: $.validator.format("يجب ألا يزيد عن {0} حرفًا"),
+                });
+            }
+
+            $.validator.addMethod("regex", function(value, element, regexpr) {
+                return this.optional(element) || regexpr.test(value);
+            }, "Invalid input.");
+            
+            $("#seller-form").validate({
+                errorElement: 'div',
+                errorClass: 'invalid-feedback',
+                    rules: {
+                        name: {
+                            required: true,
+                            minlength: 3
+                        },
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        password: {
+                            required: true,
+                            minlength: 8
+                        },
+                        phone: {
+                            required: true,
+                            digits: true,
+                            minlength: 10
+                        },
+                        country: {
+                            required: true
+                        },
+                        commercial_register: {
+                            required: true
+                        },
+                        seller_type: {
+                            required: true
+                        },
+                        organization_name: {
+                            required: function() {
+                                return $('#seller_type').val() === 'organization';
+                            }
+                        },
+                        organization_id: {
+                            required: function() {
+                                return $('#seller_type').val() === 'affiliated';
+                            }
+                        },                       
+                        bank_id: {
+                            required: true
+                        },
+                        account_number: {
+                            required: true
+                        },
+                        iban: {
+                            required: true
+                        },
+                        
+                        identity: {
+                            required: true
+                        },
+                        region: {
+                            required: true
+                        },
+                        store_name: {
+                            required: true,
+                            minlength: 4,
+                            maxlength: 30,
+                            regex: /^[a-zA-Z][a-zA-Z0-9_]*$/
+                        },
+                        identity_number: {
+                            required: true,
+                            validateId: true
+                        },
+                        commercial_register: {
+                            required: true
+                        },
+                        document_type: {
+                            required: true
+                        },
+                        commercial_register_document: {
+                            required: function() {
+                                return $('#document_type').val() === 'commercial_register';
+                            }
+                        },
+                        commercial_register_expiry: {
+                            required: function() {
+                                return $('#document_type').val() === 'commercial_register';
+                            }
+                        },
+                        commercial_register_number: {
+                            required: function() {
+                                return $('#document_type').val() === 'commercial_register';
+                            }
+                        },
+                        tax_number: {
+                            required: function() {
+                                return $('#document_type').val() === 'commercial_register';
+                            }
+                        },
+                        freelance_work_document: {
+                            required: function() {
+                                return $('#document_type').val() === 'freelance_work';
+                            }
+                        },
+                        freelance_work_number: {
+                            required: function() {
+                                return $('#document_type').val() === 'freelance_work';
+                            }
+                        }
+                    },
+                    messages: {
+                        name: {
+                            required: "الاسم مطلوب",
+                            minlength: "الاسم يجب أن يحتوي على 3 أحرف على الأقل"
+                        },
+                        email: {
+                            required: "البريد الالكتروني مطلوب",
+                            email: "يرجى إدخال بريد إلكتروني صحيح"
+                        },
+                        password: {
+                            required: "كلمة المرور مطلوبة",
+                            minlength: "كلمة المرور يجب أن تكون  8 أحرف على الأقل"
+                        },
+                        phone: {
+                            required: "رقم الجوال مطلوب",
+                            digits: "يرجى إدخال أرقام فقط",
+                            minlength: "رقم الجوال يجب أن يكون على الأقل 10 أرقام"
+                        },
+                        country: {
+                            required: "يرجى اختيار الدولة"
+                        },
+                        region: {
+                            required: "يرجى اختيار المنطقة"
+                        },
+                        store_name: {
+                            required: "اسم المتجر مطلوب",
+                            minlength: "الاسم يجب أن يحتوي على 4 أحرف على الأقل",
+                            maxlength: "الاسم يجب أن لا يزيد عن 30 حرفًا",
+                            regex: "يجب أن يبدأ الاسم بحرف أبجدي، ويمكن أن يحتوي على أحرف، أرقام، أو شرطة سفلية فقط"
+                        },
+                        identity_number: {
+                            required: " رقم الهوية مطلوب",
+                            validateId: "رقم الهوية يجب أن يكون 10 أرقام ويبدأ برقم 1 للسعودي و 2 للمقيم",
+                        },
+                        commercial_register: {
+                            required: " رقم السجل التجاري مطلوب"
+                        },
+                        seller_type: {
+                            required: "يرجى اختيار نوع التاجر"
+                        },
+                        organization_name: {
+                            required: "اسم المنظمة مطلوب"
+                        },
+                        organization_id: {
+                            required: "يرجى اختيار المنظمة"
+                        },
+                      
+                        bank_id: {
+                            required: "يرجى اختيار البنك"
+                        },
+                        account_number: {
+                            required: "رقم الحساب مطلوب"
+                        },
+                        iban: {
+                            required: "رقم IBAN مطلوب"
+                        },
+                        document_type: {
+                            required: "يرجى اختيار نوع الوثيقة"
+                        },
+                        commercial_register_document: {
+                            required: "صورة السجل التجاري مطلوبة"
+                        },
+                        commercial_register_expiry: {
+                            required: "تاريخ انتهاء السجل التجاري مطلوب"
+                        },
+                        commercial_register_number: {
+                            required: "رقم السجل التجاري مطلوب"
+                        },
+                        tax_number: {
+                            required: "الرقم الضريبي مطلوب"
+                        },
+                        freelance_work_document: {
+                            required: "وثيقة العمل الحر مطلوبة"
+                        },
+                        freelance_work_number: {
+                            required: "رقم المستند مطلوب"
+                        }
+                    },
+                    errorPlacement: function(error, element) {
+                        if (element.parent('.input-with-toggle').length) {
+                            error.insertAfter(element.parent());
+                        } else {
+                            error.insertAfter(element);
+                        }
+                    },
+                    highlight: function(element) {
+                        $(element).addClass("is-invalid");
+                    },
+                    unhighlight: function(element) {
+                        $(element).removeClass("is-invalid");
+                    }
+                });
+                  $("#custome-form").validate({
+                    errorElement: 'div',
+                    errorClass: 'invalid-feedback',
+                    rules: {
+                        customer_name: {
+                            required: true,
+                            minlength: 3
+                        },
+                        customer_email: {
+                            required: true,
+                            email: true
+                        },
+                        customer_password: {
+                            required: true,
+                            minlength: 8
+                        },
+                        customer_phone: {
+                            required: true,
+                            digits: true,
+                            minlength: 10
+                        },
+                        customer_country: {
+                            required: true
+                        },
+                        customer_commercial_register: {
+                            required: true
+                        },                        
+                        identity_number: {
+                            required: true,
+                            validateId: true
+                        },
+                    },
+                    messages: {
+                        name: {
+                            required: "الاسم مطلوب",
+                            minlength: "الاسم يجب أن يحتوي على 3 أحرف على الأقل"
+                        },
+                        email: {
+                            required: "البريد الالكتروني مطلوب",
+                            email: "يرجى إدخال بريد إلكتروني صحيح"
+                        },
+                        password: {
+                            required: "كلمة المرور مطلوبة",
+                            minlength: "كلمة المرور يجب أن تكون  8 أحرف على الأقل"
+                        },
+                        phone: {
+                            required: "رقم الجوال مطلوب",
+                            digits: "يرجى إدخال أرقام فقط",
+                            minlength: "رقم الجوال يجب أن يكون على الأقل 10 أرقام"
+                        },
+                        country: {
+                            required: "يرجى اختيار الدولة"
+                        },
+                        region: {
+                            required: "يرجى اختيار المنطقة"
+                        },
+                        store_name: {
+                            required: "اسم المتجر مطلوب",
+                            minlength: "الاسم يجب أن يحتوي على 4 أحرف على الأقل",
+                            maxlength: "الاسم يجب أن لا يزيد عن 30 حرفًا",
+                            regex: "يجب أن يبدأ الاسم بحرف أبجدي، ويمكن أن يحتوي على أحرف، أرقام، أو شرطة سفلية فقط"
+                        },
+                        identity_number: {
+                            required: " رقم الهوية مطلوب",
+                            validateId: "رقم الهوية يجب أن يكون 10 أرقام ويبدأ برقم 1 للسعودي و 2 للمقيم",
+                        },
+                        commercial_register: {
+                            required: " رقم السجل التجاري مطلوب"
+                        }
+                    },
+                    errorPlacement: function(error, element) {
+                        if (element.parent('.input-with-toggle').length) {
+                            error.insertAfter(element.parent());
+                        } else {
+                            error.insertAfter(element);
+                        }
+                    },
+                    highlight: function(element) {
+                        $(element).addClass("is-invalid");
+                    },
+                    unhighlight: function(element) {
+                        $(element).removeClass("is-invalid");
+                    }
+                });
+
+                $.validator.addMethod("validateId", function(value, element) {
+                    var identity = $("#identity").val();
+                    if (identity === "saudi") {
+                        return /^1[0-9]{9}$/.test(value);
+                    } else if (identity === "resident") {
+                        return /^2[0-9]{9}$/.test(value);
+                    }
+                    return false;
+                }, "يرجى اختيار الهوية أولاً.");
+
+             
+                // Show validation on blur/change/keyup
+                $(document).on('blur change keyup', '#seller-form input, #seller-form select, #seller-form textarea', function() {
+                    $(this).valid();
+                });
+
+                // live validate + move to next field
+                function attachNextFieldFlow($form) {
+                    var selector = 'input, select, textarea';
+                    $form.on('blur', selector, function() {
+                        var $el = $(this);
+                        $el.valid();
+                        if ($el.valid()) {
+                            var $fields = $form.find(selector).filter(':visible:enabled');
+                            var idx = $fields.index($el);
+                            if (idx > -1 && idx + 1 < $fields.length) {
+                                $fields.eq(idx + 1).focus();
+                            }
+                        }
+                    });
+                    $form.on('keydown', selector, function(e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            var $el = $(this);
+                            $el.valid();
+                            if ($el.valid()) {
+                                var $fields = $form.find(selector).filter(':visible:enabled');
+                                var idx = $fields.index($el);
+                                if (idx > -1 && idx + 1 < $fields.length) {
+                                    $fields.eq(idx + 1).focus();
+                                } else {
+                                    $form.trigger('submit');
+                                }
+                            }
+                        }
+                    });
+                }
+
+                attachNextFieldFlow($("#seller-form"));
+
+                // Seller type selection logic
+                $('#seller_type').change(function() {
+                    var sellerType = $(this).val();
+                    
+                    // Hide all conditional fields
+                    $('#organization_name_field').hide();
+                    $('#parent_organization_field').hide();
+                    
+                    // Clear validation
+                    $('#organization_name').removeClass('is-invalid');
+                    $('#organization_id').removeClass('is-invalid');
+                    
+                    // Show relevant fields based on selection
+                    if (sellerType === 'organization') {
+                        $('#organization_name_field').show();
+                        $('#organization_name').attr('required', true);
+                        $('#organization_id').attr('required', false);
+                    } else if (sellerType === 'affiliated') {
+                        $('#parent_organization_field').show();
+                        $('#organization_id').attr('required', true);
+                        $('#organization_name').attr('required', false);
+                    } else {
+                        $('#organization_name').attr('required', false);
+                        $('#organization_id').attr('required', false);
+                    }
+                });
+
+                // Trigger change on page load to set initial state
+                $('#seller_type').trigger('change');
+
+                // Document type selection logic
+                $('#document_type').change(function() {
+                    var documentType = $(this).val();
+                    
+                    // Hide all document fields
+                    $('#commercial_register_fields').hide();
+                    $('#freelance_work_fields').hide();
+                    
+                    // Clear validation for document fields
+                    $('#commercial_register_document, #commercial_register_expiry, #commercial_register_number, #tax_number').removeClass('is-invalid');
+                    $('#freelance_work_document, #freelance_work_number').removeClass('is-invalid');
+                    
+                    // Show relevant fields based on selection
+                    if (documentType === 'commercial_register') {
+                        $('#commercial_register_fields').show();
+                        $('#commercial_register_document, #commercial_register_expiry, #commercial_register_number, #tax_number').attr('required', true);
+                        $('#freelance_work_document, #freelance_work_number').attr('required', false);
+                    } else if (documentType === 'freelance_work') {
+                        $('#freelance_work_fields').show();
+                        $('#freelance_work_document, #freelance_work_number').attr('required', true);
+                        $('#commercial_register_document, #commercial_register_expiry, #commercial_register_number, #tax_number').attr('required', false);
+                    } else {
+                        $('#commercial_register_document, #commercial_register_expiry, #commercial_register_number, #tax_number').attr('required', false);
+                        $('#freelance_work_document, #freelance_work_number').attr('required', false);
+                    }
+                });
+
+                // Trigger change on page load to set initial state
+                $('#document_type').trigger('change');
+
+                // Description character counter
+                $('#description').on('input', function() {
+                    var length = $(this).val().length;
+                    $('#desc-count').text(length);
+                });
+                
+            });
+        
+        
+   
+
+        // Global validation triggers (customer form)
+        (function ensureCustomerValidator() {
+            function init() {
+                $(document).on('blur change keyup', '#custome-form input, #custome-form select, #custome-form textarea', function() {
+                    $(this).valid();
+                });
+            }
+            if (!$.validator || !$.fn.validate) {
+                $(document).one('validator:ready', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            var inputs = document.querySelectorAll(".customer_phone");
+
+            if (window.intlTelInput && typeof window.intlTelInput === 'function') {
+                inputs.forEach(function(input) {
+                    window.intlTelInput(input, {
+                        initialCountry: "sa",
+                        preferredCountries: ["sa", "eg", "ae", "kw"],
+                        separateDialCode: true,
+                        utilsScript: '{{ asset('vendor/intl-tel-input/js/utils.js') }}'
+                    });
+                });
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#type').on('change', function() {
+                if ($(this).val() == 'oragainzation') {
+                    $('#org-container').removeClass('d-none');
+                } else {
+                    $('#org-container').addClass('d-none');
+                }
+            });
+        });
+    </script>
+@endsection
