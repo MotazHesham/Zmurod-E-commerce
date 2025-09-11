@@ -662,41 +662,54 @@
         });
 
         // Step validation
-        function validateCurrentStep() {
-            const currentStepElement = $('.wizard-step[data-step="' + currentStep + '"]');
-            const requiredFields = currentStepElement.find('input[required], select[required], textarea[required]');
-            let isValid = true;
+      function validateCurrentStep() {
+    const currentStepElement = $('.wizard-step[data-step="' + currentStep + '"]');
+    const form = currentStepElement.closest("form"); 
+    const validator = form.data("validator"); 
+    
+    let isValid = true;
+    let firstInvalid = null;
 
-            requiredFields.each(function() {
-                if (!$(this).val()) {
-                    $(this).addClass('is-invalid');
+    // تحقق من كل الحقول داخل الـ step الحالي باستخدام jQuery Validate
+    currentStepElement.find("input, select, textarea").each(function () {
+        if (!validator.element(this)) {
+            isValid = false;
+            if (!firstInvalid) {
+                firstInvalid = this; // أول حقل فيه مشكلة
+            }
+        }
+    });
+
+    if (currentStep === 3) {
+        const documentType = $('#document_type').val();
+        if (documentType === 'commercial_register') {
+            const commercialFields = ['#commercial_register_expiry', '#commercial_register_number', '#tax_number'];
+            commercialFields.forEach(function(field) {
+                if (!validator.element($(field))) {
                     isValid = false;
-                } else {
-                    $(this).removeClass('is-invalid');
-                }
-            });
-
-            // Special validation for document type
-            if (currentStep === 3) {
-                const documentType = $('#document_type').val();
-                if (documentType === 'commercial_register') {
-                    const commercialFields = ['#commercial_register_expiry', '#commercial_register_number', '#tax_number'];
-                    commercialFields.forEach(function(field) {
-                        if (!$(field).val()) {
-                            $(field).addClass('is-invalid');
-                            isValid = false;
-                        }
-                    });
-                } else if (documentType === 'freelance_work') {
-                    if (!$('#freelance_work_number').val()) {
-                        $('#freelance_work_number').addClass('is-invalid');
-                        isValid = false;
+                    if (!firstInvalid) {
+                        firstInvalid = $(field)[0];
                     }
                 }
+            });
+        } else if (documentType === 'freelance_work') {
+            if (!validator.element($('#freelance_work_number'))) {
+                isValid = false;
+                if (!firstInvalid) {
+                    firstInvalid = $('#freelance_work_number')[0];
+                }
             }
-
-            return isValid;
         }
+    }
+
+    // ركّز على أول حقل فيه خطأ
+    if (!isValid && firstInvalid) {
+        $(firstInvalid).focus();
+    }
+
+    return isValid;
+}
+
 
         // Initialize wizard
         updateProgress();
@@ -1000,125 +1013,96 @@
 </script>
 
 <script>
-    $(document).ready(function() {
-        // Arabic default messages
-        if ($.validator) {
-            $.extend($.validator.messages, {
-                required: "هذا الحقل مطلوب"
-                , email: "البريد الإلكتروني غير صالح"
-                , minlength: $.validator.format("يجب ألا يقل عن {0} أحرف")
-            , });
+$(document).ready(function () {
+    // رسائل بالعربية
+    if ($.validator) {
+        $.extend($.validator.messages, {
+            required: "هذا الحقل مطلوب",
+            email: "البريد الإلكتروني غير صالح",
+            minlength: $.validator.format("يجب ألا يقل عن {0} أحرف"),
+        });
+    }
+
+    // قاعدة مخصصة للتحقق من الهوية
+    $.validator.addMethod("saudiId", function (value, element) {
+        if (!/^\d{10}$/.test(value)) return false; // لازم 10 أرقام
+        return value.startsWith("1") || value.startsWith("2"); // يبدأ بـ1 (سعودي) أو 2 (مقيم)
+    }, "رقم الهوية غير صالح، يجب أن يكون 10 أرقام ويبدأ بـ 1 (سعودي) أو 2 (مقيم)");
+
+    // تفعيل intlTelInput
+    function initPhone(selector) {
+        var input = document.querySelector(selector);
+        if (input) {
+            var iti = window.intlTelInput(input, {
+                initialCountry: "sa", // افتراضي السعودية
+                separateDialCode: true,
+                utilsScript: "{{ asset('vendor/intl-tel-input/js/utils.js') }}"
+            });
+
+            // قاعدة مخصصة للتحقق من الهاتف
+            $.validator.addMethod("saudiPhone", function (value, element) {
+                if (value.trim() === "") return true; // لو فاضي يسيب required يتصرف
+                var country = iti.getSelectedCountryData();
+                var number = value.replace(/\D/g, ""); // شيل أي رموز أو مسافات
+                if (country.iso2 === "sa") {
+                    return number.length === 9; // بعد +966 لازم 9 أرقام
+                }
+                return iti.isValidNumber(); // باقي الدول يتحقق من المكتبة
+            }, "رقم الجوال يجب ان يكون 9 أرقام للرقم السعودي ");
+            
+            // اربط الفاليديشن بالـinput ده
+            $(input).rules("add", {
+                required: true,
+                saudiPhone: true,
+                messages: {
+                    required: "رقم الجوال مطلوب"
+                }
+            });
         }
+    }
 
-        // Simple validation for seller form
-        $("#seller-form").validate({
-            rules: {
-                name: {
-                    required: true
-                    , minlength: 3
-                }
-                , email: {
-                    required: true
-                    , email: true
-                }
-                , password: {
-                    required: true
-                    , minlength: 8
-                }
-                , store_name: {
-                    required: true
-                    , minlength: 4
-                }
-                , country: {
-                    required: true
-                }
-                , region: {
-                    required: true
-                }
-                , phone: {
-                    required: true
-                }
-            }
-            , messages: {
-                name: {
-                    required: "الاسم مطلوب"
-                    , minlength: "الاسم يجب أن يحتوي على 3 أحرف على الأقل"
-                }
-                , email: {
-                    required: "البريد الإلكتروني مطلوب"
-                    , email: "يرجى إدخال بريد إلكتروني صحيح"
-                }
-                , password: {
-                    required: "كلمة المرور مطلوبة"
-                    , minlength: "كلمة المرور يجب أن تكون 8 أحرف على الأقل"
-                }
-                , store_name: {
-                    required: "اسم المتجر مطلوب"
-                    , minlength: "اسم المتجر يجب أن يحتوي على 4 أحرف على الأقل"
-                }
-                , country: {
-                    required: "يرجى اختيار الدولة"
-                }
-                , region: {
-                    required: "يرجى اختيار المنطقة"
-                }
-                , phone: {
-                    required: "رقم الجوال مطلوب"
-                }
-            }
-        });
 
-        // Simple validation for customer form
-        $("#custome-form").validate({
-            rules: {
-                customer_name: {
-                    required: true
-                    , minlength: 3
-                }
-                , email: {
-                    required: true
-                    , email: true
-                }
-                , customer_password: {
-                    required: true
-                    , minlength: 8
-                }
-                , customer_country: {
-                    required: true
-                }
-                , customer_region: {
-                    required: true
-                }
-                , customer_phone: {
-                    required: true
-                }
+    // seller form
+    $("#seller-form").validate({
+        rules: {
+            name: { required: true, minlength: 3 },
+            email: { required: true, email: true },
+            password: { required: true, minlength: 8 },
+            store_name: { required: true, minlength: 4 },
+            country: { required: true },
+            region: { required: true },
+             identity_number: {
+            required: true,
+            saudiId: true,
+            messages: {
+                required: "رقم الهوية مطلوب"
             }
-            , messages: {
-                customer_name: {
-                    required: "الاسم مطلوب"
-                    , minlength: "الاسم يجب أن يحتوي على 3 أحرف على الأقل"
-                }
-                , email: {
-                    required: "البريد الإلكتروني مطلوب"
-                    , email: "يرجى إدخال بريد إلكتروني صحيح"
-                }
-                , customer_password: {
-                    required: "كلمة المرور مطلوبة"
-                    , minlength: "كلمة المرور يجب أن تكون 8 أحرف على الأقل"
-                }
-                , customer_country: {
-                    required: "يرجى اختيار الدولة"
-                }
-                , customer_region: {
-                    required: "يرجى اختيار المنطقة"
-                }
-                , customer_phone: {
-                    required: "رقم الجوال مطلوب"
-                }
-            }
-        });
-
+        },
+        }
     });
 
+    // customer form
+    $("#custome-form").validate({
+        rules: {
+            customer_name: { required: true, minlength: 3 },
+            email: { required: true, email: true },
+            customer_password: { required: true, minlength: 8 },
+            customer_country: { required: true },
+            customer_region: { required: true },
+            customer_identity_number: {
+            required: true,
+            saudiId: true,
+            messages: {
+                required: "رقم الهوية مطلوب"
+            }
+        },
+        }
+    });
+
+    // فعل intlTelInput + القاعدة المخصصة للهاتف على الفورمين
+    initPhone("#phone");
+    initPhone("#customer_phone");
+});
 </script>
+
 @endsection
