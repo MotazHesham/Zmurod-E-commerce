@@ -32,6 +32,8 @@ class Kernel extends HttpKernel
         'seller'             => \App\Http\Middleware\Seller::class,
         'throttle.auth'    => \App\Http\Middleware\ThrottleAuthRequests::class,
         'throttle.cart'    => \App\Http\Middleware\ThrottleCartRequests::class,
+        'course.subscription' => \App\Http\Middleware\CheckCourseSubscription::class,
+        'youtube.embeds'   => \App\Http\Middleware\AllowYouTubeEmbeds::class,
     ];
 
     protected $middlewareGroups = [

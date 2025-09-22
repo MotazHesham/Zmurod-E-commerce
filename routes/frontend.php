@@ -29,6 +29,7 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     Route::get('courses', 'CourseController@index')->name('courses.index');
     Route::get('courses/{id}', 'CourseController@show')->name('courses.show');
     Route::post('courses/search', 'CourseController@search')->name('courses.search');
+    Route::post('courses/{id}/subscribe', 'CourseController@subscribe')->name('courses.subscribe');
 
     // about and Contact
     Route::get('about', 'AboutController@index')->name('about-us');
@@ -54,6 +55,42 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
 
     // checkout
     Route::get('checkout', 'CheckoutController@index')->name('checkout');
+
+    // course content (authenticated users only)
+    Route::get('courses/{courseId}/content', 'CourseController@content')
+        ->name('courses.content')
+        ->middleware(['auth', 'course.subscription', 'youtube.embeds']);
+    Route::get('courses/{courseId}/watch/{contentId}', 'CourseController@watch')
+        ->name('courses.watch')
+        ->middleware(['auth', 'course.subscription', 'youtube.embeds']);
+
+    // downloads (authenticated users only)
+    Route::get('courses/{courseId}/download/{contentId}', 'DownloadController@downloadVideo')
+        ->name('courses.download.video')
+        ->middleware(['auth', 'course.subscription']);
+    Route::get('courses/{courseId}/download-all', 'DownloadController@downloadAllCourseVideos')
+        ->name('courses.download.all')
+        ->middleware(['auth', 'course.subscription']);
+    Route::get('my-downloads', 'DownloadController@myDownloads')
+        ->name('downloads.index')
+        ->middleware('auth');
+
+    // Debug route for testing video uploads
+    Route::get('debug-video/{id}', function($id) {
+        $content = App\Models\CourseContent::find($id);
+        if (!$content) {
+            return 'Content not found';
+        }
+        
+        return response()->json([
+            'id' => $content->id,
+            'title' => $content->title,
+            'video_url' => $content->video_url,
+            'video_file' => $content->video_file,
+            'storage_url' => $content->video_file ? Storage::url($content->video_file) : null,
+            'file_exists' => $content->video_file ? Storage::disk('public')->exists($content->video_file) : false,
+        ]);
+    });
 });
 
 Route::group(['prefix' => 'customer', 'as' => 'customer.', 'namespace' => 'Customer'], function () {

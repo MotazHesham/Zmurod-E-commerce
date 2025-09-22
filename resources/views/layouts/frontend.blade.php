@@ -8,6 +8,7 @@
     <title>Zmurod .. زمرد</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Add site Favicon -->
     <link rel="shortcut icon" href="#" type="image/png">
@@ -128,6 +129,9 @@
                                                     : 'seller.home';
                                         @endphp
                                         <li><a class="dropdown-item" href="{{ route($route) }}">حسابي</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('frontend.downloads.index') }}">
+                                            <i class="fas fa-download me-2"></i>تحميلاتي
+                                        </a></li>
                                         <li>
                                             <a class="dropdown-item" href="#"
                                                 onclick="event.preventDefault(); document.getElementById('logoutform').submit();">تسجيل

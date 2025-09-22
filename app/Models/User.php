@@ -113,6 +113,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Whitelist::class);
     }
 
+    public function downloads()
+    {
+        return $this->hasMany(UserDownload::class);
+    }
+
     // countries
     public const CITY_SELECT = [
         'Suadia' => 'السعوديه',

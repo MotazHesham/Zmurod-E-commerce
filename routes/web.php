@@ -42,6 +42,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('courses/ckmedia', 'CoursesController@storeCKEditorImages')->name('courses.storeCKEditorImages');
     Route::post('courses/update_statuses', 'CoursesController@update_statuses')->name('courses.update_statuses');
     Route::resource('courses', 'CoursesController');
+    
+    // Course Content Management
+    Route::get('courses/{course}/content', 'CoursesController@content')->name('courses.content');
+    Route::post('courses/{course}/content', 'CoursesController@storeContent')->name('courses.content.store');
+    Route::put('courses/{course}/content/{content}', 'CoursesController@updateContent')->name('courses.content.update');
+    Route::delete('courses/{course}/content/{content}', 'CoursesController@destroyContent')->name('courses.content.destroy');
 
     // Froums
     Route::delete('froums/destroy', 'FroumsController@massDestroy')->name('froums.massDestroy');
@@ -162,8 +168,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('banks', 'BanksController');
 
             // Entity Types
-            Route::delete('entity-types/destroy', 'EntityTypesController@massDestroy')->name('entity-types.massDestroy');
-            Route::resource('entity-types', 'EntityTypesController');
+            // Route::delete('entity-types/destroy', 'EntityTypesController@massDestroy')->name('entity-types.massDestroy');
+            // Route::resource('entity-types', 'EntityTypesController');
             
             // Entity Type Stats
             Route::get('entity-type-stats', 'EntityTypeStatsController@index')->name('entity-type-stats.index');

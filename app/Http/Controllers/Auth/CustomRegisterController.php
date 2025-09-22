@@ -128,7 +128,6 @@ class CustomRegisterController extends Controller
             'user_type' => 'seller',
             'address' => $validatedData['region'] . '-' . $validatedData['complete-add'],
             'identity_number'=>$validatedData['identity_number'],
-            'commercial_register'=>$validatedData['commercial_register'],
         ]);
 
         // Create a new seller

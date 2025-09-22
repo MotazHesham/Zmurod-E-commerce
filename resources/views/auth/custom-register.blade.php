@@ -1074,9 +1074,6 @@ $(document).ready(function () {
              identity_number: {
             required: true,
             saudiId: true,
-            messages: {
-                required: "رقم الهوية مطلوب"
-            }
         },
         }
     });
@@ -1092,9 +1089,6 @@ $(document).ready(function () {
             customer_identity_number: {
             required: true,
             saudiId: true,
-            messages: {
-                required: "رقم الهوية مطلوب"
-            }
         },
         }
     });

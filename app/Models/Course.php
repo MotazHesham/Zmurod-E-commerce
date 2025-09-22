@@ -79,4 +79,32 @@ class Course extends Model implements HasMedia
 
         return $file;
     }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(CourseSubscription::class);
+    }
+
+    public function contents()
+    {
+        return $this->hasMany(CourseContent::class)->orderBy('order');
+    }
+
+    public function isFree()
+    {
+        return $this->price == 0 || $this->price == null;
+    }
+
+    public function isPaid()
+    {
+        return $this->price > 0;
+    }
+
+    public function isSubscribedBy($userId)
+    {
+        return $this->subscriptions()
+            ->where('user_id', $userId)
+            ->where('status', 'active')
+            ->exists();
+    }
 }
